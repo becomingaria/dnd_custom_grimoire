@@ -59,21 +59,21 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
     const [selectedSpell, setSelectedSpell] = useState<Spell | null>(null)
     const [editingNoteId, setEditingNoteId] = useState<string | null>(null)
     const [noteValue, setNoteValue] = useState("")
-    const [filterSchool, setFilterSchool] = useLocalStorage<SpellSchool | "">(
-        "grimoire:addspell:school",
-        "",
+    const [filterSchools, setFilterSchools] = useLocalStorage<SpellSchool[]>(
+        "grimoire:addspell:school:v2",
+        [],
     )
-    const [filterLevel, setFilterLevel] = useLocalStorage<number | "">(
-        "grimoire:addspell:level",
-        "",
+    const [filterLevels, setFilterLevels] = useLocalStorage<number[]>(
+        "grimoire:addspell:level:v2",
+        [],
     )
-    const [filterClass, setFilterClass] = useLocalStorage<DndClass | "">(
-        "grimoire:addspell:class",
-        "",
+    const [filterClasses, setFilterClasses] = useLocalStorage<DndClass[]>(
+        "grimoire:addspell:class:v2",
+        [],
     )
-    const [filterSource, setFilterSource] = useLocalStorage<string>(
-        "grimoire:addspell:source",
-        "",
+    const [filterSources, setFilterSources] = useLocalStorage<string[]>(
+        "grimoire:addspell:source:v2",
+        [],
     )
     const [sortBy, setSortBy] = useLocalStorage<SortOption>(
         "grimoire:addspell:sort",
@@ -116,6 +116,12 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
     const grouped = groupByLevel(knownSpells)
     const sortedLevels = [...grouped.keys()].sort((a, b) => a - b)
 
+    function toggleInList<T>(list: T[], value: T): T[] {
+        return list.includes(value)
+            ? list.filter((v) => v !== value)
+            : [...list, value]
+    }
+
     // Spells available to add (not already known), filtered + sorted
     const addableSuggestions = useMemo(() => {
         let results = allSpells.filter(
@@ -125,14 +131,16 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
             results = results.filter((s) =>
                 s.name.toLowerCase().includes(addSearch.toLowerCase()),
             )
-        if (filterSchool)
-            results = results.filter((s) => s.school === filterSchool)
-        if (filterLevel !== "")
-            results = results.filter((s) => s.level === filterLevel)
-        if (filterClass)
-            results = results.filter((s) => s.classes?.includes(filterClass))
-        if (filterSource)
-            results = results.filter((s) => s.source === filterSource)
+        if (filterSchools.length > 0)
+            results = results.filter((s) => filterSchools.includes(s.school))
+        if (filterLevels.length > 0)
+            results = results.filter((s) => filterLevels.includes(s.level))
+        if (filterClasses.length > 0)
+            results = results.filter((s) =>
+                filterClasses.some((cls) => s.classes?.includes(cls)),
+            )
+        if (filterSources.length > 0)
+            results = results.filter((s) => filterSources.includes(s.source))
         results = [...results].sort((a, b) => {
             if (sortBy === "name-asc") return a.name.localeCompare(b.name)
             if (sortBy === "name-desc") return b.name.localeCompare(a.name)
@@ -147,24 +155,24 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
         allSpells,
         character.knownSpellIds,
         addSearch,
-        filterSchool,
-        filterLevel,
-        filterClass,
-        filterSource,
+        filterSchools,
+        filterLevels,
+        filterClasses,
+        filterSources,
         sortBy,
     ])
 
     const hasActiveFilters =
-        filterSchool !== "" ||
-        filterLevel !== "" ||
-        filterClass !== "" ||
-        filterSource !== ""
+        filterSchools.length > 0 ||
+        filterLevels.length > 0 ||
+        filterClasses.length > 0 ||
+        filterSources.length > 0
 
     function clearModalFilters() {
-        setFilterSchool("")
-        setFilterLevel("")
-        setFilterClass("")
-        setFilterSource("")
+        setFilterSchools([])
+        setFilterLevels([])
+        setFilterClasses([])
+        setFilterSources([])
     }
 
     function closeAddModal() {
@@ -187,7 +195,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
 
     function handleAddSelected() {
         const spellIds = [...pendingSpellIds]
-        closeAddModal()
+        setPendingSpellIds(new Set())
         addKnownSpells.mutate({
             characterId: character.characterId,
             character,
@@ -196,8 +204,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
     }
 
     function handleAddSpell(spell: Spell) {
-        // Close immediately — cache update in onMutate gives instant feedback
-        closeAddModal()
+        // Keep drawer open so user can continue adding spells.
         addKnownSpell.mutate({
             characterId: character.characterId,
             character,
@@ -775,34 +782,50 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                         No spells prepared.
                     </p>
                 ) : (
-                    <div className='space-y-1'>
-                        {[...preparedSpells]
-                            .sort(
-                                (a, b) =>
-                                    a.level - b.level ||
-                                    a.name.localeCompare(b.name),
+                    <div className='space-y-4'>
+                        {(() => {
+                            const groupedPrepared = groupByLevel(preparedSpells)
+                            const levels = [...groupedPrepared.keys()].sort(
+                                (a, b) => a - b,
                             )
-                            .map((spell) => (
-                                <motion.button
-                                    key={spell.spellId}
-                                    className='flex w-full items-center gap-3 rounded-lg border border-grimoire-border/60 bg-grimoire-card/60 px-3 py-2.5 text-left transition-colors hover:bg-grimoire-primary/10 hover:border-grimoire-primary/40'
-                                    whileHover={{ x: 2 }}
-                                    onClick={() => {
-                                        setSelectedSpell(spell)
-                                    }}
-                                >
-                                    <SchoolBadge
-                                        school={spell.school}
-                                        size='xs'
-                                    />
-                                    <span className='flex-1 font-rajdhani font-semibold text-grimoire-text-base'>
-                                        {spell.name}
-                                    </span>
-                                    <span className='font-rajdhani text-xs text-grimoire-text-faint'>
-                                        {spellLevelLabel(spell.level)}
-                                    </span>
-                                </motion.button>
-                            ))}
+
+                            return levels.map((level) => {
+                                const spells = [
+                                    ...(groupedPrepared.get(level) ?? []),
+                                ].sort((a, b) => a.name.localeCompare(b.name))
+
+                                return (
+                                    <div key={level} className='space-y-1'>
+                                        <h4 className='font-cinzel text-[11px] uppercase tracking-widest text-grimoire-text-faint'>
+                                            {spellLevelLabel(level)}
+                                        </h4>
+                                        {spells.map((spell) => (
+                                            <motion.button
+                                                key={spell.spellId}
+                                                className='flex w-full items-center gap-3 rounded-lg border border-grimoire-border/60 bg-grimoire-card/60 px-3 py-2.5 text-left transition-colors hover:bg-grimoire-primary/10 hover:border-grimoire-primary/40'
+                                                whileHover={{ x: 2 }}
+                                                onClick={() => {
+                                                    setSelectedSpell(spell)
+                                                }}
+                                            >
+                                                <SchoolBadge
+                                                    school={spell.school}
+                                                    size='xs'
+                                                />
+                                                <span className='flex-1 font-rajdhani font-semibold text-grimoire-text-base'>
+                                                    {spell.name}
+                                                </span>
+                                                <span className='font-rajdhani text-xs text-grimoire-text-faint'>
+                                                    {spellLevelLabel(
+                                                        spell.level,
+                                                    )}
+                                                </span>
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                )
+                            })
+                        })()}
                     </div>
                 )}
             </Drawer>
@@ -859,14 +882,10 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                             Filters
                             {hasActiveFilters && (
                                 <span className='ml-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-grimoire-primary text-[9px] text-white'>
-                                    {
-                                        [
-                                            filterSchool,
-                                            filterLevel !== "",
-                                            filterClass,
-                                            filterSource,
-                                        ].filter(Boolean).length
-                                    }
+                                    {filterSchools.length +
+                                        filterLevels.length +
+                                        filterClasses.length +
+                                        filterSources.length}
                                 </span>
                             )}
                         </button>
@@ -930,15 +949,18 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                     <button
                                                         key={lvl}
                                                         onClick={() =>
-                                                            setFilterLevel(
-                                                                filterLevel ===
-                                                                    lvl
-                                                                    ? ""
-                                                                    : lvl,
+                                                            setFilterLevels(
+                                                                (prev) =>
+                                                                    toggleInList(
+                                                                        prev,
+                                                                        lvl,
+                                                                    ),
                                                             )
                                                         }
                                                         className={`rounded border px-2 py-0.5 font-mono text-xs transition-colors ${
-                                                            filterLevel === lvl
+                                                            filterLevels.includes(
+                                                                lvl,
+                                                            )
                                                                 ? "border-grimoire-primary bg-grimoire-primary/20 text-grimoire-primary-light"
                                                                 : "border-grimoire-border text-grimoire-text-faint hover:border-grimoire-primary/40"
                                                         }`}
@@ -960,15 +982,18 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                 <button
                                                     key={school}
                                                     onClick={() =>
-                                                        setFilterSchool(
-                                                            filterSchool ===
-                                                                school
-                                                                ? ""
-                                                                : school,
+                                                        setFilterSchools(
+                                                            (prev) =>
+                                                                toggleInList(
+                                                                    prev,
+                                                                    school,
+                                                                ),
                                                         )
                                                     }
                                                     className={`rounded border px-2 py-0.5 font-rajdhani text-xs transition-colors ${
-                                                        filterSchool === school
+                                                        filterSchools.includes(
+                                                            school,
+                                                        )
                                                             ? "border-grimoire-primary bg-grimoire-primary/20 text-grimoire-primary-light"
                                                             : "border-grimoire-border text-grimoire-text-faint hover:border-grimoire-primary/40"
                                                     }`}
@@ -989,14 +1014,18 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                 <button
                                                     key={cls}
                                                     onClick={() =>
-                                                        setFilterClass(
-                                                            filterClass === cls
-                                                                ? ""
-                                                                : cls,
+                                                        setFilterClasses(
+                                                            (prev) =>
+                                                                toggleInList(
+                                                                    prev,
+                                                                    cls,
+                                                                ),
                                                         )
                                                     }
                                                     className={`rounded border px-2 py-0.5 font-rajdhani text-xs transition-colors ${
-                                                        filterClass === cls
+                                                        filterClasses.includes(
+                                                            cls,
+                                                        )
                                                             ? "border-grimoire-primary bg-grimoire-primary/20 text-grimoire-primary-light"
                                                             : "border-grimoire-border text-grimoire-text-faint hover:border-grimoire-primary/40"
                                                     }`}
@@ -1018,15 +1047,18 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                     <button
                                                         key={src}
                                                         onClick={() =>
-                                                            setFilterSource(
-                                                                filterSource ===
-                                                                    src
-                                                                    ? ""
-                                                                    : src,
+                                                            setFilterSources(
+                                                                (prev) =>
+                                                                    toggleInList(
+                                                                        prev,
+                                                                        src,
+                                                                    ),
                                                             )
                                                         }
                                                         className={`rounded border px-2 py-0.5 font-rajdhani text-xs transition-colors ${
-                                                            filterSource === src
+                                                            filterSources.includes(
+                                                                src,
+                                                            )
                                                                 ? "border-grimoire-primary bg-grimoire-primary/20 text-grimoire-primary-light"
                                                                 : "border-grimoire-border text-grimoire-text-faint hover:border-grimoire-primary/40"
                                                         }`}

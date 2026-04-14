@@ -12,6 +12,9 @@
         "diff": "cdk diff",
         "seed": "ts-node --project tsconfig.json scripts/run-seed.ts",
         "seed:srd": "ts-node --project tsconfig.json scripts/seed-srd.ts",
+        "seed:xgte": "ts-node --project tsconfig.json scripts/seed-improved-initiative.ts seed/xanathar-spells.json XGtE",
+        "seed:tcoe": "ts-node --project tsconfig.json scripts/seed-improved-initiative.ts seed/tashas-spells.json TCoE",
+        "seed:expanded": "npm run seed:xgte && npm run seed:tcoe",
         "create-users": "ts-node --project tsconfig.json scripts/create-users.ts"
     },
     "devDependencies": {

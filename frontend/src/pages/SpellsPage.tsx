@@ -119,7 +119,8 @@ export default function SpellsPage() {
                             .sort((a, b) => a.name.localeCompare(b.name))
                             .map((character) => {
                                 const isAdding =
-                                    addingToCharacterId === character.characterId
+                                    addingToCharacterId ===
+                                    character.characterId
                                 return (
                                     <motion.button
                                         key={character.characterId}
@@ -135,7 +136,8 @@ export default function SpellsPage() {
                                                 {character.name}
                                             </p>
                                             <p className='font-rajdhani text-xs text-grimoire-text-faint'>
-                                                {character.class} Lv. {character.level}
+                                                {character.class} Lv.{" "}
+                                                {character.level}
                                             </p>
                                         </div>
                                         {isAdding ? (

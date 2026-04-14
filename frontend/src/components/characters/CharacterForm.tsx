@@ -93,8 +93,10 @@ export default function CharacterForm({
             spellSaveDC: data.spellSaveDC,
             spellAttackBonus: data.spellAttackBonus,
             notes: data.notes || undefined,
-            knownSpellIds: [],
-            preparedSpellIds: [],
+            // Preserve existing spellbook state when editing.
+            knownSpellIds: initial?.knownSpellIds ?? [],
+            preparedSpellIds: initial?.preparedSpellIds ?? [],
+            spellNotes: initial?.spellNotes,
         }
         await onSubmit(payload)
     })

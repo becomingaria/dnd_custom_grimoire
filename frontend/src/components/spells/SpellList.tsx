@@ -21,21 +21,21 @@ export default function SpellList({
     onSelectSpell,
 }: SpellListProps) {
     const [search, setSearch] = useState("")
-    const [selectedSchool, setSchool] = useLocalStorage<SpellSchool | "all">(
-        "grimoire:spells:school",
-        "all",
+    const [selectedSchools, setSchools] = useLocalStorage<SpellSchool[]>(
+        "grimoire:spells:school:v2",
+        [],
     )
-    const [selectedLevel, setLevel] = useLocalStorage<number | "all">(
-        "grimoire:spells:level",
-        "all",
+    const [selectedLevels, setLevels] = useLocalStorage<number[]>(
+        "grimoire:spells:level:v2",
+        [],
     )
-    const [selectedSource, setSource] = useLocalStorage<string>(
-        "grimoire:spells:source",
-        "all",
+    const [selectedSources, setSources] = useLocalStorage<string[]>(
+        "grimoire:spells:source:v2",
+        [],
     )
-    const [selectedClass, setClass] = useLocalStorage<DndClass | "all">(
-        "grimoire:spells:class",
-        "all",
+    const [selectedClasses, setClasses] = useLocalStorage<DndClass[]>(
+        "grimoire:spells:class:v2",
+        [],
     )
     const [showFilters, setShowFilters] = useLocalStorage<boolean>(
         "grimoire:spells:showFilters",
@@ -46,33 +46,43 @@ export default function SpellList({
         new Set(spells.map((s) => s.source).filter(Boolean)),
     ).sort()
 
+    function toggleInList<T>(list: T[], value: T): T[] {
+        return list.includes(value)
+            ? list.filter((v) => v !== value)
+            : [...list, value]
+    }
+
     const filtered = spells.filter((s) => {
         if (search && !s.name.toLowerCase().includes(search.toLowerCase()))
             return false
-        if (selectedSchool !== "all" && s.school !== selectedSchool)
+        if (selectedSchools.length > 0 && !selectedSchools.includes(s.school))
             return false
-        if (selectedLevel !== "all" && s.level !== selectedLevel) return false
-        if (selectedSource !== "all" && s.source !== selectedSource)
+        if (selectedLevels.length > 0 && !selectedLevels.includes(s.level))
             return false
-        if (selectedClass !== "all" && !s.classes?.includes(selectedClass))
+        if (selectedSources.length > 0 && !selectedSources.includes(s.source))
+            return false
+        if (
+            selectedClasses.length > 0 &&
+            !selectedClasses.some((cls) => s.classes?.includes(cls))
+        )
             return false
         return true
     })
 
     const clearFilters = () => {
         setSearch("")
-        setSchool("all")
-        setLevel("all")
-        setSource("all")
-        setClass("all")
+        setSchools([])
+        setLevels([])
+        setSources([])
+        setClasses([])
     }
 
     const hasFilters =
         search ||
-        selectedSchool !== "all" ||
-        selectedLevel !== "all" ||
-        selectedSource !== "all" ||
-        selectedClass !== "all"
+        selectedSchools.length > 0 ||
+        selectedLevels.length > 0 ||
+        selectedSources.length > 0 ||
+        selectedClasses.length > 0
 
     return (
         <div className='space-y-6'>
@@ -144,26 +154,35 @@ export default function SpellList({
                                     School
                                 </label>
                                 <div className='flex flex-wrap gap-1.5'>
-                                    {(["all", ...SPELL_SCHOOLS] as const).map(
-                                        (school) => (
-                                            <button
-                                                key={school}
-                                                onClick={() =>
-                                                    setSchool(school)
-                                                }
-                                                className={[
-                                                    "rounded px-2.5 py-1 font-rajdhani text-xs font-medium capitalize transition-colors",
-                                                    selectedSchool === school
-                                                        ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
-                                                        : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
-                                                ].join(" ")}
-                                            >
-                                                {school === "all"
-                                                    ? "All Schools"
-                                                    : school}
-                                            </button>
-                                        ),
-                                    )}
+                                    <button
+                                        onClick={() => setSchools([])}
+                                        className={[
+                                            "rounded px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
+                                            selectedSchools.length === 0
+                                                ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                        ].join(" ")}
+                                    >
+                                        All Schools
+                                    </button>
+                                    {SPELL_SCHOOLS.map((school) => (
+                                        <button
+                                            key={school}
+                                            onClick={() =>
+                                                setSchools((prev) =>
+                                                    toggleInList(prev, school),
+                                                )
+                                            }
+                                            className={[
+                                                "rounded px-2.5 py-1 font-rajdhani text-xs font-medium capitalize transition-colors",
+                                                selectedSchools.includes(school)
+                                                    ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                    : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                            ].join(" ")}
+                                        >
+                                            {school}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
@@ -173,36 +192,35 @@ export default function SpellList({
                                     Level
                                 </label>
                                 <div className='flex flex-wrap gap-1.5'>
+                                    <button
+                                        onClick={() => setLevels([])}
+                                        className={[
+                                            "rounded px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
+                                            selectedLevels.length === 0
+                                                ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                        ].join(" ")}
+                                    >
+                                        All
+                                    </button>
                                     {(
-                                        [
-                                            "all",
-                                            0,
-                                            1,
-                                            2,
-                                            3,
-                                            4,
-                                            5,
-                                            6,
-                                            7,
-                                            8,
-                                            9,
-                                        ] as const
+                                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
                                     ).map((lvl) => (
                                         <button
                                             key={lvl}
-                                            onClick={() => setLevel(lvl)}
+                                            onClick={() =>
+                                                setLevels((prev) =>
+                                                    toggleInList(prev, lvl),
+                                                )
+                                            }
                                             className={[
                                                 "rounded px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
-                                                selectedLevel === lvl
+                                                selectedLevels.includes(lvl)
                                                     ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
                                                     : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
                                             ].join(" ")}
                                         >
-                                            {lvl === "all"
-                                                ? "All"
-                                                : lvl === 0
-                                                  ? "Cantrip"
-                                                  : `L${lvl}`}
+                                            {lvl === 0 ? "Cantrip" : `L${lvl}`}
                                         </button>
                                     ))}
                                 </div>
@@ -215,26 +233,37 @@ export default function SpellList({
                                         Source
                                     </label>
                                     <div className='flex flex-wrap gap-1.5'>
-                                        {["all", ...uniqueSources].map(
-                                            (src) => (
-                                                <button
-                                                    key={src}
-                                                    onClick={() =>
-                                                        setSource(src)
-                                                    }
-                                                    className={[
-                                                        "rounded px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
-                                                        selectedSource === src
-                                                            ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
-                                                            : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
-                                                    ].join(" ")}
-                                                >
-                                                    {src === "all"
-                                                        ? "All Sources"
-                                                        : src}
-                                                </button>
-                                            ),
-                                        )}
+                                        <button
+                                            onClick={() => setSources([])}
+                                            className={[
+                                                "rounded px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
+                                                selectedSources.length === 0
+                                                    ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                    : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                            ].join(" ")}
+                                        >
+                                            All Sources
+                                        </button>
+                                        {uniqueSources.map((src) => (
+                                            <button
+                                                key={src}
+                                                onClick={() =>
+                                                    setSources((prev) =>
+                                                        toggleInList(prev, src),
+                                                    )
+                                                }
+                                                className={[
+                                                    "rounded px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
+                                                    selectedSources.includes(
+                                                        src,
+                                                    )
+                                                        ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                        : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                                ].join(" ")}
+                                            >
+                                                {src}
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
                             )}
@@ -245,24 +274,35 @@ export default function SpellList({
                                     Class
                                 </label>
                                 <div className='flex flex-wrap gap-1.5'>
-                                    {(["all", ...DND_CLASSES] as const).map(
-                                        (cls) => (
-                                            <button
-                                                key={cls}
-                                                onClick={() => setClass(cls)}
-                                                className={[
-                                                    "rounded px-2.5 py-1 font-rajdhani text-xs font-medium capitalize transition-colors",
-                                                    selectedClass === cls
-                                                        ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
-                                                        : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
-                                                ].join(" ")}
-                                            >
-                                                {cls === "all"
-                                                    ? "All Classes"
-                                                    : cls}
-                                            </button>
-                                        ),
-                                    )}
+                                    <button
+                                        onClick={() => setClasses([])}
+                                        className={[
+                                            "rounded px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
+                                            selectedClasses.length === 0
+                                                ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                        ].join(" ")}
+                                    >
+                                        All Classes
+                                    </button>
+                                    {DND_CLASSES.map((cls) => (
+                                        <button
+                                            key={cls}
+                                            onClick={() =>
+                                                setClasses((prev) =>
+                                                    toggleInList(prev, cls),
+                                                )
+                                            }
+                                            className={[
+                                                "rounded px-2.5 py-1 font-rajdhani text-xs font-medium capitalize transition-colors",
+                                                selectedClasses.includes(cls)
+                                                    ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                    : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                            ].join(" ")}
+                                        >
+                                            {cls}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
