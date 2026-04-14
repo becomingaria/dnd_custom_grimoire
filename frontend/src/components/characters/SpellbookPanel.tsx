@@ -14,7 +14,6 @@ import {
 } from "lucide-react"
 import { useSpells } from "@/hooks/useSpells"
 import {
-    useAddKnownSpell,
     useAddKnownSpells,
     useRemoveKnownSpell,
     useRemoveKnownSpells,
@@ -89,7 +88,6 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
             ).sort(),
         [allSpells],
     )
-    const addKnownSpell = useAddKnownSpell()
     const addKnownSpells = useAddKnownSpells()
     const removeKnownSpell = useRemoveKnownSpell()
     const removeKnownSpells = useRemoveKnownSpells()
@@ -200,15 +198,6 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
             characterId: character.characterId,
             character,
             spellIds,
-        })
-    }
-
-    function handleAddSpell(spell: Spell) {
-        // Keep drawer open so user can continue adding spells.
-        addKnownSpell.mutate({
-            characterId: character.characterId,
-            character,
-            spellId: spell.spellId,
         })
     }
 
