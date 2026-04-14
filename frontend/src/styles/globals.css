@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-grimoire-bg font-rajdhani text-grimoire-text-base antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124,58,237,0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(180,83,9,0.06), transparent);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-grimoire-surface;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-grimoire-border;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-grimoire-primary/50;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-grimoire-primary/30 text-grimoire-text-base;
+  }
+}
+
+@layer components {
+  /* Reusable card base */
+  .grimoire-card {
+    @apply rounded-xl border border-grimoire-border bg-grimoire-card backdrop-blur-sm;
+  }
+
+  /* Input base */
+  .grimoire-input {
+    @apply w-full rounded-lg border border-grimoire-border bg-grimoire-surface px-3 py-2 font-rajdhani text-grimoire-text-base placeholder-grimoire-text-faint outline-none transition-colors focus:border-grimoire-primary/60 focus:ring-1 focus:ring-grimoire-primary/40;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply rounded-lg bg-grimoire-primary px-5 py-2 font-rajdhani font-semibold text-white transition-colors hover:bg-grimoire-primary-light disabled:opacity-50;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply rounded-lg border border-grimoire-border px-4 py-2 font-rajdhani text-grimoire-text-muted transition-colors hover:border-grimoire-text-muted/40 hover:text-grimoire-text-base;
+  }
+}
+
+@layer utilities {
+  /* Glow text */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(124,58,237,0.5), 0 0 40px rgba(124,58,237,0.2);
+  }
+  .text-glow-gold {
+    text-shadow: 0 0 20px rgba(245,158,11,0.5), 0 0 40px rgba(245,158,11,0.2);
+  }
+}

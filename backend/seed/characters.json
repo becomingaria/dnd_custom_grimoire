@@ -1,0 +1,70 @@
+{
+  "characters": [
+    {
+      "characterId": "char-001-zara-brightflame",
+      "userId": "REPLACE_WITH_USER_SUB",
+      "name": "Zara Brightflame",
+      "class": "Wizard",
+      "subclass": "School of Evocation",
+      "level": 8,
+      "knownSpellIds": [
+        "spell-001-fire-bolt",
+        "spell-003-mage-hand",
+        "spell-004-minor-illusion",
+        "spell-006-magic-missile",
+        "spell-007-shield",
+        "spell-009-mage-armor",
+        "spell-013-misty-step",
+        "spell-016-fireball",
+        "spell-017-counterspell",
+        "spell-018-fly",
+        "spell-019-lightning-bolt",
+        "spell-020-dispel-magic",
+        "spell-022-greater-invisibility",
+        "spell-023-cone-of-cold"
+      ],
+      "preparedSpellIds": [
+        "spell-006-magic-missile",
+        "spell-007-shield",
+        "spell-009-mage-armor",
+        "spell-016-fireball",
+        "spell-017-counterspell",
+        "spell-019-lightning-bolt"
+      ],
+      "spellcastingAbility": "INT",
+      "spellSaveDC": 15,
+      "spellAttackBonus": 7,
+      "notes": "Zara is a high-born elf wizard who specializes in destruction magic. She keeps her spellbook meticulously organized and always prepares for the worst. Favors Fireball and Lightning Bolt in combat.",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "characterId": "char-002-brother-aldric",
+      "userId": "REPLACE_WITH_USER_SUB",
+      "name": "Brother Aldric",
+      "class": "Cleric",
+      "subclass": "Life Domain",
+      "level": 6,
+      "knownSpellIds": [
+        "spell-005-sacred-flame",
+        "spell-008-cure-wounds",
+        "spell-012-healing-word",
+        "spell-015-hold-person",
+        "spell-020-dispel-magic",
+        "spell-024-mass-cure-wounds"
+      ],
+      "preparedSpellIds": [
+        "spell-008-cure-wounds",
+        "spell-012-healing-word",
+        "spell-015-hold-person",
+        "spell-024-mass-cure-wounds"
+      ],
+      "spellcastingAbility": "WIS",
+      "spellSaveDC": 14,
+      "spellAttackBonus": 6,
+      "notes": "A devoted cleric of the Raven Queen. Brother Aldric walks the line between life and death, healing the living and guiding the departed. He rarely casts offensive spells, preferring to support his allies.",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
