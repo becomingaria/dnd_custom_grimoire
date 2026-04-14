@@ -150,6 +150,45 @@ export function useAddKnownSpell() {
     })
 }
 
+export function useAddKnownSpells() {
+    const qc = useQueryClient()
+    return useMutation({
+        mutationFn: ({
+            characterId,
+            character,
+            spellIds,
+        }: {
+            characterId: string
+            character: Character
+            spellIds: string[]
+        }) => charactersApi.addKnownSpells(characterId, character, spellIds),
+        onMutate: async ({ characterId, spellIds }) => {
+            await qc.cancelQueries({ queryKey: [CHARS_KEY, characterId] })
+            const snapshot = qc.getQueryData<Character>([
+                CHARS_KEY,
+                characterId,
+            ])
+            if (snapshot) {
+                qc.setQueryData<Character>([CHARS_KEY, characterId], {
+                    ...snapshot,
+                    knownSpellIds: [
+                        ...new Set([...snapshot.knownSpellIds, ...spellIds]),
+                    ],
+                })
+            }
+            return { snapshot }
+        },
+        onError: (_err, { characterId }, context) => {
+            if (context?.snapshot) {
+                qc.setQueryData([CHARS_KEY, characterId], context.snapshot)
+            }
+        },
+        onSettled: (_data, _err, { characterId }) => {
+            qc.invalidateQueries({ queryKey: [CHARS_KEY, characterId] })
+        },
+    })
+}
+
 export function useRemoveKnownSpell() {
     const qc = useQueryClient()
     return useMutation({
@@ -228,6 +267,79 @@ export function useUpdateSpellNote() {
                 qc.setQueryData<Character>([CHARS_KEY, characterId], {
                     ...snapshot,
                     spellNotes,
+                })
+            }
+            return { snapshot }
+        },
+        onError: (_err, { characterId }, context) => {
+            if (context?.snapshot) {
+                qc.setQueryData([CHARS_KEY, characterId], context.snapshot)
+            }
+        },
+        onSettled: (_data, _err, { characterId }) => {
+            qc.invalidateQueries({ queryKey: [CHARS_KEY, characterId] })
+        },
+    })
+}
+
+export function useRemoveKnownSpells() {
+    const qc = useQueryClient()
+    return useMutation({
+        mutationFn: ({
+            characterId,
+            character,
+            spellIds,
+        }: {
+            characterId: string
+            character: Character
+            spellIds: string[]
+        }) => charactersApi.removeKnownSpells(characterId, character, spellIds),
+        onMutate: async ({ characterId, spellIds }) => {
+            await qc.cancelQueries({ queryKey: [CHARS_KEY, characterId] })
+            const snapshot = qc.getQueryData<Character>([
+                CHARS_KEY,
+                characterId,
+            ])
+            if (snapshot) {
+                const idSet = new Set(spellIds)
+                qc.setQueryData<Character>([CHARS_KEY, characterId], {
+                    ...snapshot,
+                    knownSpellIds: snapshot.knownSpellIds.filter(
+                        (id) => !idSet.has(id),
+                    ),
+                    preparedSpellIds: snapshot.preparedSpellIds.filter(
+                        (id) => !idSet.has(id),
+                    ),
+                })
+            }
+            return { snapshot }
+        },
+        onError: (_err, { characterId }, context) => {
+            if (context?.snapshot) {
+                qc.setQueryData([CHARS_KEY, characterId], context.snapshot)
+            }
+        },
+        onSettled: (_data, _err, { characterId }) => {
+            qc.invalidateQueries({ queryKey: [CHARS_KEY, characterId] })
+        },
+    })
+}
+
+export function useResetPreparedSpells() {
+    const qc = useQueryClient()
+    return useMutation({
+        mutationFn: ({ characterId }: { characterId: string }) =>
+            charactersApi.resetPreparedSpells(characterId),
+        onMutate: async ({ characterId }) => {
+            await qc.cancelQueries({ queryKey: [CHARS_KEY, characterId] })
+            const snapshot = qc.getQueryData<Character>([
+                CHARS_KEY,
+                characterId,
+            ])
+            if (snapshot) {
+                qc.setQueryData<Character>([CHARS_KEY, characterId], {
+                    ...snapshot,
+                    preparedSpellIds: [],
                 })
             }
             return { snapshot }

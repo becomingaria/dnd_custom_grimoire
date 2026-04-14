@@ -9,8 +9,10 @@ interface DrawerProps {
     onClose: () => void
     title?: string
     children: ReactNode
+    footer?: ReactNode
     width?: string
     side?: "left" | "right"
+    layer?: "base" | "overlay"
 }
 
 export default function Drawer({
@@ -18,9 +20,13 @@ export default function Drawer({
     onClose,
     title,
     children,
+    footer,
     width = "w-full max-w-lg",
     side = "right",
+    layer = "base",
 }: DrawerProps) {
+    const backdropZ = layer === "overlay" ? "z-[55]" : "z-40"
+    const panelZ = layer === "overlay" ? "z-[60]" : "z-50"
     // Close on Escape
     useEffect(() => {
         if (!isOpen) return
@@ -38,7 +44,7 @@ export default function Drawer({
                     {/* Backdrop */}
                     <motion.div
                         key='drawer-backdrop'
-                        className='fixed inset-0 z-40 bg-grimoire-bg/70 backdrop-blur-sm'
+                        className={`fixed inset-0 ${backdropZ} bg-grimoire-bg/70 backdrop-blur-sm`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -51,7 +57,7 @@ export default function Drawer({
                         role='dialog'
                         aria-modal='true'
                         aria-labelledby={title ? "drawer-title" : undefined}
-                        className={`fixed inset-y-0 ${side === "left" ? "left-0 border-r" : "right-0 border-l"} z-50 flex ${width} flex-col border-grimoire-border bg-grimoire-card`}
+                        className={`fixed inset-y-0 ${side === "left" ? "left-0 border-r" : "right-0 border-l"} ${panelZ} flex ${width} flex-col border-grimoire-border bg-grimoire-card`}
                         style={
                             side === "left"
                                 ? {
@@ -95,6 +101,13 @@ export default function Drawer({
                         <div className='flex-1 overflow-y-auto p-6'>
                             {children}
                         </div>
+
+                        {/* Optional footer */}
+                        {footer && (
+                            <div className='shrink-0 border-t border-grimoire-border p-4'>
+                                {footer}
+                            </div>
+                        )}
                     </motion.aside>
                 </>
             )}

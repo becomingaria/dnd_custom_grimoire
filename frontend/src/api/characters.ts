@@ -37,6 +37,17 @@ export const charactersApi = {
             knownSpellIds: [...new Set([...character.knownSpellIds, spellId])],
         }),
 
+    addKnownSpells: (
+        characterId: string,
+        character: Character,
+        spellIds: string[],
+    ) =>
+        apiClient.put<Character>(`/characters/${characterId}`, {
+            knownSpellIds: [
+                ...new Set([...character.knownSpellIds, ...spellIds]),
+            ],
+        }),
+
     removeKnownSpell: (
         characterId: string,
         character: Character,
@@ -49,6 +60,27 @@ export const charactersApi = {
             preparedSpellIds: character.preparedSpellIds.filter(
                 (id) => id !== spellId,
             ),
+        }),
+
+    removeKnownSpells: (
+        characterId: string,
+        character: Character,
+        spellIds: string[],
+    ) => {
+        const idSet = new Set(spellIds)
+        return apiClient.put<Character>(`/characters/${characterId}`, {
+            knownSpellIds: character.knownSpellIds.filter(
+                (id) => !idSet.has(id),
+            ),
+            preparedSpellIds: character.preparedSpellIds.filter(
+                (id) => !idSet.has(id),
+            ),
+        })
+    },
+
+    resetPreparedSpells: (characterId: string) =>
+        apiClient.put<Character>(`/characters/${characterId}`, {
+            preparedSpellIds: [],
         }),
 
     togglePreparedSpell: (

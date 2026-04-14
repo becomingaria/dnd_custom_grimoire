@@ -13,14 +13,18 @@ import {
     fetchAuthSession,
     type AuthUser,
 } from "aws-amplify/auth"
+import { setUsername } from "@/api/users"
 
 interface AuthContextValue {
     user: AuthUser | null
     userId: string | null
+    email: string | null
+    displayName: string | null
     isLoading: boolean
     isAuthenticated: boolean
     login: (email: string, password: string) => Promise<void>
     logout: () => Promise<void>
+    updateDisplayName: (name: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -28,6 +32,8 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<AuthUser | null>(null)
     const [userId, setUserId] = useState<string | null>(null)
+    const [email, setEmail] = useState<string | null>(null)
+    const [displayName, setDisplayName] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     const loadUser = useCallback(async () => {
@@ -37,8 +43,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const sub = session.tokens?.idToken?.payload?.sub as
                 | string
                 | undefined
+            const emailClaim = session.tokens?.idToken?.payload?.email as
+                | string
+                | undefined
+            const nameClaim = session.tokens?.idToken?.payload?.name as
+                | string
+                | undefined
             setUser(currentUser)
             setUserId(sub ?? null)
+            setEmail(emailClaim ?? currentUser.username ?? null)
+            setDisplayName(nameClaim ?? null)
         } catch {
             setUser(null)
             setUserId(null)
@@ -60,6 +74,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await signOut()
         setUser(null)
         setUserId(null)
+        setEmail(null)
+        setDisplayName(null)
+    }
+
+    const updateDisplayName = async (name: string) => {
+        const result = await setUsername(name.trim(), displayName ?? undefined)
+        setDisplayName(result.displayName)
     }
 
     return (
@@ -67,10 +88,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             value={{
                 user,
                 userId,
+                email,
+                displayName,
                 isLoading,
                 isAuthenticated: !!user,
                 login,
                 logout,
+                updateDisplayName,
             }}
         >
             {children}

@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, Filter, SlidersHorizontal, PlusCircle, X } from "lucide-react"
-import type { Spell, SpellSchool } from "@/types/spell"
-import { SPELL_SCHOOLS } from "@/types/spell"
+import type { Spell, SpellSchool, DndClass } from "@/types/spell"
+import { SPELL_SCHOOLS, DND_CLASSES } from "@/types/spell"
+import { useLocalStorage } from "@/hooks/useLocalStorage"
 import SpellCard from "./SpellCard"
 import LoadingSpinner from "@/components/shared/LoadingSpinner"
 
@@ -10,18 +11,36 @@ interface SpellListProps {
     spells: Spell[]
     isLoading?: boolean
     onCreateSpell?: () => void
+    onSelectSpell?: (spell: Spell) => void
 }
 
 export default function SpellList({
     spells,
     isLoading,
     onCreateSpell,
+    onSelectSpell,
 }: SpellListProps) {
     const [search, setSearch] = useState("")
-    const [selectedSchool, setSchool] = useState<SpellSchool | "all">("all")
-    const [selectedLevel, setLevel] = useState<number | "all">("all")
-    const [selectedSource, setSource] = useState<string>("all")
-    const [showFilters, setShowFilters] = useState(false)
+    const [selectedSchool, setSchool] = useLocalStorage<SpellSchool | "all">(
+        "grimoire:spells:school",
+        "all",
+    )
+    const [selectedLevel, setLevel] = useLocalStorage<number | "all">(
+        "grimoire:spells:level",
+        "all",
+    )
+    const [selectedSource, setSource] = useLocalStorage<string>(
+        "grimoire:spells:source",
+        "all",
+    )
+    const [selectedClass, setClass] = useLocalStorage<DndClass | "all">(
+        "grimoire:spells:class",
+        "all",
+    )
+    const [showFilters, setShowFilters] = useLocalStorage<boolean>(
+        "grimoire:spells:showFilters",
+        false,
+    )
 
     const uniqueSources = Array.from(
         new Set(spells.map((s) => s.source).filter(Boolean)),
@@ -35,6 +54,8 @@ export default function SpellList({
         if (selectedLevel !== "all" && s.level !== selectedLevel) return false
         if (selectedSource !== "all" && s.source !== selectedSource)
             return false
+        if (selectedClass !== "all" && !s.classes?.includes(selectedClass))
+            return false
         return true
     })
 
@@ -43,13 +64,15 @@ export default function SpellList({
         setSchool("all")
         setLevel("all")
         setSource("all")
+        setClass("all")
     }
 
     const hasFilters =
         search ||
         selectedSchool !== "all" ||
         selectedLevel !== "all" ||
-        selectedSource !== "all"
+        selectedSource !== "all" ||
+        selectedClass !== "all"
 
     return (
         <div className='space-y-6'>
@@ -216,6 +239,33 @@ export default function SpellList({
                                 </div>
                             )}
 
+                            {/* Class filter */}
+                            <div className='flex flex-col gap-1.5'>
+                                <label className='font-rajdhani text-xs font-semibold uppercase tracking-widest text-grimoire-text-faint'>
+                                    Class
+                                </label>
+                                <div className='flex flex-wrap gap-1.5'>
+                                    {(["all", ...DND_CLASSES] as const).map(
+                                        (cls) => (
+                                            <button
+                                                key={cls}
+                                                onClick={() => setClass(cls)}
+                                                className={[
+                                                    "rounded px-2.5 py-1 font-rajdhani text-xs font-medium capitalize transition-colors",
+                                                    selectedClass === cls
+                                                        ? "border border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                        : "border border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                                ].join(" ")}
+                                            >
+                                                {cls === "all"
+                                                    ? "All Classes"
+                                                    : cls}
+                                            </button>
+                                        ),
+                                    )}
+                                </div>
+                            </div>
+
                             {/* Clear */}
                             {hasFilters && (
                                 <button
@@ -271,6 +321,7 @@ export default function SpellList({
                             key={spell.spellId}
                             spell={spell}
                             index={i}
+                            onSelect={onSelectSpell}
                         />
                     ))}
                 </div>

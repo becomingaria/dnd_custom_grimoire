@@ -9,12 +9,14 @@ interface SpellCardProps {
     spell: Spell
     index?: number
     compact?: boolean
+    onSelect?: (spell: Spell) => void
 }
 
 export default function SpellCard({
     spell,
     index = 0,
     compact = false,
+    onSelect,
 }: SpellCardProps) {
     const navigate = useNavigate()
 
@@ -34,7 +36,11 @@ export default function SpellCard({
                 borderColor: "rgba(124,58,237,0.5)",
                 boxShadow: `0 8px 40px rgba(0,0,0,0.7), ${schoolGlowStyle[spell.school]}`,
             }}
-            onClick={() => navigate(`/spells/${spell.spellId}`)}
+            onClick={() =>
+                onSelect
+                    ? onSelect(spell)
+                    : navigate(`/spells/${spell.spellId}`)
+            }
         >
             {/* Sheen line at the top */}
             <div

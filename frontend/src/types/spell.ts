@@ -42,15 +42,11 @@ export type DamageType =
 // ─── D&D Classes ─────────────────────────────────────────────────────────────
 export const DND_CLASSES = [
     "Artificer",
-    "Barbarian",
     "Bard",
     "Cleric",
     "Druid",
-    "Fighter",
-    "Monk",
     "Paladin",
     "Ranger",
-    "Rogue",
     "Sorcerer",
     "Warlock",
     "Wizard",

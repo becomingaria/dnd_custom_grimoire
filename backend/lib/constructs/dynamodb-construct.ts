@@ -5,6 +5,7 @@ import { Construct } from "constructs"
 export class DynamoDBConstruct extends Construct {
     public readonly spellsTable: dynamodb.Table
     public readonly charactersTable: dynamodb.Table
+    public readonly usernamesTable: dynamodb.Table
 
     constructor(scope: Construct, id: string) {
         super(scope, id)
@@ -87,6 +88,19 @@ export class DynamoDBConstruct extends Construct {
                 type: dynamodb.AttributeType.STRING,
             },
             projectionType: dynamodb.ProjectionType.ALL,
+        })
+
+        // ─── Usernames Table ──────────────────────────────────────────────────────
+        // Stores username → userId mapping for uniqueness enforcement.
+        // PK is the lowercased username for case-insensitive uniqueness.
+        this.usernamesTable = new dynamodb.Table(this, "UsernamesTable", {
+            tableName: "grimoire-usernames",
+            partitionKey: {
+                name: "username",
+                type: dynamodb.AttributeType.STRING,
+            },
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            removalPolicy: cdk.RemovalPolicy.RETAIN,
         })
     }
 }
