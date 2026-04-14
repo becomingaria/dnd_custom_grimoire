@@ -1,34 +1,35 @@
 {
-  "name": "grimoire-backend",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "cdk": "cdk",
-    "deploy": "cdk deploy --all --require-approval never",
-    "destroy": "cdk destroy --all",
-    "synth": "cdk synth",
-    "diff": "cdk diff",
-    "seed": "ts-node --project tsconfig.json scripts/run-seed.ts",
-    "create-users": "ts-node --project tsconfig.json scripts/create-users.ts"
-  },
-  "devDependencies": {
-    "@types/aws-lambda": "^8.10.140",
-    "@types/node": "^20.14.0",
-    "@types/uuid": "^9.0.8",
-    "aws-cdk": "2.150.0",
-    "ts-node": "^10.9.2",
-    "typescript": "~5.4.5"
-  },
-  "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.600.0",
-    "@aws-sdk/client-dynamodb": "^3.600.0",
-    "@aws-sdk/lib-dynamodb": "^3.600.0",
-    "aws-cdk-lib": "2.150.0",
-    "constructs": "^10.3.0",
-    "dotenv": "^16.4.5",
-    "esbuild": "^0.21.5",
-    "uuid": "^9.0.1"
-  }
+    "name": "grimoire-backend",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "cdk": "cdk",
+        "deploy": "cdk deploy --all --require-approval never",
+        "destroy": "cdk destroy --all",
+        "synth": "cdk synth",
+        "diff": "cdk diff",
+        "seed": "ts-node --project tsconfig.json scripts/run-seed.ts",
+        "seed:srd": "ts-node --project tsconfig.json scripts/seed-srd.ts",
+        "create-users": "ts-node --project tsconfig.json scripts/create-users.ts"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.140",
+        "@types/node": "^20.14.0",
+        "@types/uuid": "^9.0.8",
+        "aws-cdk": "2.150.0",
+        "ts-node": "^10.9.2",
+        "typescript": "~5.4.5"
+    },
+    "dependencies": {
+        "@aws-sdk/client-cognito-identity-provider": "^3.600.0",
+        "@aws-sdk/client-dynamodb": "^3.600.0",
+        "@aws-sdk/lib-dynamodb": "^3.600.0",
+        "aws-cdk-lib": "2.150.0",
+        "constructs": "^10.3.0",
+        "dotenv": "^16.4.5",
+        "esbuild": "^0.21.5",
+        "uuid": "^9.0.1"
+    }
 }
