@@ -17,8 +17,9 @@ const UPDATABLE_FIELDS = [
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
   try {
-    const userId = event.requestContext.authorizer.jwt.claims['sub'] as string;
-    const spellId = event.pathParameters?.spellId;
+    const userId    = event.requestContext.authorizer.jwt.claims['sub'] as string;
+    const updatedBy = (event.requestContext.authorizer.jwt.claims['email'] as string | undefined) ?? userId;
+    const spellId   = event.pathParameters?.spellId;
 
     if (!spellId) return errorResponse('Spell ID is required', 400);
     if (!event.body) return validationErrorResponse('Request body is required');
@@ -33,9 +34,21 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
     const updates = JSON.parse(event.body);
     const now = new Date().toISOString();
 
-    const setParts: string[] = ['#updatedAt = :updatedAt'];
-    const names: Record<string, string> = { '#updatedAt': 'updatedAt' };
-    const values: Record<string, unknown> = { ':updatedAt': now };
+    const changelogEntry = { updatedBy, updatedAt: now };
+
+    const setParts: string[] = [
+      '#updatedAt = :updatedAt',
+      '#changelog = list_append(if_not_exists(#changelog, :emptyList), :newEntry)',
+    ];
+    const names: Record<string, string> = {
+      '#updatedAt': 'updatedAt',
+      '#changelog': 'changelog',
+    };
+    const values: Record<string, unknown> = {
+      ':updatedAt': now,
+      ':emptyList': [],
+      ':newEntry': [changelogEntry],
+    };
 
     for (const field of UPDATABLE_FIELDS) {
       if (field in updates) {

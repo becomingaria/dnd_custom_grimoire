@@ -10,7 +10,8 @@ import {
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
   try {
-    const userId = event.requestContext.authorizer.jwt.claims['sub'] as string;
+    const userId   = event.requestContext.authorizer.jwt.claims['sub'] as string;
+    const addedBy  = (event.requestContext.authorizer.jwt.claims['email'] as string | undefined) ?? userId;
 
     if (!event.body) {
       return validationErrorResponse('Request body is required');
@@ -46,9 +47,11 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
       source: body.source ?? 'Homebrew',
       tags: Array.isArray(body.tags) ? body.tags : [],
       damageType: body.damageType ?? null,
+      addedBy,
       createdBy: userId,
       createdAt: now,
       updatedAt: now,
+      changelog: [],
     };
 
     await docClient.send(
