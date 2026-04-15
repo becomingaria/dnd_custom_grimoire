@@ -4,8 +4,6 @@ import type { Spell, CreateSpellInput, UpdateSpellInput } from "@/types/spell"
 export interface SpellsResponse {
     spells: Spell[]
     count: number
-    /** Base64url-encoded DynamoDB cursor. Present only on the first page of an unfiltered scan. */
-    lastKey?: string
 }
 
 export interface SpellFilters {
@@ -14,10 +12,6 @@ export interface SpellFilters {
     homebrew?: boolean
     class?: string
     source?: string
-    /** Request only the first N items (no-filter scans only). */
-    limit?: number
-    /** Resume from this cursor returned by a previous page (no-filter scans only). */
-    startKey?: string
 }
 
 export const spellsApi = {
@@ -30,10 +24,6 @@ export const spellsApi = {
             params.set("homebrew", String(filters.homebrew))
         if (filters?.class) params.set("class", filters.class)
         if (filters?.source) params.set("source", filters.source)
-        if (filters?.limit !== undefined)
-            params.set("limit", String(filters.limit))
-        if (filters?.startKey) params.set("startKey", filters.startKey)
-
         const query = params.toString()
         return apiClient.get<SpellsResponse>(
             `/spells${query ? `?${query}` : ""}`,

@@ -12,7 +12,7 @@ import {
     RotateCcw,
     BookMarked,
 } from "lucide-react"
-import { useSpellsProgressive } from "@/hooks/useSpells"
+import { useSpells } from "@/hooks/useSpells"
 import {
     useAddKnownSpells,
     useRemoveKnownSpell,
@@ -80,8 +80,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
     )
     const [showFilters, setShowFilters] = useState(false)
 
-    const { spells: allSpells, isLoadingMore: isSpellsLoadingMore } =
-        useSpellsProgressive()
+    const { data: allSpells = [] } = useSpells()
     const uniqueSources = useMemo(
         () =>
             Array.from(
@@ -1062,14 +1061,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
 
                                     {/* Clear + select-all row */}
                                     <div className='flex items-center gap-3'>
-                                        {isSpellsLoadingMore &&
-                                            !hasActiveFilters &&
-                                            !addSearch && (
-                                                <span className='flex items-center gap-1.5 font-rajdhani text-xs text-grimoire-text-faint animate-pulse'>
-                                                    <span className='inline-block h-1.5 w-1.5 rounded-full bg-grimoire-primary/60' />
-                                                    Loading more…
-                                                </span>
-                                            )}
+
                                         {hasActiveFilters && (
                                             <button
                                                 onClick={clearModalFilters}

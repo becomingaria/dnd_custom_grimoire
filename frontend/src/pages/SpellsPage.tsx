@@ -1,10 +1,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { UserPlus, Check } from "lucide-react"
-import {
-    useSpellsProgressive,
-    useCreateSpell,
-} from "@/hooks/useSpells"
+import { useSpells, useCreateSpell } from "@/hooks/useSpells"
 import { useCharacters, useAddKnownSpell } from "@/hooks/useCharacters"
 import { useAuth } from "@/context/AuthContext"
 import SpellList from "@/components/spells/SpellList"
@@ -26,7 +23,7 @@ export default function SpellsPage() {
 
     const { isAdmin } = useAuth()
 
-    const { spells, isLoading, isLoadingMore } = useSpellsProgressive()
+    const { data: spells = [], isLoading } = useSpells()
     const { data: characters = [] } = useCharacters()
     const createSpell = useCreateSpell()
     const addKnownSpell = useAddKnownSpell()
@@ -62,7 +59,6 @@ export default function SpellsPage() {
             <SpellList
                 spells={spells}
                 isLoading={isLoading}
-                isLoadingMore={isLoadingMore}
                 onCreateSpell={() => setShowCreate(true)}
                 onSelectSpell={setSelectedSpell}
             />

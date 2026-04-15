@@ -10,7 +10,6 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner"
 interface SpellListProps {
     spells: Spell[]
     isLoading?: boolean
-    isLoadingMore?: boolean
     onCreateSpell?: () => void
     onSelectSpell?: (spell: Spell) => void
 }
@@ -18,7 +17,6 @@ interface SpellListProps {
 export default function SpellList({
     spells,
     isLoading,
-    isLoadingMore,
     onCreateSpell,
     onSelectSpell,
 }: SpellListProps) {
@@ -349,12 +347,7 @@ export default function SpellList({
                         ? "Loading spells…"
                         : `${filtered.length} spell${filtered.length !== 1 ? "s" : ""} found`}
                 </p>
-                {isLoadingMore && (
-                    <span className='flex items-center gap-1.5 font-rajdhani text-xs text-grimoire-text-faint animate-pulse'>
-                        <span className='inline-block h-1.5 w-1.5 rounded-full bg-grimoire-primary/60' />
-                        Loading more…
-                    </span>
-                )}
+
             </div>
 
             {/* Content */}
