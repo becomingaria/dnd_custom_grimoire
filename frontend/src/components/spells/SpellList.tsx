@@ -43,7 +43,7 @@ export default function SpellList({
     )
 
     const uniqueSources = Array.from(
-        new Set(spells.map((s) => s.source).filter(Boolean)),
+        new Set(spells.flatMap((s) => s.sources).filter(Boolean)),
     ).sort()
 
     function toggleInList<T>(list: T[], value: T): T[] {
@@ -59,7 +59,10 @@ export default function SpellList({
             return false
         if (selectedLevels.length > 0 && !selectedLevels.includes(s.level))
             return false
-        if (selectedSources.length > 0 && !selectedSources.includes(s.source))
+        if (
+            selectedSources.length > 0 &&
+            !selectedSources.some((src) => s.sources?.includes(src))
+        )
             return false
         if (
             selectedClasses.length > 0 &&
@@ -347,7 +350,6 @@ export default function SpellList({
                         ? "Loading spells…"
                         : `${filtered.length} spell${filtered.length !== 1 ? "s" : ""} found`}
                 </p>
-
             </div>
 
             {/* Content */}

@@ -50,19 +50,9 @@ export class DynamoDBConstruct extends Construct {
             projectionType: dynamodb.ProjectionType.ALL,
         })
 
-        // GSI: query spells by source (e.g. "Player's Handbook", "Homebrew", "Xanathar's Guide")
-        this.spellsTable.addGlobalSecondaryIndex({
-            indexName: "bySource",
-            partitionKey: {
-                name: "source",
-                type: dynamodb.AttributeType.STRING,
-            },
-            sortKey: {
-                name: "name",
-                type: dynamodb.AttributeType.STRING,
-            },
-            projectionType: dynamodb.ProjectionType.ALL,
-        })
+        // Note: bySource GSI removed — spells now store `sources: string[]`
+        // which cannot be used as a DynamoDB GSI partition key. Source filtering
+        // is handled in-memory by the list Lambda.
 
         // ─── Characters Table ─────────────────────────────────────────────────────
         this.charactersTable = new dynamodb.Table(this, "CharactersTable", {

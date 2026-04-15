@@ -31,7 +31,9 @@
         "migrate:sources:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-source-labels.ts --dry-run",
         "export:spells": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/export-spells.ts",
         "seed:canonical": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/seed-canonical.ts",
-        "seed:canonical:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/seed-canonical.ts --dry-run"
+        "seed:canonical:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/seed-canonical.ts --dry-run",
+        "merge:dupes": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/merge-duplicate-spells.ts",
+        "merge:dupes:live": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/merge-duplicate-spells.ts --live"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.140",

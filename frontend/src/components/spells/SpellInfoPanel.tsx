@@ -25,7 +25,9 @@ export default function SpellInfoPanel({ spell }: SpellInfoPanelProps) {
                 {spell.addedBy && (
                     <p className='mt-1 font-rajdhani text-xs text-grimoire-text-faint'>
                         Added by u/{spell.addedBy.split("@")[0]}
-                        {spell.source && ` · ${spell.source}`}
+                        {spell.sources?.length
+                            ? ` · ${spell.sources.join(", ")}`
+                            : ""}
                     </p>
                 )}
 

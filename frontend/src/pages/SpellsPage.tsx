@@ -29,7 +29,7 @@ export default function SpellsPage() {
     const addKnownSpell = useAddKnownSpell()
 
     const existingSources = Array.from(
-        new Set(spells.map((s) => s.source).filter(Boolean)),
+        new Set(spells.flatMap((s) => s.sources).filter(Boolean)),
     ).sort()
 
     async function handleCreate(data: CreateSpellInput) {

@@ -84,7 +84,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
     const uniqueSources = useMemo(
         () =>
             Array.from(
-                new Set(allSpells.map((s) => s.source).filter(Boolean)),
+                new Set(allSpells.flatMap((s) => s.sources).filter(Boolean)),
             ).sort(),
         [allSpells],
     )
@@ -138,7 +138,9 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                 filterClasses.some((cls) => s.classes?.includes(cls)),
             )
         if (filterSources.length > 0)
-            results = results.filter((s) => filterSources.includes(s.source))
+            results = results.filter((s) =>
+                filterSources.some((src) => s.sources?.includes(src)),
+            )
         results = [...results].sort((a, b) => {
             if (sortBy === "name-asc") return a.name.localeCompare(b.name)
             if (sortBy === "name-desc") return b.name.localeCompare(a.name)
@@ -633,9 +635,13 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                 {/* Source */}
                                                 <p
                                                     className='truncate font-rajdhani text-xs text-grimoire-text-faint'
-                                                    title={spell.source}
+                                                    title={spell.sources?.join(
+                                                        ", ",
+                                                    )}
                                                 >
-                                                    {spell.source ?? (
+                                                    {spell.sources?.join(
+                                                        ", ",
+                                                    ) ?? (
                                                         <span className='text-grimoire-text-faint/40'>
                                                             —
                                                         </span>
@@ -1061,7 +1067,6 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
 
                                     {/* Clear + select-all row */}
                                     <div className='flex items-center gap-3'>
-
                                         {hasActiveFilters && (
                                             <button
                                                 onClick={clearModalFilters}

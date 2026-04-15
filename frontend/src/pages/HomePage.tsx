@@ -11,7 +11,7 @@ export default function HomePage() {
     const { user, displayName } = useAuth()
 
     const sourcebookCount = new Set(
-        spells.filter((s) => !s.isHomebrew).map((s) => s.source),
+        spells.filter((s) => !s.isHomebrew).flatMap((s) => s.sources),
     ).size
     const homebrewCount = spells.filter((s) => s.isHomebrew).length
 

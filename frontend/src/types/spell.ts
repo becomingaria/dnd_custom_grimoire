@@ -77,7 +77,7 @@ export interface Spell {
     higherLevels?: string | null
     classes: string[]
     isHomebrew: boolean
-    source: string
+    sources: string[]
     tags?: string[]
     damageType?: DamageType | null
     addedBy?: string

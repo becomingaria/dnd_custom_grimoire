@@ -77,7 +77,7 @@ export default function SpellForm({
             description: initial?.description ?? "",
             higherLevels: initial?.higherLevels ?? "",
             classes: initial?.classes ?? [],
-            source: initial?.source ?? "Homebrew",
+            source: initial?.sources?.join(", ") ?? "Homebrew",
             damageType: initial?.damageType ?? "",
             tags: initial?.tags?.join(", ") ?? "",
         },
@@ -110,12 +110,19 @@ export default function SpellForm({
         if (!isAdmin) {
             data.source = "Homebrew"
         } else {
-            const isNewSource =
-                data.source.trim() !== "" &&
-                !existingSources.includes(data.source.trim())
+            const newSources = data.source
+                .split(",")
+                .map((s) => s.trim())
+                .filter(Boolean)
+            const isNewSource = newSources.some(
+                (src) => !existingSources.includes(src),
+            )
             if (isNewSource) {
+                const newOnes = newSources.filter(
+                    (src) => !existingSources.includes(src),
+                )
                 const confirmed = window.confirm(
-                    `"${data.source.trim()}" would be the first spell from this source — is that correct?`,
+                    `"${newOnes.join(", ")}" would be the first spell(s) from this source — is that correct?`,
                 )
                 if (!confirmed) return
             }
@@ -135,7 +142,10 @@ export default function SpellForm({
             description: data.description,
             higherLevels: data.higherLevels ?? null,
             classes: data.classes,
-            source: data.source,
+            sources: data.source
+                .split(",")
+                .map((s) => s.trim())
+                .filter(Boolean),
             tags: data.tags
                 ? data.tags
                       .split(",")

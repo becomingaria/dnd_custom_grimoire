@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda"
-import { ScanCommand, QueryCommand } from "@aws-sdk/lib-dynamodb"
+import { ScanCommand } from "@aws-sdk/lib-dynamodb"
 import { docClient, SPELLS_TABLE } from "../shared/dynamodb-client"
 import { successResponse, errorResponse } from "../shared/response"
 
@@ -14,28 +14,26 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (
 
         let spells: Record<string, unknown>[]
 
-        if (q.source) {
-            // Use bySource GSI for efficient source-keyed lookup
-            const result = await docClient.send(
-                new QueryCommand({
-                    TableName: SPELLS_TABLE,
-                    IndexName: "bySource",
-                    KeyConditionExpression: "#src = :source",
-                    ExpressionAttributeNames: { "#src": "source" },
-                    ExpressionAttributeValues: { ":source": q.source },
-                }),
-            )
-            spells = (result.Items ?? []) as Record<string, unknown>[]
-        } else {
-            const result = await docClient.send(
-                new ScanCommand({ TableName: SPELLS_TABLE }),
-            )
-            spells = (result.Items ?? []) as Record<string, unknown>[]
-        }
+        const result = await docClient.send(
+            new ScanCommand({ TableName: SPELLS_TABLE }),
+        )
+        spells = (result.Items ?? []) as Record<string, unknown>[]
 
         // All spells are visible to all authenticated users
 
         // Optional query-param filters
+        if (q.source) {
+            spells = spells.filter((s) => {
+                const sources = Array.isArray(s.sources)
+                    ? (s.sources as string[])
+                    : typeof s.source === "string"
+                      ? [s.source as string]
+                      : []
+                return sources.some(
+                    (src) => src.toLowerCase() === q.source!.toLowerCase(),
+                )
+            })
+        }
         if (q.school) {
             spells = spells.filter(
                 (s) =>
