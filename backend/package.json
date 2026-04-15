@@ -24,7 +24,9 @@
         "seed:ee": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"ee\" \"EE\"",
         "seed:ee:dry": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"ee\" \"EE\" --dry-run",
         "seed:scag": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"scag\" \"SCAG\"",
-        "seed:scag:dry": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"scag\" \"SCAG\" --dry-run"
+        "seed:scag:dry": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"scag\" \"SCAG\" --dry-run",
+        "seed:class": "ts-node --project tsconfig.json scripts/seed-class-spells.ts",
+        "seed:class:dry": "ts-node --project tsconfig.json scripts/seed-class-spells.ts --dry-run"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.140",
