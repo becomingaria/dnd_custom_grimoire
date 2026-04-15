@@ -2,7 +2,6 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { UserPlus, Check } from "lucide-react"
 import {
-    useSpells,
     useSpellsProgressive,
     useCreateSpell,
 } from "@/hooks/useSpells"

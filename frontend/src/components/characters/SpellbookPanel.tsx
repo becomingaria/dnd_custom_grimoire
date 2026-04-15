@@ -12,7 +12,7 @@ import {
     RotateCcw,
     BookMarked,
 } from "lucide-react"
-import { useSpells, useSpellsProgressive } from "@/hooks/useSpells"
+import { useSpellsProgressive } from "@/hooks/useSpells"
 import {
     useAddKnownSpells,
     useRemoveKnownSpell,
