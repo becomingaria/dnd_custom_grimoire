@@ -52,8 +52,11 @@ async function main() {
     console.log(`\n🔄 Scanning ${SPELLS_TABLE}…${DRY_RUN ? "  [DRY RUN]" : ""}`)
 
     // Full table scan — collect all spells that need renaming
-    const toUpdate: { spellId: string; oldSource: string; newSource: string }[] =
-        []
+    const toUpdate: {
+        spellId: string
+        oldSource: string
+        newSource: string
+    }[] = []
 
     let lastKey: Record<string, unknown> | undefined
     do {

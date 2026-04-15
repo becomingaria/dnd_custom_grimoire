@@ -52,7 +52,9 @@ async function main() {
     fs.writeFileSync(OUT_FILE, JSON.stringify(canonical, null, 2), "utf-8")
 
     console.log(`   Total in table : ${all.length}`)
-    console.log(`   Homebrew        : ${all.length - canonical.length}  (excluded)`)
+    console.log(
+        `   Homebrew        : ${all.length - canonical.length}  (excluded)`,
+    )
     console.log(`   Exported        : ${canonical.length}`)
     console.log(`\n✅ Written to ${path.relative(process.cwd(), OUT_FILE)}`)
 }

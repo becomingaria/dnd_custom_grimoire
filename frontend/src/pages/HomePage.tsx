@@ -10,7 +10,9 @@ export default function HomePage() {
     const { data: characters = [] } = useCharacters()
     const { user, displayName } = useAuth()
 
-    const spellSchools = new Set(spells.map((s) => s.school)).size
+    const sourcebookCount = new Set(
+        spells.filter((s) => !s.isHomebrew).map((s) => s.source),
+    ).size
     const homebrewCount = spells.filter((s) => s.isHomebrew).length
 
     const stats = [
@@ -21,9 +23,9 @@ export default function HomePage() {
             color: "text-grimoire-primary-light",
         },
         {
-            label: "Spell Schools",
-            value: spellSchools,
-            icon: Sparkles,
+            label: "Sourcebooks",
+            value: sourcebookCount,
+            icon: BookOpen,
             color: "text-yellow-400",
         },
         {

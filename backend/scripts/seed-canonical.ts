@@ -31,7 +31,9 @@ const docClient = DynamoDBDocumentClient.from(client, {
 
 async function main() {
     if (!fs.existsSync(IN_FILE)) {
-        console.error(`seed/spells.json not found — run "npm run export:spells" first.`)
+        console.error(
+            `seed/spells.json not found — run "npm run export:spells" first.`,
+        )
         process.exit(1)
     }
 

@@ -78,7 +78,10 @@ function normalizeSchool(raw: string): string {
     return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 }
 
-function parseComponents(raw: string, material?: string): {
+function parseComponents(
+    raw: string,
+    material?: string,
+): {
     components: string[]
     materialComponents: string | null
 } {
