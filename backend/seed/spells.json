@@ -3221,10 +3221,10 @@
     "school": "Abjuration",
     "level": 1,
     "range": "60 feet",
-    "updatedAt": "2026-04-15T04:59:01.099Z",
+    "updatedAt": "2026-04-15T05:13:59.000Z",
     "higherLevels": "When you cast this spell using a spell slot of 2nd level or higher, the distance the creature's speed is reduced increases by 5 feet for each level above 1st.",
+    "castingTime": "1 reaction, when you see a creature within 60 feet of you moving towards you or an ally.",
     "description": "You conjure a magical force that impedes the progress of an approaching enemy. The targeted creature must make a Strength saving throw. On a failed save, its speed is reduced by 1d6 times 5 feet until the end of its turn. On a successful save, its speed is not affected.",
-    "castingTime": "1 reaction, when you see a creature within 60 feet of you moving towards you or",
     "duration": "Instantaneous",
     "tags": [],
     "materialComponents": null
