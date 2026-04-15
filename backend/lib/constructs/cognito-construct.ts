@@ -42,6 +42,21 @@ export class CognitoConstruct extends Construct {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
+    // ─── Groups ───────────────────────────────────────────────────────────────
+    new cognito.CfnUserPoolGroup(this, 'AdminGroup', {
+      userPoolId: this.userPool.userPoolId,
+      groupName: 'Admin',
+      description: 'Grimoire administrators',
+      precedence: 1,
+    });
+
+    new cognito.CfnUserPoolGroup(this, 'UserGroup', {
+      userPoolId: this.userPool.userPoolId,
+      groupName: 'User',
+      description: 'Grimoire standard users',
+      precedence: 2,
+    });
+
     this.userPoolClient = new cognito.UserPoolClient(this, 'UserPoolClient', {
       userPool: this.userPool,
       userPoolClientName: 'grimoire-web-client',

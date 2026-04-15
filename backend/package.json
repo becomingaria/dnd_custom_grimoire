@@ -19,7 +19,8 @@
         "patch:artificer:dry": "ts-node --project tsconfig.json scripts/patch-artificer-classes.ts --dry-run",
         "seed:atow": "ts-node --project tsconfig.json scripts/seed-custom-sourcebook.ts \"seed/Az Tome of Witchcraft.json\" AToW",
         "seed:atow:dry": "ts-node --project tsconfig.json scripts/seed-custom-sourcebook.ts \"seed/Az Tome of Witchcraft.json\" AToW --dry-run",
-        "create-users": "ts-node --project tsconfig.json scripts/create-users.ts"
+        "create-users": "ts-node --project tsconfig.json scripts/create-users.ts",
+        "assign-admins": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/assign-admin-groups.ts"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.140",

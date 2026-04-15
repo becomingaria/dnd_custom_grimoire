@@ -15,11 +15,15 @@ import {
 } from "aws-amplify/auth"
 import { setUsername } from "@/api/users"
 
+export type UserRole = "admin" | "user"
+
 interface AuthContextValue {
     user: AuthUser | null
     userId: string | null
     email: string | null
     displayName: string | null
+    role: UserRole | null
+    isAdmin: boolean
     isLoading: boolean
     isAuthenticated: boolean
     login: (email: string, password: string) => Promise<void>
@@ -34,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [userId, setUserId] = useState<string | null>(null)
     const [email, setEmail] = useState<string | null>(null)
     const [displayName, setDisplayName] = useState<string | null>(null)
+    const [role, setRole] = useState<UserRole | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     const loadUser = useCallback(async () => {
@@ -49,13 +54,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const nameClaim = session.tokens?.idToken?.payload?.name as
                 | string
                 | undefined
+            const groups = session.tokens?.idToken?.payload?.["cognito:groups"] as
+                | string[]
+                | undefined
+            const resolvedRole: UserRole = groups?.includes("Admin") ? "admin" : "user"
             setUser(currentUser)
             setUserId(sub ?? null)
             setEmail(emailClaim ?? currentUser.username ?? null)
             setDisplayName(nameClaim ?? null)
+            setRole(resolvedRole)
         } catch {
             setUser(null)
             setUserId(null)
+            setRole(null)
         } finally {
             setIsLoading(false)
         }
@@ -76,6 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserId(null)
         setEmail(null)
         setDisplayName(null)
+        setRole(null)
     }
 
     const updateDisplayName = async (name: string) => {
@@ -90,6 +102,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 userId,
                 email,
                 displayName,
+                role,
+                isAdmin: role === "admin",
                 isLoading,
                 isAuthenticated: !!user,
                 login,
