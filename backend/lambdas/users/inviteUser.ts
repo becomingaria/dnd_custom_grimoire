@@ -54,7 +54,8 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (
         if (!groupList.includes("Admin")) return forbiddenResponse()
 
         // ─── Validate body ────────────────────────────────────────────────────────
-        if (!event.body) return validationErrorResponse("Request body is required")
+        if (!event.body)
+            return validationErrorResponse("Request body is required")
 
         const body = JSON.parse(event.body) as { email?: string }
         const email = (body.email ?? "").trim().toLowerCase()
