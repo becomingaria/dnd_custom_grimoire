@@ -116,7 +116,9 @@ export default function CharacterDetailPage() {
                     </div>
 
                     {/* Stats */}
-                    <div className='mt-5 grid grid-cols-4 gap-3'>
+                    <div
+                        className={`mt-5 grid gap-3 ${!!character.totalSanity ? "grid-cols-4" : "grid-cols-3"}`}
+                    >
                         {[
                             {
                                 icon: Shield,
@@ -127,20 +129,18 @@ export default function CharacterDetailPage() {
                             {
                                 icon: BookOpen,
                                 label: "Known",
-                                value: character.knownSpellIds.length,
+                                value: character.totalKnownSpells
+                                    ? `${character.knownSpellIds.length}/${character.totalKnownSpells}`
+                                    : character.knownSpellIds.length,
                                 color: "text-grimoire-accent",
                             },
                             {
                                 icon: Star,
                                 label: "Prepared",
-                                value: character.preparedSpellIds.length,
+                                value: character.totalSpellsPrepared
+                                    ? `${character.preparedSpellIds.length}/${character.totalSpellsPrepared}`
+                                    : character.preparedSpellIds.length,
                                 color: "text-yellow-400",
-                            },
-                            {
-                                icon: Shield,
-                                label: "Save DC",
-                                value: character.spellSaveDC ?? "—",
-                                color: "text-green-400",
                             },
                         ].map(({ icon: Icon, label, value, color }) => (
                             <div
@@ -158,45 +158,17 @@ export default function CharacterDetailPage() {
                                 </span>
                             </div>
                         ))}
+                        {!!character.totalSanity && (
+                            <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 p-3 text-center'>
+                                <span className='font-mono text-2xl font-bold text-purple-400'>
+                                    {character.totalSanity}
+                                </span>
+                                <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
+                                    Sanity
+                                </span>
+                            </div>
+                        )}
                     </div>
-
-                    {/* Optional totals row */}
-                    {(!!character.totalKnownSpells ||
-                        !!character.totalSpellsPrepared ||
-                        !!character.totalSanity) && (
-                        <div className='mt-3 flex flex-wrap gap-3'>
-                            {!!character.totalKnownSpells && (
-                                <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 px-4 py-2 text-center'>
-                                    <span className='font-mono text-xl font-bold text-grimoire-accent'>
-                                        {character.totalKnownSpells}
-                                    </span>
-                                    <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
-                                        Total Known
-                                    </span>
-                                </div>
-                            )}
-                            {!!character.totalSpellsPrepared && (
-                                <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 px-4 py-2 text-center'>
-                                    <span className='font-mono text-xl font-bold text-yellow-400'>
-                                        {character.totalSpellsPrepared}
-                                    </span>
-                                    <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
-                                        Total Prepared
-                                    </span>
-                                </div>
-                            )}
-                            {!!character.totalSanity && (
-                                <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 px-4 py-2 text-center'>
-                                    <span className='font-mono text-xl font-bold text-purple-400'>
-                                        {character.totalSanity}
-                                    </span>
-                                    <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
-                                        Total Sanity
-                                    </span>
-                                </div>
-                            )}
-                        </div>
-                    )}
 
                     {/* Info row */}
                     <div className='mt-4 flex flex-wrap gap-4 font-rajdhani text-sm text-grimoire-text-faint'>
@@ -215,6 +187,14 @@ export default function CharacterDetailPage() {
                                 Attack Bonus:{" "}
                                 <span className='text-grimoire-text-muted'>
                                     +{character.spellAttackBonus}
+                                </span>
+                            </span>
+                        )}
+                        {character.spellSaveDC != null && (
+                            <span>
+                                Spell Save DC:{" "}
+                                <span className='text-grimoire-text-muted'>
+                                    {character.spellSaveDC}
                                 </span>
                             </span>
                         )}
