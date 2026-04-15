@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { BookOpen, Users, Home, LogOut, Check } from "lucide-react"
+import { BookOpen, Users, Home, LogOut, Check, UserPlus } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 import Drawer from "@/components/shared/Drawer"
+import { inviteUser } from "@/api/users"
 
 const navLinks = [
     { to: "/", label: "Home", icon: Home },
@@ -13,15 +14,20 @@ const navLinks = [
 
 export default function Navbar() {
     const { pathname } = useLocation()
-    const { user, email, userId, displayName, updateDisplayName, logout } =
+    const { user, email, userId, displayName, isAdmin, updateDisplayName, logout } =
         useAuth()
     const [showProfile, setShowProfile] = useState(false)
     const [usernameInput, setUsernameInput] = useState("")
     const [isSavingName, setIsSavingName] = useState(false)
     const [nameError, setNameError] = useState<string | null>(null)
+    const [inviteEmail, setInviteEmail] = useState("")
+    const [isInviting, setIsInviting] = useState(false)
+    const [inviteResult, setInviteResult] = useState<{ ok: boolean; msg: string } | null>(null)
 
     function openProfile() {
         setUsernameInput(displayName ?? "")
+        setInviteEmail("")
+        setInviteResult(null)
         setShowProfile(true)
     }
 
@@ -37,6 +43,27 @@ export default function Navbar() {
             setNameError(msg)
         } finally {
             setIsSavingName(false)
+        }
+    }
+
+    async function handleInvite() {
+        const trimmed = inviteEmail.trim()
+        if (!trimmed) return
+        setIsInviting(true)
+        setInviteResult(null)
+        try {
+            const res = await inviteUser(trimmed)
+            const msg = res.created
+                ? `Invitation sent to ${res.email}`
+                : `Password reset and re-invite sent to ${res.email}`
+            setInviteResult({ ok: true, msg })
+            setInviteEmail("")
+        } catch (err: unknown) {
+            const msg =
+                err instanceof Error ? err.message : "Failed to send invite"
+            setInviteResult({ ok: false, msg })
+        } finally {
+            setIsInviting(false)
         }
     }
 
@@ -205,6 +232,58 @@ export default function Navbar() {
 
                     {/* Divider */}
                     <div className='w-full border-t border-grimoire-border' />
+
+                    {/* Admin: Invite User */}
+                    {isAdmin && (
+                        <div className='w-full space-y-2'>
+                            <p className='font-cinzel text-xs uppercase tracking-widest text-grimoire-text-faint'>
+                                Invite User
+                            </p>
+                            <div className='flex gap-2'>
+                                <input
+                                    type='email'
+                                    value={inviteEmail}
+                                    onChange={(e) => {
+                                        setInviteEmail(e.target.value)
+                                        setInviteResult(null)
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") void handleInvite()
+                                    }}
+                                    placeholder='email@example.com'
+                                    className='flex-1 rounded-lg border border-grimoire-border bg-grimoire-surface px-3 py-2 font-rajdhani text-sm text-grimoire-text-base placeholder-grimoire-text-faint outline-none transition-colors focus:border-grimoire-primary/60'
+                                />
+                                <motion.button
+                                    onClick={() => void handleInvite()}
+                                    disabled={isInviting || !inviteEmail.trim()}
+                                    className='flex items-center justify-center rounded-lg border border-grimoire-primary/40 bg-grimoire-primary/10 px-3 text-grimoire-primary-light transition-colors hover:bg-grimoire-primary/20 disabled:opacity-40'
+                                    whileTap={{ scale: 0.95 }}
+                                    title='Send invite'
+                                >
+                                    <UserPlus size={15} />
+                                </motion.button>
+                            </div>
+                            <AnimatePresence>
+                                {inviteResult && (
+                                    <motion.p
+                                        key='invite-result'
+                                        className={`font-rajdhani text-xs ${
+                                            inviteResult.ok
+                                                ? "text-emerald-400"
+                                                : "text-grimoire-danger"
+                                        }`}
+                                        initial={{ opacity: 0, y: -4 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0 }}
+                                    >
+                                        {inviteResult.msg}
+                                    </motion.p>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    )}
+
+                    {isAdmin && <div className='w-full border-t border-grimoire-border' />}
 
                     {/* Sign out */}
                     <motion.button

@@ -35,6 +35,7 @@ interface SpellFormProps {
     onCancel?: () => void
     isLoading?: boolean
     existingSources?: string[]
+    isAdmin?: boolean
 }
 
 const fieldClass =
@@ -49,6 +50,7 @@ export default function SpellForm({
     onCancel,
     isLoading,
     existingSources = [],
+    isAdmin = false,
 }: SpellFormProps) {
     const {
         register,
@@ -105,14 +107,18 @@ export default function SpellForm({
     }
 
     const handleFormSubmit = (data: SpellFormData) => {
-        const isNewSource =
-            data.source.trim() !== "" &&
-            !existingSources.includes(data.source.trim())
-        if (isNewSource) {
-            const confirmed = window.confirm(
-                `"${data.source.trim()}" would be the first spell from this source — is that correct?`,
-            )
-            if (!confirmed) return
+        if (!isAdmin) {
+            data.source = "Homebrew"
+        } else {
+            const isNewSource =
+                data.source.trim() !== "" &&
+                !existingSources.includes(data.source.trim())
+            if (isNewSource) {
+                const confirmed = window.confirm(
+                    `"${data.source.trim()}" would be the first spell from this source — is that correct?`,
+                )
+                if (!confirmed) return
+            }
         }
 
         const input: CreateSpellInput = {
@@ -214,18 +220,31 @@ export default function SpellForm({
                 </div>
                 <div>
                     <label className={labelClass}>Source</label>
-                    <input
-                        className={fieldClass}
-                        placeholder="e.g. Player's Handbook"
-                        list='source-suggestions'
-                        {...register("source")}
-                    />
-                    {existingSources.length > 0 && (
-                        <datalist id='source-suggestions'>
-                            {existingSources.map((s) => (
-                                <option key={s} value={s} />
-                            ))}
-                        </datalist>
+                    {isAdmin ? (
+                        <>
+                            <input
+                                className={fieldClass}
+                                placeholder="e.g. Player's Handbook"
+                                list='source-suggestions'
+                                {...register("source")}
+                            />
+                            {existingSources.length > 0 && (
+                                <datalist id='source-suggestions'>
+                                    {existingSources.map((s) => (
+                                        <option key={s} value={s} />
+                                    ))}
+                                </datalist>
+                            )}
+                        </>
+                    ) : (
+                        <div className='flex items-center gap-2 rounded-lg border border-grimoire-border/40 bg-grimoire-surface/50 px-3 py-2.5'>
+                            <span className='font-rajdhani text-sm text-grimoire-text-muted'>
+                                Homebrew
+                            </span>
+                            <span className='ml-auto font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
+                                locked
+                            </span>
+                        </div>
                     )}
                 </div>
             </div>

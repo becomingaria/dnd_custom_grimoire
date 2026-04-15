@@ -54,10 +54,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const nameClaim = session.tokens?.idToken?.payload?.name as
                 | string
                 | undefined
-            const groups = session.tokens?.idToken?.payload?.["cognito:groups"] as
-                | string[]
-                | undefined
-            const resolvedRole: UserRole = groups?.includes("Admin") ? "admin" : "user"
+            const groups = session.tokens?.idToken?.payload?.[
+                "cognito:groups"
+            ] as string[] | undefined
+            const resolvedRole: UserRole = groups?.includes("Admin")
+                ? "admin"
+                : "user"
             setUser(currentUser)
             setUserId(sub ?? null)
             setEmail(emailClaim ?? currentUser.username ?? null)

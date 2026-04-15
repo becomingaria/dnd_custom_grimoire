@@ -13,3 +13,13 @@ export async function setUsername(
         oldUsername: oldUsername ?? "",
     })
 }
+
+export interface InviteUserResponse {
+    email: string
+    created: boolean
+    reset?: boolean
+}
+
+export async function inviteUser(email: string): Promise<InviteUserResponse> {
+    return apiClient.post<InviteUserResponse>("/users/invite", { email })
+}

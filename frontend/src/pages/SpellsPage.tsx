@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { UserPlus, Check } from "lucide-react"
 import { useSpells, useCreateSpell } from "@/hooks/useSpells"
 import { useCharacters, useAddKnownSpell } from "@/hooks/useCharacters"
+import { useAuth } from "@/context/AuthContext"
 import SpellList from "@/components/spells/SpellList"
 import Drawer from "@/components/shared/Drawer"
 import SpellForm from "@/components/spells/SpellForm"
@@ -19,6 +20,8 @@ export default function SpellsPage() {
         string | null
     >(null)
     const [addConfirmation, setAddConfirmation] = useState("")
+
+    const { isAdmin } = useAuth()
 
     const { data: spells = [], isLoading } = useSpells()
     const { data: characters = [] } = useCharacters()
@@ -167,6 +170,7 @@ export default function SpellsPage() {
                     onCancel={() => setShowCreate(false)}
                     isLoading={createSpell.isPending}
                     existingSources={existingSources}
+                    isAdmin={isAdmin}
                 />
             </Drawer>
         </>

@@ -170,6 +170,20 @@ export class ApiConstruct extends Construct {
             },
         )
 
+        const inviteUserFn = new lambdaNodejs.NodejsFunction(
+            this,
+            "InviteUser",
+            {
+                ...commonProps,
+                functionName: "grimoire-invite-user",
+                entry: path.join(lambdaDir, "users/inviteUser.ts"),
+                environment: {
+                    ...commonEnv,
+                    USER_POOL_ID: userPool.userPoolId,
+                },
+            },
+        )
+
         // ─── DynamoDB Permissions ─────────────────────────────────────────────────
         spellsTable.grantReadWriteData(createSpellFn)
         spellsTable.grantReadData(listSpellsFn)
@@ -188,6 +202,17 @@ export class ApiConstruct extends Construct {
             new iam.PolicyStatement({
                 effect: iam.Effect.ALLOW,
                 actions: ["cognito-idp:AdminUpdateUserAttributes"],
+                resources: [userPool.userPoolArn],
+            }),
+        )
+
+        inviteUserFn.addToRolePolicy(
+            new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
+                actions: [
+                    "cognito-idp:AdminCreateUser",
+                    "cognito-idp:AdminSetUserPassword",
+                ],
                 resources: [userPool.userPoolArn],
             }),
         )
@@ -330,6 +355,16 @@ export class ApiConstruct extends Construct {
             integration: new apigatewayv2Integrations.HttpLambdaIntegration(
                 "SetUsernameInt",
                 setUsernameFn,
+            ),
+            authorizer,
+        })
+
+        this.httpApi.addRoutes({
+            path: "/users/invite",
+            methods: [apigatewayv2.HttpMethod.POST],
+            integration: new apigatewayv2Integrations.HttpLambdaIntegration(
+                "InviteUserInt",
+                inviteUserFn,
             ),
             authorizer,
         })
