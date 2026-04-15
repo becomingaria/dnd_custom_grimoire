@@ -1094,7 +1094,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                     </AnimatePresence>
 
                     {/* Results */}
-                    <div className='space-y-1'>
+                    <div className='space-y-4'>
                         {addableSuggestions.length === 0 ? (
                             <p className='py-6 text-center font-rajdhani text-grimoire-text-faint'>
                                 {addSearch || hasActiveFilters
@@ -1102,91 +1102,119 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                     : "All spells already added."}
                             </p>
                         ) : (
-                            addableSuggestions.map((spell) => {
-                                const isPending = pendingSpellIds.has(
-                                    spell.spellId,
+                            (() => {
+                                const grouped = groupByLevel(addableSuggestions)
+                                const levels = Array.from(grouped.keys()).sort(
+                                    (a, b) => a - b,
                                 )
-                                return (
-                                    <motion.button
-                                        key={spell.spellId}
-                                        className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
-                                            isPending
-                                                ? "border-grimoire-primary/60 bg-grimoire-primary/15"
-                                                : "border-grimoire-border/60 bg-grimoire-card/60 hover:bg-grimoire-primary/10 hover:border-grimoire-primary/40"
-                                        }`}
-                                        whileHover={{ x: 2 }}
-                                        onClick={() =>
-                                            togglePending(spell.spellId)
-                                        }
-                                    >
-                                        {/* Checkbox */}
-                                        <span className='flex-shrink-0'>
-                                            <AnimatePresence
-                                                mode='wait'
-                                                initial={false}
-                                            >
-                                                {isPending ? (
-                                                    <motion.span
-                                                        key='checked'
-                                                        className='flex h-5 w-5 items-center justify-center rounded-full bg-blue-500'
-                                                        initial={{
-                                                            scale: 0.5,
-                                                            opacity: 0,
-                                                        }}
-                                                        animate={{
-                                                            scale: 1,
-                                                            opacity: 1,
-                                                        }}
-                                                        exit={{
-                                                            scale: 0.5,
-                                                            opacity: 0,
-                                                        }}
-                                                        transition={{
-                                                            duration: 0.12,
-                                                        }}
-                                                    >
-                                                        <Check
-                                                            size={11}
-                                                            strokeWidth={3}
-                                                            className='text-white'
-                                                        />
-                                                    </motion.span>
-                                                ) : (
-                                                    <motion.span
-                                                        key='unchecked'
-                                                        className='flex h-5 w-5 items-center justify-center rounded-full border-2 border-grimoire-border/60'
-                                                        initial={{
-                                                            scale: 0.5,
-                                                            opacity: 0,
-                                                        }}
-                                                        animate={{
-                                                            scale: 1,
-                                                            opacity: 1,
-                                                        }}
-                                                        exit={{
-                                                            scale: 0.5,
-                                                            opacity: 0,
-                                                        }}
-                                                        transition={{
-                                                            duration: 0.12,
-                                                        }}
-                                                    />
-                                                )}
-                                            </AnimatePresence>
-                                        </span>
-                                        <SchoolBadge
-                                            school={spell.school}
-                                            size='xs'
-                                        />
-                                        <span className='flex-1 font-rajdhani font-semibold text-grimoire-text-base'>
-                                            {spell.name}
-                                        </span>
-                                        <span className='font-rajdhani text-xs text-grimoire-text-faint'>
-                                            {spellLevelLabel(spell.level)}
-                                        </span>
-                                    </motion.button>
-                                )
-                            })
+                                return levels.map((level) => {
+                                    const spells = grouped.get(level)!
+                                    return (
+                                        <div key={level}>
+                                            <h4 className='mb-1.5 font-cinzel text-[10px] uppercase tracking-widest text-grimoire-text-faint border-b border-grimoire-border/40 pb-1'>
+                                                {spellLevelLabel(level)}
+                                            </h4>
+                                            <div className='space-y-1'>
+                                                {spells.map((spell) => {
+                                                    const isPending =
+                                                        pendingSpellIds.has(
+                                                            spell.spellId,
+                                                        )
+                                                    return (
+                                                        <motion.button
+                                                            key={spell.spellId}
+                                                            className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
+                                                                isPending
+                                                                    ? "border-grimoire-primary/60 bg-grimoire-primary/15"
+                                                                    : "border-grimoire-border/60 bg-grimoire-card/60 hover:bg-grimoire-primary/10 hover:border-grimoire-primary/40"
+                                                            }`}
+                                                            whileHover={{
+                                                                x: 2,
+                                                            }}
+                                                            onClick={() =>
+                                                                togglePending(
+                                                                    spell.spellId,
+                                                                )
+                                                            }
+                                                        >
+                                                            {/* Checkbox */}
+                                                            <span className='flex-shrink-0'>
+                                                                <AnimatePresence
+                                                                    mode='wait'
+                                                                    initial={
+                                                                        false
+                                                                    }
+                                                                >
+                                                                    {isPending ? (
+                                                                        <motion.span
+                                                                            key='checked'
+                                                                            className='flex h-5 w-5 items-center justify-center rounded-full bg-blue-500'
+                                                                            initial={{
+                                                                                scale: 0.5,
+                                                                                opacity: 0,
+                                                                            }}
+                                                                            animate={{
+                                                                                scale: 1,
+                                                                                opacity: 1,
+                                                                            }}
+                                                                            exit={{
+                                                                                scale: 0.5,
+                                                                                opacity: 0,
+                                                                            }}
+                                                                            transition={{
+                                                                                duration: 0.12,
+                                                                            }}
+                                                                        >
+                                                                            <Check
+                                                                                size={
+                                                                                    11
+                                                                                }
+                                                                                strokeWidth={
+                                                                                    3
+                                                                                }
+                                                                                className='text-white'
+                                                                            />
+                                                                        </motion.span>
+                                                                    ) : (
+                                                                        <motion.span
+                                                                            key='unchecked'
+                                                                            className='flex h-5 w-5 items-center justify-center rounded-full border-2 border-grimoire-border/60'
+                                                                            initial={{
+                                                                                scale: 0.5,
+                                                                                opacity: 0,
+                                                                            }}
+                                                                            animate={{
+                                                                                scale: 1,
+                                                                                opacity: 1,
+                                                                            }}
+                                                                            exit={{
+                                                                                scale: 0.5,
+                                                                                opacity: 0,
+                                                                            }}
+                                                                            transition={{
+                                                                                duration: 0.12,
+                                                                            }}
+                                                                        />
+                                                                    )}
+                                                                </AnimatePresence>
+                                                            </span>
+                                                            <SchoolBadge
+                                                                school={
+                                                                    spell.school
+                                                                }
+                                                                size='xs'
+                                                            />
+                                                            <span className='flex-1 font-rajdhani font-semibold text-grimoire-text-base'>
+                                                                {spell.name}
+                                                            </span>
+                                                        </motion.button>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            })()
                         )}
                     </div>
                 </div>

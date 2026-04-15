@@ -15,6 +15,10 @@
         "seed:xgte": "ts-node --project tsconfig.json scripts/seed-improved-initiative.ts seed/xanathar-spells.json XGtE",
         "seed:tcoe": "ts-node --project tsconfig.json scripts/seed-improved-initiative.ts seed/tashas-spells.json TCoE",
         "seed:expanded": "npm run seed:xgte && npm run seed:tcoe",
+        "patch:artificer": "ts-node --project tsconfig.json scripts/patch-artificer-classes.ts",
+        "patch:artificer:dry": "ts-node --project tsconfig.json scripts/patch-artificer-classes.ts --dry-run",
+        "seed:atow": "ts-node --project tsconfig.json scripts/seed-custom-sourcebook.ts \"seed/Az Tome of Witchcraft.json\" AToW",
+        "seed:atow:dry": "ts-node --project tsconfig.json scripts/seed-custom-sourcebook.ts \"seed/Az Tome of Witchcraft.json\" AToW --dry-run",
         "create-users": "ts-node --project tsconfig.json scripts/create-users.ts"
     },
     "devDependencies": {

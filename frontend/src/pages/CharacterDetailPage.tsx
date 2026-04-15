@@ -160,6 +160,44 @@ export default function CharacterDetailPage() {
                         ))}
                     </div>
 
+                    {/* Optional totals row */}
+                    {(!!character.totalKnownSpells ||
+                        !!character.totalSpellsPrepared ||
+                        !!character.totalSanity) && (
+                        <div className='mt-3 flex flex-wrap gap-3'>
+                            {!!character.totalKnownSpells && (
+                                <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 px-4 py-2 text-center'>
+                                    <span className='font-mono text-xl font-bold text-grimoire-accent'>
+                                        {character.totalKnownSpells}
+                                    </span>
+                                    <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
+                                        Total Known
+                                    </span>
+                                </div>
+                            )}
+                            {!!character.totalSpellsPrepared && (
+                                <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 px-4 py-2 text-center'>
+                                    <span className='font-mono text-xl font-bold text-yellow-400'>
+                                        {character.totalSpellsPrepared}
+                                    </span>
+                                    <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
+                                        Total Prepared
+                                    </span>
+                                </div>
+                            )}
+                            {!!character.totalSanity && (
+                                <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 px-4 py-2 text-center'>
+                                    <span className='font-mono text-xl font-bold text-purple-400'>
+                                        {character.totalSanity}
+                                    </span>
+                                    <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
+                                        Total Sanity
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {/* Info row */}
                     <div className='mt-4 flex flex-wrap gap-4 font-rajdhani text-sm text-grimoire-text-faint'>
                         <span>

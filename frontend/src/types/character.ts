@@ -34,6 +34,9 @@ export interface Character {
     spellcastingAbility: SpellcastingAbility
     spellSaveDC?: number | null
     spellAttackBonus?: number | null
+    totalKnownSpells?: number | null
+    totalSpellsPrepared?: number | null
+    totalSanity?: number | null
     notes?: string
     createdAt: string
     updatedAt: string

@@ -14,6 +14,9 @@ const schema = z.object({
     spellcastingAbility: z.enum(["INT", "WIS", "CHA"]),
     spellSaveDC: z.coerce.number().int().min(1).max(30).optional(),
     spellAttackBonus: z.coerce.number().int().min(-5).max(20).optional(),
+    totalKnownSpells: z.coerce.number().int().min(0).max(999).optional(),
+    totalSpellsPrepared: z.coerce.number().int().min(0).max(999).optional(),
+    totalSanity: z.coerce.number().int().min(0).max(999).optional(),
     notes: z.string().max(2000).optional(),
 })
 
@@ -58,6 +61,9 @@ export default function CharacterForm({
                       | "CHA",
                   spellSaveDC: initial.spellSaveDC ?? undefined,
                   spellAttackBonus: initial.spellAttackBonus ?? undefined,
+                  totalKnownSpells: initial.totalKnownSpells ?? undefined,
+                  totalSpellsPrepared: initial.totalSpellsPrepared ?? undefined,
+                  totalSanity: initial.totalSanity ?? undefined,
                   notes: initial.notes ?? "",
               }
             : {
@@ -92,6 +98,9 @@ export default function CharacterForm({
             spellcastingAbility: data.spellcastingAbility,
             spellSaveDC: data.spellSaveDC,
             spellAttackBonus: data.spellAttackBonus,
+            totalKnownSpells: data.totalKnownSpells,
+            totalSpellsPrepared: data.totalSpellsPrepared,
+            totalSanity: data.totalSanity,
             notes: data.notes || undefined,
             // Preserve existing spellbook state when editing.
             knownSpellIds: initial?.knownSpellIds ?? [],
@@ -207,6 +216,61 @@ export default function CharacterForm({
                         placeholder='+6'
                     />
                     {error("spellAttackBonus")}
+                </div>
+            </div>
+
+            {/* Totals */}
+            <div className='grid grid-cols-3 gap-4'>
+                <div>
+                    <label className={labelClass}>
+                        Total Known Spells{" "}
+                        <span className='normal-case tracking-normal font-normal text-grimoire-text-faint'>
+                            (optional)
+                        </span>
+                    </label>
+                    <input
+                        {...register("totalKnownSpells")}
+                        type='number'
+                        min={0}
+                        max={999}
+                        className={fieldClass}
+                        placeholder='e.g. 15'
+                    />
+                    {error("totalKnownSpells")}
+                </div>
+                <div>
+                    <label className={labelClass}>
+                        Total Prepared{" "}
+                        <span className='normal-case tracking-normal font-normal text-grimoire-text-faint'>
+                            (optional)
+                        </span>
+                    </label>
+                    <input
+                        {...register("totalSpellsPrepared")}
+                        type='number'
+                        min={0}
+                        max={999}
+                        className={fieldClass}
+                        placeholder='e.g. 8'
+                    />
+                    {error("totalSpellsPrepared")}
+                </div>
+                <div>
+                    <label className={labelClass}>
+                        Total Sanity{" "}
+                        <span className='normal-case tracking-normal font-normal text-grimoire-text-faint'>
+                            (optional)
+                        </span>
+                    </label>
+                    <input
+                        {...register("totalSanity")}
+                        type='number'
+                        min={0}
+                        max={999}
+                        className={fieldClass}
+                        placeholder='e.g. 50'
+                    />
+                    {error("totalSanity")}
                 </div>
             </div>
 

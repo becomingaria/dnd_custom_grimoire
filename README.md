@@ -130,3 +130,4 @@ All endpoints require a valid Cognito JWT Bearer token.
 - Non-homebrew spells seeded from the SRD are visible to all users.
 - Homebrew spells are private to the creating user.
 - Characters and their spellbooks are private to the owning user.
+- [Live Site](https://dndcustomgrimoire.netlify.app)

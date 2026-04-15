@@ -1,0 +1,1417 @@
+{
+  "source": "Az Tome of Witchcraft",
+  "total_spells": 88,
+  "spells": [
+    {
+      "name": "Force Bolt",
+      "level": 0,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You create a small bolt of force and project it towards a creature you can see within range. Make a ranged spell attack against the target. On a hit, the bolt deals 1d4 force damage. This spell creates one bolt of force at its base level, and its damage increases as you reach higher levels. At 5th level, the spell creates two bolts of force. At 11th level, it creates three bolts of force. At 17th level, it creates four bolts of force."
+    },
+    {
+      "name": "Caroling Runes",
+      "level": 1,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a musical instrument)",
+      "duration": "1 minute",
+      "classes": [
+        "Bard"
+      ],
+      "description": "You play a festive tune on a musical instrument, you can inscribe up to three magical runes in the air within range, each of which can have a different effect. These runes last for the duration of the spell or until dismissed. • Joyful Rune: Creatures within 10 feet of this rune gain temporary hit points equal to your spellcasting ability modifier at the start of their turn. • Inspiring Rune: Creatures within 10 feet of this rune gain advantage on attack rolls and saving throws against fear effects. • Festive Rune: Creatures within 10 feet of this rune are immune to being frightened or charmed, and they gain resistance to psychic damage.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, you can inscribe one additional rune for each level above 1st."
+    },
+    {
+      "name": "Consciousness Calls",
+      "level": 1,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Paladin"
+      ],
+      "description": "You project a surge of psychic energy towards a creature you can see within range that you know has committed a wrongful act. The target must succeed on a Wisdom saving throw or take 2d8 psychic damage and feel an overwhelming sense of guilt and remorse, causing disadvantage on the next ability check, attack roll, or saving throw it makes before the end of its next turn.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the psychic damage increases by 1d8 for each slot level above 1st."
+    },
+    {
+      "name": "Earsplitting",
+      "level": 1,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Self (15-foot cone)",
+      "components": "V",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You let out a piercing scream that shatters the air around you. Each creature in a 15-foot cone originating from you must make a Constitution saving throw. On a failed save, a creature takes 2d6 thunder damage and is deafened for 1 minute. On a successful save, the creature takes half as much damage and isn't deafened.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d6 for each slot level above 1st."
+    },
+    {
+      "name": "Forestall",
+      "level": 1,
+      "school": "Abjuration",
+      "casting_time": "1 reaction, when you see a creature within 60 feet of you moving towards you or",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You conjure a magical force that impedes the progress of an approaching enemy. The targeted creature must make a Strength saving throw. On a failed save, its speed is reduced by 1d6 times 5 feet until the end of its turn. On a successful save, its speed is not affected.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the distance the creature's speed is reduced increases by 5 feet for each level above 1st."
+    },
+    {
+      "name": "Healing Rune",
+      "level": 1,
+      "school": "Abjuration",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a small crystal or gemstone worth at least 5 gp that she spell consumes)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Wizards"
+      ],
+      "description": "You inscribe a healing rune on an object you touch. All creatures that end their next turn within 10 feet of the rune regain hit points equaling 1d8 + your spellcasting ability modifier.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d8 for each slot level above 1st."
+    },
+    {
+      "name": "Lover's Croon",
+      "level": 1,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "1 minute",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Paladin",
+        "Ranger",
+        "Sorcerer",
+        "Warlock"
+      ],
+      "description": "You sing a soft and sweet melody that fills your surroundings and enchants the hearts of those who hear it. For the duration, creatures within 30 feet of you who can hear your singing must make a Wisdom saving throw or become charmed by you. If a creature succeeds on the saving throw, it is immune to the effects of this spell for 24 hours. While charmed by you, a creature has disadvantage on attacks made against you and cannot willingly move away from you. However, the charm ends immediately if you or one of your allies attacks the creature, or if it takes any damage.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the range of the spell increases by 10 feet for each level above 1st. Additionally, you gain a bonus to your Charisma (Performance) checks equal to the spell slot level used to cast the spell."
+    },
+    {
+      "name": "Quackle",
+      "level": 1,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You weave a spell that causes a creature within range to be afflicted with an uncontrollable urge to quack like a duck. The target must make a Charisma saving throw. On a failed save, the target loses the ability to speak and can only quack like a duck for the spell's duration. The target is still able to cast spells, but only those with no verbal components.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st."
+    },
+    {
+      "name": "Quickened Smite",
+      "level": 1,
+      "school": "Evocation",
+      "casting_time": "1 bonus action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Paladin"
+      ],
+      "description": "You channel divine energy into your legs, allowing you to move with incredible speed. For the duration, your movement speed increases by 10 feet, and your melee weapon attacks deal additional 1d4 radiant damage. This additional damage is considered magical.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the extra damage increases by 1d4, and movement by and additional 5 feet, for each level above 1st."
+    },
+    {
+      "name": "Swift Strike",
+      "level": 1,
+      "school": "Transmutation",
+      "casting_time": "1 bonus action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 round",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Paladin",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You imbue yourself with a momentary burst of speed and precision, allowing you to strike with increased accuracy. Until your next weapon attack hits, you gain advantage on melee and ranged attack rolls made with weapons and unarmed strikes. If an attack hits, it deals an extra 1d4 damage of the weapon's damage type and this spell ends.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the extra damage increases by 1d4 for each slot level above 1st."
+    },
+    {
+      "name": "Taste Magic",
+      "level": 1,
+      "school": "Divination",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Warlock"
+      ],
+      "description": "You touch an object and lick it, gaining knowledge of its magical properties, if any. If the object is magical, you learn its school of magic (if any). If the object is not magical, you learn that it is not enchanted."
+    },
+    {
+      "name": "Thirst",
+      "level": 1,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a gram of salt)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock"
+      ],
+      "description": "You conjure a supernatural thirst within yourself, drawing life force from those around you to heal your wounds. For the duration of the spell, you gain the following benefits: • You have advantage on melee attack rolls against creatures that have blood. • When you deal damage to a creature that has blood, you regain hit points equal to half the damage dealt (rounded down). • You can use your bonus action to make a melee attack against a creature that has blood and is within 5 feet of you. You suffer one level of exhaustion at the end of the spell's duration."
+    },
+    {
+      "name": "Watchlist",
+      "level": 1,
+      "school": "Divination",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a small pen or quill)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Paladin",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You cast this spell to access the watchlist. The watchlist is a library of illusory scrolls recorded in a spectral vault on a demiplane that can only be accessed by the watchlist spell. You may access the watchlist with this spell to do one of the following: • You may also use the spell to add a new message to the watchlist, recording a message of up to 300 words and giving it a title. • You may check a watchlist, summoning a spectral scroll containing all of the information requested from the designated title on the watchlist. • You may also use the spell to update a message from the watchlist by the designated title as long as you created the message or have been granted permission by the caster who created the message. • You may also remove an item from the watchlist by the designated title as long as you created the message or have been granted permission by the caster who created the message.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, you may record a message of up to an additional 100 words per spell slot level above 1st."
+    },
+    {
+      "name": "Winter's Breath",
+      "level": 1,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "1 minute",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You touch a creature and channel the icy powers of winter to heal their wounds. The target regains 2d8 hit points and gains temporary hit points equal to the amount healed. However, the target's movement speed is halved until the end of their next turn and they become vulnerable to fire damage for the next minute.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the amount of healing increases by 1d8 for each slot level above 1st."
+    },
+    {
+      "name": "Beast Think",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a tuft of fur or feather from a wild animal)",
+      "duration": "1 hour",
+      "classes": [
+        "Druid",
+        "Ranger"
+      ],
+      "description": "You bestow noble bestial instincts upon a willing creature you touch. For the duration of the spell, the creature gains a +10 bonus to Survival, Medicine, and Nature checks."
+    },
+    {
+      "name": "Bewitching Cheese",
+      "level": 2,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "Self (30-foot radius)",
+      "components": "V, S, M (a small piece of cheese)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You create a delicious, irresistible aroma of freshly made cheese that spreads within a 30-foot radius of you. Creatures within the radius must succeed on a Wisdom saving throw or become charmed by the scent. Charmed creatures will be drawn towards the source of the smell and will do whatever they can to obtain and consume the cheese. This could include leaving their posts, abandoning their allies, or even putting themselves in danger. The charm effect ends if the affected creature takes any damage or if someone uses an action to snap them out of the trance. While under the influence of this spell, a creature gains temporary hit points equal to your spellcasting ability modifier (minimum of 1).",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the radius of the cheese's scent increases by 10 feet for every level above 2nd. Additionally, the temporary hit points increase by 1d6 for each level above 2nd."
+    },
+    {
+      "name": "Brick Break",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You touch an object made of non-magical stone, metal, or wood, and cause it to crumble and break apart. The object can be no larger than a 5-foot cube, and must not be worn or carried. The object takes 3d12 damage, if it takes damage equal to or greater than its hit points it is destroyed . (If the object is a typical wooden door or a similar obstacle, it is considered to have an AC of 15 and 18 hit points). This spell does not affect objects made of precious metals, gems, or magical materials. Additionally, the spell has no effect on creatures or structures made of multiple objects.",
+      "at_higher_levels": "If you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d12 per level of the spell slot above 2nd."
+    },
+    {
+      "name": "Bumfuzzle",
+      "level": 2,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "1 minute",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You attempt to baffle and confound a creature within range. The target must make a Wisdom saving throw. On a failed save, the target is bewildered and disoriented, causing it to have disadvantage on ability checks, attack rolls, and saving throws until the spell ends. Additionally, the target can't take reactions. At the end of each of its turns, the target can make another Wisdom saving throw. On a successful save, the spell ends. If the target takes any damage, it can immediately make another saving throw to end the spell."
+    },
+    {
+      "name": "Creations of Chaos",
+      "level": 2,
+      "school": "Illusion",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a small vial of ink and a brush)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You create illusory creatures or objects that appear within range. You can create one Large creature, two Medium creatures, four Small creatures, or eight Tiny creatures. Alternatively, you can create a single object no larger than a 10-foot cube. The creatures or objects are chaotic in appearance and behavior, with unnatural coloration, strange appendages, and random movements. They appear to be made of a shifting, shimmering substance that makes them difficult to focus on. The illusionary creatures or objects do not have any actual physical presence or substance, and they cannot harm creatures or objects. However, they can make noises, emit smells, and have other sensory effects. For example, an illusory dragon might roar, while a column of illusory fire might radiate heat. Any creature that interacts with the illusory creatures or objects must make an Intelligence (Investigation) check against your spell save DC. On a successful check, the creature realizes that the creatures or objects are illusory and the spell ends for them. On a failed check, the creature continues to perceive the illusory creatures or objects as real.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, you can create an additional Large creature (or equivalent) or object for each slot level above 2nd."
+    },
+    {
+      "name": "Empowered Boom",
+      "level": 2,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a bag of peppermint tea worth 1 gold piece which the spell consumes)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You infuse yourself with magical energy, causing your voice to boom with incredible power. For the duration of the spell, all of your spells with a verbal component have their range increased by 30 feet (spells with an Area originating from the range of Self can originate from a point within 30 feet of you), and their damage/healing dice are increased by one step (for example, a d6 becomes a d8, a d8 becomes a d10, and so on). In addition, whenever you cast a spell that deals thunder damage, you can spend a bonus action to double the spell's damage.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the range of your verbal spells increases by an additional 30 feet for each slot level above 2nd, and the damage dice of your spells increase by an additional step for each slot level above 2nd."
+    },
+    {
+      "name": "Eye Rune",
+      "level": 2,
+      "school": "Abjuration",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (tiny glass eye inscribed with a small rune)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Warlock"
+      ],
+      "description": "You touch a willing creature and inscribe a rune on its forehead, granting it enhanced vision. For the duration, the creature gains darkvision out to 60 feet, and it can see invisible creatures and objects within that range. Additionally, the creature has advantage on Wisdom (Perception) checks that rely on sight.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the range of the creature's darkvision increases by 30 feet for each slot level above 1st."
+    },
+    {
+      "name": "Fey Moss",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a pinch of fey dust)",
+      "duration": "1 hour",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Ranger"
+      ],
+      "description": "You touch a patch of moss or other natural plant life, causing it to become infused with the magic of the Feywild. The plant gains a faint, otherworldly glow and becomes imbued with magical properties. While the spell is active, the affected plant grants benefits to creatures within 5 feet of it. These benefits depend on the type of plant affected: • Moss: Creatures within 5 feet of the moss gain advantage on Stealth checks. • Grass: Creatures within 5 feet of the grass gain advantage on Athletics checks. • Vines: Creatures within 5 feet of the vines gain advantage on Acrobatics checks. Additionally, the affected plant becomes resistant to damage and difficult to destroy. It gains resistance to all damage types and its AC increases by 2. If the plant is targeted by a spell that would cause it to wither or die, the caster must make a Wisdom saving throw (DC equal to your spell save DC) or the spell has no effect.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the duration of the spell increases by 1 hour for each slot level above 2nd."
+    },
+    {
+      "name": "Fire Bloom",
+      "level": 2,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "60 feet (10-foot radius)",
+      "components": "V, S, M (a tiny ball of bat guano and sulfur)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You hurl a small ball of fire that explodes into a blast of flames in a 10-foot radius centered on a point within range. Each creature in the area must make a Dexterity saving throw, taking 3d6 fire damage on a failed save, or half as much damage on a successful one. If a creature fails the saving throw by 5 or more, it is also knocked back 10 feet away from the center of the blast.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd."
+    },
+    {
+      "name": "Flood of Warmth",
+      "level": 2,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Cleric",
+        "Druid",
+        "Paladin",
+        "Ranger"
+      ],
+      "description": "You flood yourself with a warm, comforting energy, which radiates outwards in a 30-foot radius. For the duration of the spell, all creatures of your choice within the radius gain temporary hit points equal to 1d6 plus your spellcasting ability modifier at the start of their turns. Additionally, creatures within the radius are immune to the effects of extreme cold and gain resistance to cold damage.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the temporary hit points increase by 1d6 for each level above 2nd."
+    },
+    {
+      "name": "Garbage Collector",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a pair of nose plugs)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Wizard"
+      ],
+      "description": "You create a burst of magical energy that causes all non-magical objects and debris within a 20- foot cube you choose to vanish to the Astral Plane. This includes discarded items, garbage, rubble, and other refuse. The area is left clean and free of debris. If you cast this spell at a higher level, the range and size of the affected area increase as follows: • When cast using a 3rd-level spell slot, the range increases to 90 feet and the size of the affected area increases to 30 feet. • When cast using a 4th-level spell slot, the range increases to 120 feet and the size of the affected area increases to 40 feet. • When cast using a 5th-level spell slot, the range increases to 150 feet and the size of the affected area increases to 50 feet. Magical objects and artifacts are not affected by this spell, and any objects held or worn by creatures are not affected unless the creature wants to discard an item they are holding."
+    },
+    {
+      "name": "Glasssteel",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a drop of oil)",
+      "duration": "Until dispelled",
+      "classes": [
+        "Wizards"
+      ],
+      "description": "You touch a single continuous piece of glass no larger than 5 feet on one side. The glass is now as hard and resilient as steel, gaining an AC of 19 and becoming immune to non-magical damage. If the glass does break, the spell ends, and the glass returns to its original fragility. This effect can be reversed on the glass by casting Dispel Magic at 4th level or higher.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the size of the glass piece that can be affected by the spell increases by 5 feet on one side for each slot level above 2nd."
+    },
+    {
+      "name": "Growing Pain",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Druid",
+        "Wizard"
+      ],
+      "description": "You experience a sudden and intense stretching sensation throughout your body, as your limbs and neck grow longer. You increase in size by one category, becoming a Large creature for the duration of the spell. Your height and weight also increase accordingly, but your equipment and clothing magically adjust to fit your new size. While under the effects of this spell, you gain the following benefits: • Your reach with melee attacks increases by 5 feet. • Your movement speed increases by 10 feet. • You have advantage on Strength and Constitution checks and saving throws. • You can lift and carry twice as much weight as you normally could. However, there are also drawbacks to this sudden growth. As your increased size and bulk make you less agile and maneuverable, you have disadvantage on Dexterity checks and saving throws, and you can't use equipment or items that were designed for a Medium creature without first adjusting them."
+    },
+    {
+      "name": "Healing Lights",
+      "level": 2,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Cleric",
+        "Paladin"
+      ],
+      "description": "You evoke a burst of radiant energy that spreads out from a point you choose within range. You and any number of creatures of your choice within a 20-foot radius centered on that point regain hit points equal to 2d8 + your spellcasting ability modifier. The healing energy takes the form of shimmering lights that swirl around the affected creatures, soothing their wounds and restoring their vitality. Any undead or fiend within the area of effect instead takes radiant damage equal to the amount of healing that would have been done.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the amount of healing increases by 1d8 for each slot level above 2nd. Additionally, undead and fiends take an extra 1d8 radiant damage for each slot level above 2nd."
+    },
+    {
+      "name": "Healing Tuna",
+      "level": 2,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a small fish figurine)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Wizard"
+      ],
+      "description": "You summon a celestial fish that appears within range and flies around a creature of your choice that you can see within range. The fish stays within 5 feet of the target and emits a gentle aura of healing energy. At the start of the target's turn, the fish heals the target for 1d8 hit points. This healing occurs for the duration of the spell. The fish has an AC of 15 and 1 hit point. If it takes damage, it disappears and the spell ends.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the healing increases by 1d8 for each slot level above 2nd."
+    },
+    {
+      "name": "Inject Spores",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a small vial of spores)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Druid",
+        "Warlock"
+      ],
+      "description": "You touch a living creature and inject them with magical spores. The spores cause the creature's skin to take on a grayish hue, and their body is briefly wracked with coughs and sneezes as the spores take hold. While under the effects of this spell, the creature gains the following benefits: • The creature gains resistance to poison damage. • The creature is immune to disease. • The creature gains darkvision with a range of 60 feet. • The creature gains advantage on Wisdom (Perception) checks that rely on smell. At the end of the spell's duration, the spores are expelled harmlessly from the creature's body.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the duration of the spell increases by 1 minute for each slot level above 2nd."
+    },
+    {
+      "name": "Insect Strength",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a crushed beetle)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Wizard"
+      ],
+      "description": "You touch a willing creature that you can see. Until the spell ends, the target's Strength score is 20 if it isn't higher already, and the target becomes immune to fall damage. The target also gains proficiency in Athletics checks, and their carrying capacity is doubled. If the target already has proficiency in Athletics, they instead gain expertise in the skill."
+    },
+    {
+      "name": "Knowledge Forbidden",
+      "level": 2,
+      "school": "Divination",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a small black book worth 5gp)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You tap into forbidden knowledge, gaining insights into the darker secrets of the universe. For the duration of this spell, you gain proficiency in the Arcana, History, and Religion skills, if you don't already have them. Additionally, you can read and understand any language, even if you don't know the language or have seen it before. However, tapping into this knowledge has a price. Every time you succeed on an ability check using one of the newly gained proficiencies, you take 1d4 psychic damage as the knowledge burns through your mind. Additionally, if you fail a saving throw against a spell with the necromancy or abjuration tag, you take 2d6 psychic damage as your mind struggles to comprehend the forbidden knowledge.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the duration of the spell increases by 1 minute for each slot level above 2nd."
+    },
+    {
+      "name": "Lament for the Dead",
+      "level": 2,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Paladin",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You unleash a mournful cry that pierces the veil between the living and the dead. All corpses within range that are not undead creatures rise as spectral apparitions for a brief moment and let out a haunting wail in response to your call. Any creature within 30 feet of the spectral apparitions that can hear them must succeed on a Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Additionally, any undead creatures within range of the spell that are not under your control must succeed on a Wisdom saving throw or become stunned for 1 round. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the range of the spell increases by 100 feet for each slot level above 2nd. Additionally, the duration of the frightened condition caused by the spectral apparitions increases by 1 minute for each slot level above 2nd."
+    },
+    {
+      "name": "Lob Glob",
+      "level": 2,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a vial of acid)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You expel a ball of acid from your mouth, hurling it towards a creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 3d6 acid damage and must make a Dexterity saving throw. On a failed save, the acid explodes, dealing an additional 2d6 acid damage to the target and all creatures within 5 feet of it.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage of the initial hit increases by 1d6 for each slot level above 2nd, and the damage of the explosion increases by 1d6 for each slot level above 2nd."
+    },
+    {
+      "name": "Master at Arms",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a crane feather)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Cleric",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You touch a willing creature that you can see, imbuing them with mastery of a single weapon. If the target is not already proficient with the chosen weapon, they become proficient for the duration of the spell. While under the effects of this spell, the target's proficiency bonus for attack rolls made with the chosen weapon is doubled. Mystic Onion, (Druid, Warlock, Wizard), Level 2 2nd level conjuration Casting Time: 1 action Range: Self Components: V, S, M (a small onion) Duration: Concentration, up to 1 minute Classes: Druid, Warlock, Wizard When you cast this spell, you conjure a magical onion that hovers in the air around you. The onion has a number of layers equal to your spellcasting ability modifier (minimum of 1 layer). Each time you or a creature within 5 feet of you takes damage, one layer of the onion is peeled away, and the damage is reduced by 1d4. Once all the layers of the onion have been peeled away, the spell ends, and the onion disappears. Additionally, if the onion takes a total of 10 or more points of damage, it also disappears, and the spell ends. While the spell is active, you can use your action to throw the onion at a creature within 30 feet of you. The onion explodes on impact, dealing 3d6 poison damage to the target and any creatures within 5 feet of it. The target must also make a Constitution saving throw. On a failed save, the target is blinded until the end of its next turn.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage from the onion explosion increases by 1d6 for each level above 2nd. Additionally, each layer of the onion now reduces damage by 1d6 instead of 1d4. Node, (Cleric, Druid, Sorcerer, Warlock, Wizard), Level 3 3rd level evocation Casting Time: 1 action Range: 30 feet (20-foot radius) Components: V, S, M (a small crystal or gemstone) Duration: Concentration, up to 1 minute Classes: Cleric, Druid, Sorcerer, Warlock, Wizard You create a powerful magical node at a point within range that lasts for the duration of the spell. Any creature can move through it without impediment. The node has an AC 15 and 30 Hit Points and immunity from non-magical damage. It can also be destroyed by a successful casting of the dispel magic spell. This node emits a soft, pulsing light that illuminates the area in a 20-foot radius around it. Any creatures within this radius, including you, gain a +2 bonus to their spell attack rolls, spell save DCs, and spell damage rolls. In addition, you can use your action to channel the power of the node, releasing a burst of magical energy. All creatures within the 20-foot radius, except for you, must make a Dexterity saving throw. On a failed save, they take 4d6 force damage, or half as much on a successful save. Once you use this feature or the node is destroyed before the spell's duration ends, the spell ends early. At higher levels: When you cast this spell using a 4th level spell slot or higher, the damage from the burst of magical energy increases by 1d6 for each level above 3rd. Additionally, the bonus to spell attack rolls, spell save DCs, and spell damage rolls increases by +1 (to a maximum of +5) for each level above 3rd."
+    },
+    {
+      "name": "Mind Grains",
+      "level": 2,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S M (a piece of willow bark)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You target a creature of your choice within range, causing its mind to be wracked with disorienting pain. The creature must make an Intelligence saving throw. On a failed save, it takes 4d6 psychic damage and falls prone. On a successful save, the creature takes half as much damage and remains standing.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd. Multiply, (Druid, Sorcerer, Wizard), Level 3 3rd level transmutation Casting Time: 1 action Range: Self Components: V, S, M (a small, empty flask worth 2cp) Duration: Concentration, up to 1 minute Classes: Druid, Sorcerer, Wizard When you cast this spell, you call upon the magic of multiplication to create a duplicate of yourself and all of your equipment (magical items cannot be duplicated, and you decide which copy will keep them). Your body splits into two identical copies, each with half your hit points (rounded down). Each copy has its own initiative count and can take its own turn in combat. While under the effects of this spell, you can control both your original form and your duplicate. You can move, attack, cast spells, and take any other actions with both forms, provided you have the necessary actions to do so, but neither form can use any Bonus Actions while this spell is in effect. Any damage or harmful effects that affect one form will also affect the other. If one form is knocked unconscious, the other form will also become unconscious. If one form dies, the other form will also die. If one is charmed, frightened, or poisoned, etc, the other will be charmed, frightened, or poisoned, etc, respectively. At the end of the spell's duration, the duplicate disappears as well as their duplicated equipment, and your body reforms into a single entity. If either form is unconscious, dead, or suffering from another condition when the spell ends, you retain those conditions. If the flask used as a material component for this spell is filled with water or another liquid, the duplicate will be made of that liquid instead of being an exact copy of your body. In this case, the duplicate can move through and exist within the liquid it is made of without movement penalties or need to breath. Additionally, the liquid duplicate can use its action to splash a creature within 5 feet of it, forcing that creature to make a Dexterity saving throw or take 2d6 acid damage."
+    },
+    {
+      "name": "Outlanders Undercroft",
+      "level": 2,
+      "school": "Conjuration",
+      "casting_time": "1 minute",
+      "range": "Touch",
+      "components": "V, S, M (a handful of dirt or sand)",
+      "duration": "8 hours",
+      "classes": [
+        "Druid",
+        "Ranger"
+      ],
+      "description": "You touch the ground and create a hidden, underground space that can accommodate up to 6 Medium creatures. The space is a 10-foot cube, with a natural-looking entrance and an earthen ceiling that is 5 feet high. The undercroft is magically concealed, and anyone who is not actively searching for it would not notice its existence. The entrance to the undercroft is invisible and difficult to find without magic or a successful Intelligence (Investigation) check (DC 15). The undercroft is dry and comfortable, with a steady temperature of 65 degrees Fahrenheit. Any creature inside the undercroft gains the benefits of a short rest or long rest as appropriate.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the size of the undercroft increases by 5 feet in each dimension for each level above 2nd. Additionally, the spell's duration increases by 8 hours for each level above 2nd."
+    },
+    {
+      "name": "Parasitic Bite",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You double the size of your head and fill your mouth with a thousand sharp teeth. For the duration of the spell, you can make a spell attack attack against a creature or object within 5 feet of you to bite the target. On a hit, the target takes 2d6 piercing damage, and you regain hit points equal to half the damage dealt. If the target is a volume of food or drink, all other food or drink within 5 feet of the target can also be consumed. This includes liquids, solids, and even substances that would normally be harmful or inedible. Consumed substances are instantly digested, and any beneficial effects are immediately gained. If a substance is cursed or otherwise harmful, you must make a saving throw, (DC determined by the harmful substance), or suffer the effects of the curse or poison. If a magical item is consumed, it will be harmlessly regurgitated at the end of the duration of the spell to a space within 5 feet of you.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd."
+    },
+    {
+      "name": "Questioning Wind",
+      "level": 2,
+      "school": "Divination",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a piece of straw)",
+      "duration": "Concentration, up to 10 minutes",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Wizard"
+      ],
+      "description": "You call upon the powers of the wind to grant you knowledge about your surroundings. For the duration of the spell, you gain the following benefits: • You can ask a number of yes-or-no questions about your surroundings equal to your spellcasting ability modifier (minimum of 1 question). • You can only ask questions about things you could reasonably perceive with your senses, such as \"Is there a hidden trap in this room?\" or \"Has anyone passed through this area recently?\" • The wind will answer your questions truthfully, but the answers will be brief and to the point. You might hear a faint whisper on the breeze, or feel a gust of wind that rustles the leaves or dust around you. • The wind will not reveal any information that would be impossible for you to know through normal perception. For example, you cannot ask \"What is the name of the person who set this trap?\"",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the number of questions you can ask increases by 1 for each slot level above 2nd."
+    },
+    {
+      "name": "Quick Portal",
+      "level": 2,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "100 feet",
+      "components": "V, S",
+      "duration": "1 round",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You create a pair of magical portals: one entrance portal and one exit portal. The entrance portal is a 5-foot circle that you can place on any surface within range that you can see. The exit portal appears within 5 feet of a point you can see within range, and can be oriented in any direction you choose. As an action on your turn, any creature within 5 feet of the entrance portal can choose to step through it and be instantly teleported to a space within 5 feet of the exit portal, and vice versa. The portals are one-way only, so creatures cannot use them to travel back through the same portal they just came through. The portals remain open for the duration of the spell, allowing multiple creatures to use them as desired during that time. The portals can also be moved by the caster during the duration of the spell, as long as they remain within range and in line of sight.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the size of the portals and the distance between them both increase by 50 feet for each level above 2nd. Additionally, the duration of the spell increases by 1 round for each level above 2nd."
+    },
+    {
+      "name": "Stall",
+      "level": 2,
+      "school": "Abjuration",
+      "casting_time": "1 reaction, which you can take when a creature you can see within 60 feet of you",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Paladin",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You call upon protective magic to shield a creature from harm. The creature gains 100 temporary hit points that last until the start of its next turn."
+    },
+    {
+      "name": "Stepping Stones",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a small piece of rock)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You create a set of five 5-foot square stone panels that hover in an unnocupied location of your choice within range. The panels can be arranged in any configuration you desire, forming a path or a barrier. The panels remain in place for the duration of the spell, unless dismissed or moved using a bonus action on your turn. As a bonus action, you can dismiss the panels and resummon them in a new location within the spell's range. All panels are dismissed ending any support for creatures or objects supsended by them immediately. If you are leaping from one set of panels to another you are about to summon you may use your reaction to do so. Additionally, the panels can be used to create walls for cover, or to obstruct a path. Each panel has 15 hit points and an AC of 19.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the number of panels increases by one for each level above 2nd."
+    },
+    {
+      "name": "Talking Stick",
+      "level": 2,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a stick or branch)",
+      "duration": "Concentration, up to 10 minutes",
+      "classes": [
+        "Cleric",
+        "Druid",
+        "Paladin",
+        "Warlock"
+      ],
+      "description": "You touch a stick or branch, imbuing it with magical energy. Once activated, all creatures within 10 feet of the stick (including you) cannot speak unless they make physical contact with the stick.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the range of the spell increases by 5 feet for each slot level above 2nd."
+    },
+    {
+      "name": "Toxic Grasp",
+      "level": 2,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a vial of poison worth at least 100 gold pieces)",
+      "duration": "Until dispelled",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You imbue your hand with a poisonous energy that can harm and weaken your enemies. Make a melee spell attack against a creature you can reach. On a hit, the target takes 1d6 poison damage and must make a Constitution saving throw. On a failed save, the target is poisoned and has disadvantage on attack rolls and ability checks. At the end of each of the target's turns, it can make another Constitution saving throw. On a success, the spell ends. On a failure, the target takes an additional 1d6 poison damage and the duration of the spell is extended by another round.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage for the initial and subsequent rounds increases by 1d6 for each level above 2nd."
+    },
+    {
+      "name": "Traveling Warm",
+      "level": 2,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a pinch of ash)",
+      "duration": "8 hours",
+      "classes": [
+        "Druid",
+        "Ranger"
+      ],
+      "description": "You surround yourself with a warm, comfortable aura that protects you from cold weather conditions. For the duration of the spell, you gain the following benefits: • You are immune to the effects of cold weather, such as extreme cold temperatures and wind chill. • You gain resistance to cold damage. • You can move through difficult terrain caused by snow or ice as if it were normal terrain. • You can provide warmth to up to six creatures within 5 feet of you, protecting them from the effects of cold weather as well. If you cast this spell again before its duration ends, its effects on you and your allies are renewed.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, you can provide warmth to an additional six creatures for each level above 2nd."
+    },
+    {
+      "name": "Xylophone of Doom",
+      "level": 2,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a small xylophone)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Sorcerer"
+      ],
+      "description": "You summon a floating spectral xylophone within 30 feet of you that plays one of three different tunes at random. Each tune lasts for 20 seconds and affects all allies within 30 feet of the xylophone. d6 Tune 1-2 Each affected ally gains a +2 bonus to AC. 3-4 Each affected ally gains a +2 bonus to attack and damage rolls. 5-6 Each affected ally gains a +2 bonus to saving throws.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the duration of the spell increases by 1 minute for each slot level above 2nd. Additionally, the bonus granted by each tune increases by +1 for each slot level above 2nd."
+    },
+    {
+      "name": "Arcane Disjunction",
+      "level": 3,
+      "school": "Abjuration",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You create a field of energy around yourself that disrupts magic. While this spell is active, you have advantage on saving throws against spells and other magical effects. In addition, whenever a creature within 30 feet of you casts a spell or uses a magical ability, you can use your reaction to attempt to disrupt it. Make an ability check using your spellcasting ability. The DC equals 10 + the spell's level. On a success, the spell or magical effect is disrupted and has no effect. On a failure, the spell or magical effect functions normally.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the duration of the spell increases by 1 minute for each slot level above 3rd."
+    },
+    {
+      "name": "Artifice Shutdown",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You unleash a bolt of electrical energy that seeks out a magical item worn, carried, or attuned by a creature. Make a ranged spell attack against a creature within range. On a hit, the target takes 2d8 lightning damage and any magical items they are wearing, carrying, or attuned to become mundane for the duration. For the duration of the spell, the affected items lose all their magical properties and become mundane, but they can still be used as non-magical items. Artifacts and legendary items are immune to this effect. If the target is not wearing, carrying, or attuned to any magical items, the spell has no effect on them."
+    },
+    {
+      "name": "Bewary Fowl",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You summon a flock of spectral abyssal chickens that materialize within range. The chickens immediately attack the creature of your choice that you can see within range, flapping their wings and pecking with their beaks. The target must make a Dexterity saving throw or take 3d6 force damage and have its movement speed reduced by 15 feet until the end of its next turn. On each of your subsequent turns while maintaining concentration, you can use your bonus action to command the chickens to attack the same target or a different one within range. Each time the chickens attack, the target must make a Dexterity saving throw or take 3d6 force damage and have its movement speed reduced by 15 feet until the end of its next turn.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for each slot level above 3rd."
+    },
+    {
+      "name": "Botanical Glass",
+      "level": 3,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a handful of crushed leaves or petals)",
+      "duration": "1 hour",
+      "classes": [
+        "Druid",
+        "Ranger"
+      ],
+      "description": "You touch a plant or tree, transforming a portion of its biomass into a clear, glass-like substance. The affected area becomes transparent and fragile, allowing light to pass through it but also making it brittle and susceptible to damage. While the spell is active, the affected plant gains the following properties: • Transparency: The affected area becomes transparent, allowing light to pass through it. This can provide a source of natural light, as well as allowing creatures to see through the area. • Brittleness: The affected area becomes fragile and easily damaged. It has an AC of 10 and 5 hit points per inch of thickness. If the area takes damage, it shatters and is destroyed. The area affected by the spell can be up to a 5-foot cube. The glass-like substance persists for the duration of the spell (after which it reverts to its natural plant biology) or until it is destroyed."
+    },
+    {
+      "name": "Bulk Up",
+      "level": 3,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a piece of iron)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Druid",
+        "Paladin",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You channel magical energy into your body, causing your muscles to bulge and your strength to increase dramatically. For the duration of the spell, your damage dealt with melee weapons and unarmed strikes is doubled. However, the increased muscle mass slows you down, reducing your movement speed by half for the duration of the spell. Additionally, you have disadvantage on Dexterity (Acrobatics) checks and on attack rolls made with ranged weapons.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increase for melee weapons and unarmed strikes increases by 1d6 for each slot level above 3rd."
+    },
+    {
+      "name": "Calamities Cornucopia",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (food and/or drink worth at least 50 gp)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Cleric",
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You bring forth a great cornucopia of food and drink that appears at a point within range. The cornucopia has enough food and drink to satisfy up to twelve creatures, and can be eaten or drunk from. A creature that partakes of the cornucopia gains several ailments after 1 minute. The creature is poisoned, and makes all Wisdom saving throws with disadvantage. Its hit point maximum also decreases by 1d10. These ailments last for 1 hour or until the curse is removed.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the creature’s hit point maximum decreases by an additional 1d10 for each slot level above 3rd."
+    },
+    {
+      "name": "Cantankerous Brew",
+      "level": 3,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a small vial of vinegar which is consumed by the spell)",
+      "duration": "Concentration, up to 10 minutes",
+      "classes": [
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You create a potent potion that, when ingested, causes the imbiber to become irritable and bad- tempered. The target creature gains temporary hit points equal to your spellcasting ability modifier + your caster level (maximum 10), and their melee attacks deal an additional 1d4 damage. However, the creature also suffers a -2 penalty to Wisdom and Charisma saving throws, and they must make a Wisdom saving throw at the beginning of each of their turns or use their action to attack the nearest creature. The effects of the brew end early if the target suffers any damage, or if they are subjected to a greater restoration or remove curse spell.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the temporary hit points increase by 5 for each slot level above 3rd. Additionally, the damage bonus increases by 1d4 for every two slot levels above 3rd."
+    },
+    {
+      "name": "Dismember",
+      "level": 3,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a sharp, curved blade)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You make a vicious, sweeping attack with a sharp blade, aimed at severing limbs and rending flesh. Make a melee spell attack against a creature you can reach. On a hit, the target takes 4d8 slashing damage. If the damage from this spell reduces a creature to 0 hit points and kills it, the target's body is blasted into pieces. All creatures within 60 feet of the dismembered target must make a Wisdom saving throw against your spell save DC or become frightened until the end of their next turn.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the slashing damage increases by 1d8 for each slot level above 3rd. The area affected by the fear effect also increases by 10 feet for each slot level above 3rd."
+    },
+    {
+      "name": "Embrace of the Divine",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a holy symbol)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Cleric",
+        "Paladin"
+      ],
+      "description": "You call upon the power of your deity to surround yourself with a divine embrace. For the duration of the spell, your body is surrounded by a radiant aura that extends 5 feet from you in all directions. Any friendly creature that enters this aura or starts its turn within it regains hit points equal to twice your spellcasting ability modifier (minimum of 2). Additionally, you and any friendly creature within the aura have resistance to necrotic damage.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 5th level or higher, the hit point restoration increase by 5 for each level above 4th."
+    },
+    {
+      "name": "Fire Strike",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Self (200-foot line)",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Paladin",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You hurl a ball of fire that streaks towards a point within range in a straight line, creating a blazing inferno in its wake. Each creature in a 5-foot-wide, 200-foot-long line must make a Dexterity saving throw. A creature takes 3d6 fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren't being worn or carried.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for each slot level above 3rd."
+    },
+    {
+      "name": "Hellweevil",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a drop of devil's blood which the spell consumes)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You summon a hellweevil, a demonic insect with a chitinous exoskeleton and two pairs of leathery wings. The hellweevil appears in an unoccupied space within range that you can see. The hellweevil is friendly to you and your companions and obeys your verbal commands. The hellweevil has the following statistics: • Armor Class: 16 (natural armor) • Hit Points: 60 (8d10 + 16) • Speed: 30 ft., fly 60 ft. • Languages: Understands Abyssal but can't speak • Immunities: Fire, Poison • Resistances: Cold, Lightning, Necrotic • Condition Immunities: Charmed, Frightened, Poisoned • Senses: Darkvision 60 ft., passive Perception 10 • Actions: o Bite: Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 8 (1d10 + 3) piercing damage. o Fiery Breath (Recharge 5-6): The hellweevil exhales fire in a 15-foot cone. Each creature in that area must make a DC 14 Dexterity saving throw, taking 21 (6d6) fire damage on a failed save, or half as much damage on a successful one. The hellweevil disappears when it drops to 0 hit points or when the spell ends. If you lose concentration before the spell ends, the hellweevil becomes hostile towards you and your companions, and it attacks until it is destroyed or the spell ends."
+    },
+    {
+      "name": "Hive Brothers",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a vial of honey)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer"
+      ],
+      "description": "You summon a swarm of bees that surrounds you, protecting you from harm. The swarm occupies your space and extends 5 feet around you in all directions. Any hostile creature that enters the swarm's area for the first time on its turn takes 1d6 piercing damage from the bees. While the swarm is active, you gain a +2 bonus to your AC and resistance to cold damage. The bees will not harm you or any creatures you designate as friendly. You can concentrate on this spell for up to 1 hour, or until you lose concentration, which ends the spell. You can also end the spell at any time as a bonus action.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage inflicted by the bees increases by 1d6 for each slot level above 3rd."
+    },
+    {
+      "name": "Impulse Bomb",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a small sphere made of crystal)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You create a burst of magical energy that detonates at a point you choose within range. Each creature within a 20-foot radius of the point must make a Dexterity saving throw. On a failed save, a creature takes 5d6 force damage and is pushed 20 feet away from the center of the blast. On a successful save, the creature takes half as much damage and is not pushed. Any unsecured objects within the area of effect are also pushed 20 feet away from the center of the blast, and any doors or windows within the area are blasted open. The magical energy of the spell also creates a loud booming noise that can be heard up to 300 feet away.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for each slot level above 3rd. Additionally, the radius of the area of effect increases by 5 feet for each slot level above 3rd."
+    },
+    {
+      "name": "Inscrutable Danger",
+      "level": 3,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a handful of ashes)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Cleric",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You surround yourself with an aura of smoke and fire, causing creatures within 10 feet of you to take 2d8 necrotic damage at the start of their turn. You can choose which creatures are affected by this aura, and they must make a Dexterity saving throw to take half damage. Whenever a creature takes damage from this aura, you gain hit points equal to the amount of damage dealt. In addition, while this spell is active, you are resistant to fire damage and immune to smoke- based effects, such as smoke inhalation or obscurement from smoke.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d8 for each slot level above 3rd."
+    },
+    {
+      "name": "Inspire Grace",
+      "level": 3,
+      "school": "Enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Paladin"
+      ],
+      "description": "You imbue a creature of your choice within range with an aura of grace and charm. The target gains advantage on all Charisma checks and saving throws, as well as on Dexterity (Acrobatics) and Dexterity (Stealth) checks. Additionally, any creature that attempts to make a melee attack against the target must make a Wisdom saving throw. On a failed save, the creature is charmed by the target for the duration of the spell, and cannot attack or take any hostile action against them. The spell ends if the target attacks or uses a spell that deals damage to a creature, or if the target's allies attack the charmed creature.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, you can target one additional creature for each slot level above 3rd."
+    },
+    {
+      "name": "Keg",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a small pinch of gunpowder)",
+      "duration": "Concentration, up to 3 turns",
+      "classes": [
+        "Wizard"
+      ],
+      "description": "You select a target within range, causing it to emit a loud hiss that can be heard within 300 feet. If the target is a creature, it must succeed on a Dexterity saving throw if it succeeds the spell emits a loud spark and ends. On the first two turns after the spell is cast, the hissing creature takes 1 fire damage at the start of each of its turns. At the start of its third turn, the hissing creature explodes, dealing fire damage to each creature within a 20-foot-radius sphere centered on the exploding target dealing 10d6 fire damage. A creature within the radius must make a Dexterity saving throw, taking damage equal to the exploding target on a failed save, or half as much damage on a successful one. If the target is an object or a construct, it explodes immediately without making any saves, dealing 6d6 fire damage to everything within the 20-foot-radius (save for half damage).",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage dealt by the exploding target and the area of effect increases by 1d6 for each slot level above 3rd."
+    },
+    {
+      "name": "Pain of Glass",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "60 feet (20ft. radius)",
+      "components": "V, S, M (a small shard of glass)",
+      "duration": "Instantaneous/Concentration, up to 1 minute",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You hurl a small shard of glass at a creature of your choice within range, causing it intense pain. The target must make a Dexterity saving throw. On a failed save, it takes 8d6 piercing damage and is stunned until the end of its next turn. On a successful save, the target takes no damage and is not stunned. Alternatively, choose to concentrate on the spell and choose an area within range. The area within a 20-foot radius centered on the point you choose becomes covered with sharp stakes of glass and becomes difficult terrain, and any creature that enters the area or starts its turn there takes 3d6 piercing damage. A creature that moves within the area must make a Dexterity saving throw. On a failed save, it takes 3d6 piercing damage and its speed is halved until the end of its next turn. On a successful save, the creature takes half as much damage and suffers no other effects.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for each slot level above 3rd."
+    },
+    {
+      "name": "Poisonous Thorns",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a handful of thorns and a drop of venom)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You create a burst of sharp, thorny vines that grow rapidly from the ground and strike at your enemies. Choose a point within range; each creature within a 10-foot radius of that point must make a Dexterity saving throw. On a failed save, a creature takes 4d6 piercing damage and 2d6 poison damage, or half as much damage on a successful save. In addition, any creature that fails its saving throw is restrained by the thorns until the end of its next turn. A creature that succeeds on its saving throw is not restrained. The thorny vines disappear after the spell is cast, leaving behind only small, harmless thorns.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage of the piercing and poison damage increases by 1d6 for each level above 3rd."
+    },
+    {
+      "name": "Position in Flux",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a small crystal prism)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You choose up to four creatures within range, and then you swap the positions of any two of those creatures with the positions of the other two creatures. Each creature must be within range and visible to you, and must be willing or unable to resist the spell's effect. If a creature is unwilling to be moved, it must make a Charisma saving throw. On a failed save, it is moved from its current position. On a successful save, the spell has no effect on and the creature it’s swapping with.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, you can choose two additional creatures to swap for every level above 3rd."
+    },
+    {
+      "name": "Praise the Sun",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a small golden disc)",
+      "duration": "1 minute",
+      "classes": [
+        "Cleric",
+        "Paladin"
+      ],
+      "description": "You extend your arms to the sky and call upon the power of the sun. For the duration of the spell, you become wreathed in a bright aura of radiant energy that illuminates the area around you. Any undead creatures within 30 feet of you take 3d6 radiant damage at the start of their turn. Additionally, any undead creatures that attempt to move within 30 feet of you must succeed on a Wisdom saving throw or become frightened of you for the duration of the spell. You also gain the following benefits: • You have resistance to radiant damage. • Your melee attacks deal an additional 1d6 radiant damage. • You can use an action to create a burst of radiant energy that extends out in a 30-foot radius around you. Each creature within the radius, excluding you, must make a Constitution saving throw or take 4d6 radiant damage on a failed save, or half as much on a successful one.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage caused by your aura of radiant energy and melee attacks increases by 1d6 for each slot level above 3rd. Additionally, the damage caused by the burst of radiant energy increases by 1d6 for each slot level above 3rd."
+    },
+    {
+      "name": "Rotating Force",
+      "level": 3,
+      "school": "Illusion",
+      "casting_time": "1 action",
+      "range": "Self (15-foot cube)",
+      "components": "V, S, M (a tiny metal gear)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Wizard"
+      ],
+      "description": "You create an illusory vortex of rotating energy around yourself, disorienting and damaging the minds of creatures within its area. Each creature of your choice within a 15-foot cube originating from you must make a Wisdom saving throw. On a failed save, a creature takes 4d8 psychic damage and is disoriented for the duration of the spell. A disoriented creature must roll a d8 at the start of each of its turns to determine its behavior for that turn. On a roll of 1, the creature takes no action and uses all its movement to move in a random direction. On a roll of 2-7, the creature can act normally. On a roll of 8, the creature takes no action and can't move.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d8 for each slot level above 3rd. Shell Game, (Bard, Druid, Sorcerer, Wizard), Cantrip Cantrip illusion Casting Time: 1 action Range: Self (1 foot) Components: S Duration: 1 minute Classes: Bard, Druid, Ranger, Sorcerer, Wizard You create an illusory ball that appears to be made of a solid material, like wood, metal, or stone. The ball is real to all physical inspection and can be touched and examined. However, the ball cannot travel more than 1 foot away from you. If it is pushed or pulled beyond this range, it disappears, revealing the illusion. As an action or bonus action on subsequent turns, you can make the ball vanish or appear where you’d like as long as it stays within range. You can also use your action to make the ball perform a simple task, such as rolling in a certain direction. The illusion is convincing enough that creatures who see it and are aware of its existence may try to interact with it or manipulate it, allowing you to use the ball as a distraction or to create a diversion. At Higher Levels: When you reach 5th level, the ball can move an additional 1 foot, for a total of 2 feet. At 11th level, the ball can move an additional 1 foot, for a total of 3 feet. And at 17th level, the ball can move an additional 1 foot, for a total of 4 feet."
+    },
+    {
+      "name": "Sidewinder",
+      "level": 3,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a small piece of snake skin)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Warlock"
+      ],
+      "description": "You take on the characteristics of a snake, becoming more agile and stealthy. For the duration of the spell, you gain the following benefits: • You gain a climb speed equal to your walking speed, allowing you to move easily up walls and other surfaces. • Your movement is not impeded by difficult terrain. • You have advantage on Dexterity (Stealth) checks made to move silently or hide. • You gain advantage on Strength (Athletics) checks made to jump. Additionally, you can use a bonus action to move up to half your speed without provoking opportunity attacks. This movement can be used to climb or jump as well.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the duration of the spell increases by 1 hour for each level above 3rd."
+    },
+    {
+      "name": "Spray Injection",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a potion of healing worth 50 gold pieces, which is consumed)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You draw upon the restorative power of a potion of healing to heal a creature you touch. The target regains 6d4+6 hit points. In addition, any ongoing conditions afflicting the target that are curable by the potion of healing are immediately removed.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the healing increases by 1d4 for each slot level above 3rd."
+    },
+    {
+      "name": "Unrelenting Force",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Self (30-foot cone)",
+      "components": "V",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Paladin",
+        "Ranger",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You unleash a powerful blast of concussive force in a 30-foot cone in front of you. Each creature in the cone must make a Strength saving throw. On a failed save, a creature takes 6d8 force damage and is pushed back 20 feet away from you. On a successful save, the creature takes half as much damage and is not pushed back. In addition, any unsecured objects that are not being worn or carried and are within the cone's area of effect are also pushed back 20 feet away from you. This includes loose rocks, crates, barrels, and other debris.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d8, and the distanced pushed back increases by 10, for each slot level above 3rd."
+    },
+    {
+      "name": "Unseen Ostiary",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a small silver bell)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Cleric",
+        "Paladin"
+      ],
+      "description": "You conjure an invisible magical barrier that creates a protected area within range. The area is a 20-foot radius sphere centered on a point you choose within range, and any creatures within the area are protected from harm. While within the protected area, creatures gain the following benefits: • The area is dimly lit, but the creatures can see normally, even in complete darkness. • The creatures have advantage on all saving throws against spells and other magical effects. • The creatures are immune to being charmed, frightened, or possessed. • The creatures are immune to damage from area-of-effect spells and effects, such as fireball and cloudkill. • The creatures cannot be targeted by ranged attacks or spells, unless the attacker is within the protected area. • The creatures can move freely within the protected area, but they cannot leave the area without ending the spell.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the radius of the protected area increases by 10 feet for each level above 3rd. Additionally, the duration of the spell increases by 1 hour for each level above 3rd."
+    },
+    {
+      "name": "Wonderguard",
+      "level": 3,
+      "school": "Abjuration",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a small diamond worth at least 100 gold pieces, which the spell consumes)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You surround yourself with a powerful magical shield that protects you from all damage, but at a great cost. For the duration of the spell, you gain immunity to all damage types besides psychic, force, and acid damage, and become immune to all conditions, spells, and effects that would normally harm you. However, your maximum hit points are reduced to 1 for the duration of the spell.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the duration of the spell increases by 1 minute for each slot level above 3rd."
+    },
+    {
+      "name": "Wrecking Ball",
+      "level": 3,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Wizard"
+      ],
+      "description": "You transform yourself into a giant wrecking ball for the duration of the spell. Your body becomes a massive metal sphere that rolls across the ground, crushing everything in your path. You gain the following benefits: • Your size becomes Large. • Your speed increases by 20 feet. • You are immune to non-magical bludgeoning, piercing, and slashing damage. • You can roll over obstacles, including difficult terrain without being slowed. • Your only attack available is a slam attack that you can use as an action to make a melee weapon attack with a reach of 5 feet. On a hit, the target takes 4d8 bludgeoning damage and must make a Strength saving throw (DC equal to your spell save DC) or be knocked prone. At the end of the spell's duration, you revert to your normal form and take 4d8 bludgeoning damage, as your body reverts back to its original shape. If you are reduced to 0 hit points by this damage, you die."
+    },
+    {
+      "name": "Xenolithic Chrysalis",
+      "level": 3,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a piece of crystal worth at least 50 gp and a dried caterpillar)",
+      "duration": "Concentration, up to 1 hour",
+      "classes": [
+        "Druid"
+      ],
+      "description": "You touch a willing creature and transform them into a shimmering, crystalline form. The target's body is encased in a Xenolithic Chrysalis, which grants the following benefits: • The target's AC increases by 2, and they have resistance to all damage types. • The target gains darkvision with a range of 60 feet. • They cannot make opportunity attacks. • The target cannot cast spells or use magic items while in the Xenolithic Chrysalis. • The target is immune to disease, poison, and being charmed or frightened. • The target can end the spell at any time by taking an action to emerge from the Xenolithic Chrysalis. While in the Xenolithic Chrysalis, the target appears as a beautiful, crystal statue. They are unable to move or take any actions other than emerging from the Xenolithic Chrysalis, but they are aware of their surroundings and can hear and see normally. The spell ends if the target takes any damage, or if the spell's duration ends.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the target gains an additional 10 temporary hit points for each level above 3rd. Additionally, the target's AC bonus increases by 1 for every two levels above 3rd."
+    },
+    {
+      "name": "Yeti Breath",
+      "level": 3,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "Self (30-foot cone)",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "description": "You inhale deeply, filling your lungs with cold air. You exhale a blast of frigid air in a 30-foot cone, dealing 5d8 cold damage to all creatures in the area. Creatures that fail a Constitution saving throw take full damage, while creatures that succeed take half damage. In addition to the damage, any creature that fails the saving throw is also affected by the spell's secondary effect. For the next minute, the creature's movement speed is reduced by 10 feet, and its Dexterity saving throws are made with disadvantage. This effect ends early if the creature takes fire damage, or if it succeeds on a Constitution saving throw at the end of each of its turns.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d8 for each slot level above 3rd. Additionally, the duration of the secondary effect increases by 1 minute for each slot level above 3rd."
+    },
+    {
+      "name": "Zealous Charge",
+      "level": 3,
+      "school": "Transmutation",
+      "casting_time": "1 bonus action",
+      "range": "Touch",
+      "components": "V",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Cleric",
+        "Paladin"
+      ],
+      "description": "You channel divine energy into a willing creature's body, filling them with a powerful zeal and the strength to overcome any obstacle. For the duration of the spell, the target gains the following benefits: • Their movement speed increases by 30 feet. • Their melee weapon attacks deal an additional 1d6 radiant damage. • They gain advantage on Strength (Athletics) checks made to push, pull, or lift objects or creatures. Furthermore, if the target moves at least 20 feet in a straight line towards an enemy creature and hits them with a melee weapon attack on the same turn, they can choose to push their target up to 10 feet away from them. The creature hit with this attack must make a Strength saving throw (DC equal to your spellcasting ability modifier) or be knocked prone. If the target uses this feature of the spell, their movement speed is reduced to 0 for the rest of the turn.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the additional radiant damage dealt by the target's melee weapon attacks increases by 1d6 for each level above 3rd."
+    },
+    {
+      "name": "Baleful Woe",
+      "level": 4,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You unleash a wave of dark energy that inflicts crushing despair upon your foes. Choose a point within range. Each creature within a 20-foot-radius sphere centered on that point must make a Wisdom saving throw. On a failed save, a creature takes 6d8 necrotic damage and is wracked with terrible sorrow. Its speed is halved, and it has disadvantage on all attack rolls, ability checks, and saving throws for 1 minute. On a successful save, a creature takes half as much damage and isn't affected by the other effects.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 5th level or higher, the damage increases by 1d8 for each slot level above 4th."
+    },
+    {
+      "name": "Doom Auger",
+      "level": 4,
+      "school": "Divination",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a small auger)",
+      "duration": "Concentration, up to 10 minutes",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You bore a hole into the fabric of reality, allowing you to glimpse into the future and gain insight into a specific creature's fate. Choose a creature within range that you can see. You learn the likelihood of that creature dying within the next 24 hours, as well as the cause and manner of its death if it is likely to occur. You also learn if the creature is under any sort of magical effect that would cause its death, such as a curse or disease.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 5th level or higher, you can target one additional creature for each slot level above 4th. The spell's duration increases by 10 minutes for each additional creature targeted."
+    },
+    {
+      "name": "Dungeon Calls",
+      "level": 4,
+      "school": "Divination",
+      "casting_time": "1 minute",
+      "range": "Self",
+      "components": "V, S, M (a small bell or chime)",
+      "duration": "24 hours",
+      "classes": [
+        "Ranger",
+        "Warlock"
+      ],
+      "description": "You call upon the spirits of the dungeon, allowing you to communicate with the environment around you. For the duration of the spell, you gain the ability to understand and speak the languages of any creatures or entities within the dungeon, including those that may have been long forgotten or extinct. Additionally, you gain knowledge of any hidden or secret areas within the dungeon that are within 100 feet of you, and you can sense any traps or magical wards that may be present."
+    },
+    {
+      "name": "Judgement's Calling",
+      "level": 4,
+      "school": "Divination",
+      "casting_time": "1 action",
+      "range": "Self (30 feet)",
+      "components": "V, S, M (a small gavel or mallet)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Cleric",
+        "Paladin"
+      ],
+      "description": "You call upon the powers of judgement to aid you in battle. For the duration of this spell, all attacks made by you or your allies against enemies within 30 feet of you are imbued with divine energy. Whenever a creature within range makes an attack against an ally of yours within range, you can use your reaction to make a spell attack and deal radiant damage to the attacking creature. The damage equals 1d10 plus your spellcasting ability modifier. Additionally, whenever a creature within range makes a saving throw, you can use your reaction to force it to reroll the saving throw and take the new result. You must choose to use this feature before the results of the saving throw are revealed.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 5th level or higher, the damage dealt by your reactive spell attack increases by 1d10 for each slot level above 4th."
+    },
+    {
+      "name": "Fetch",
+      "level": 5,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a dog whistle)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You blow into the dog whistle and open a portal to the Hells. From the portal emerges a hellhound, which lunges at a creature of your choice that you can see within range. The target must make a Dexterity saving throw. On a failed save, the hellhound seizes the creature and drags it through the portal, dealing 6d6 fire damage to the target. The target is then returned to its previous position, prone.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the damage increases by 1d6 for each slot level above 5th."
+    },
+    {
+      "name": "Utter Chaosium",
+      "level": 5,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "Self (20-foot radius)",
+      "components": "V, S, M (a small vial of blood)",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You summon a maelstrom of chaotic energy that ravages the minds and bodies of creatures within its radius. Each creature within a 20-foot radius centered on you must make a Wisdom saving throw. On a failed save, a creature takes 6d6 necrotic damage and is afflicted with a random effect from the following table for the duration of the spell: d8 Effect 1 The creature's speed is halved. 2 The creature can't take reactions. 3 The creature must use its action to make a melee attack against a randomly determined creature within range. 4 The creature must use its action to cast a random spell from its spell list (or roll on this table twice). 5 The creature takes 1d6 psychic damage. 6 The creature gains vulnerability to all damage types. 7 The creature has disadvantage on attack rolls and ability checks. 8 The creature is stunned. A creature affected by this spell can make a Wisdom saving throw at the end of each of its turns, ending the effect on a success.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the damage increases by 1d6 for each slot level above 5th."
+    },
+    {
+      "name": "Vacuous Grasp",
+      "level": 5,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You create a vacuum in the air that forms a dark, spectral hand. Choose a creature you can see within range. The hand reaches out and attempts to grasp the creature's mind, dealing 6d8 psychic damage on a failed Wisdom saving throw. On a successful save, the creature takes half as much damage. In addition, on each of your turns while concentrating on the spell, you can use a bonus action to make the spectral hand attempt another Wisdom saving throw against the target. On a failed save, the creature takes an additional 3d8 psychic damage and is stunned until the end of your next turn. On a successful save, the spell ends.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the damage increases by 1d8 for each level above 5th."
+    },
+    {
+      "name": "Garden Zephyr",
+      "level": 6,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Self (30-foot cone)",
+      "components": "V, S",
+      "duration": "1 year",
+      "classes": [
+        "Druid"
+      ],
+      "description": "You create a refreshing breeze that brings new life to the plants around you. Each plant in a 30- foot cone originating from you that isn't being worn or carried gains the following benefits for the duration: • The plant's growth rate is accelerated, causing it to reach maturity twice as fast as normal. • The plant's yield is doubled, producing twice as many fruits, vegetables, or other products as normal. • The plant is imbued with vitality, giving it resistance to blight, disease, and poison damage. This spell has no effect on plants that are already mature, dead, or undead.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 7th level or higher, the size of the cone increases by 30 feet for each slot level above 6th."
+    },
+    {
+      "name": "Recover",
+      "level": 6,
+      "school": "Conjuration",
+      "casting_time": "1 minute",
+      "range": "Self",
+      "components": "V, S, M (a small silver mirror worth 100 gp, which is consumed by the spell)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Bard",
+        "Wizard"
+      ],
+      "description": "You summon an object that has been lost in the Astral Plane. Roll on the following table to determine the percentage chance of recovering the item based on its value: Item Value Chance of Recovery 100 gp 100% 500 gp 70% 1,000 gp 50% 5,000 gp 20% 10,000 gp+ 10% If the item is recovered, it appears in your hand or at your feet (your choice). The recovered item must fit within a 5-foot cube. If the spell fails, you know whether the item is in the Astral Plane or not. If it is not in the Astral Plane, you gain no information. If it is in the Astral Plane, but another spell or powerful entity is preventing the item’s recovery, you know the name of the spell and/or entity that is preventing its recovery."
+    },
+    {
+      "name": "Flesh Sculptor",
+      "level": 8,
+      "school": "Transmutation",
+      "casting_time": "1 hour",
+      "range": "Touch",
+      "components": "V, S, M (a vial of rare oils and perfumes worth at least 1,000 gp, which are consumed by the spell)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You touch a willing humanoid creature and begin a ritual of flesh sculpting, gradually altering their physical features over the course of an hour. During this time, you can make a number of changes to the target's body as you see fit, including but not limited to: • Altering their skin color, texture, or markings • Changing their hair color, length, or texture • Regrowing lost or amputated body parts, such as limbs, eyes, or organs • Changing their sex • Changing their facial features, such as their nose, eyes, mouth, or ears • Altering their body shape or size, including increasing or decreasing height or weight (within their size category) You cannot use this spell to gain any special abilities or senses beyond your original ancestry, for example, you cannot give a human darkvision, functioning gills, or increase their base movement speed. However, this spell could be used to embed a magical item or other boon that grants such an ability within the flesh of a character, such as implanting lenses from Eyes of Minute Seeing within a creature’s retina’s to grant them the benefits of the magical item. Embedding magical items that require attunement does not remove your need to attune to gain their benefits. The changes you make are permanent and instantaneous, and cannot be undone by any means short of a wish spell or a new casting of this spell. The target is aware of the changes and can choose to accept or reject them, but once the spell is complete, they cannot be reversed or altered further. The ritual requires your full attention and concentration, and any interruption or disturbance can ruin the spell.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 9th level, you can reduce the casting time of this spell to 10 minutes."
+    },
+    {
+      "name": "Orbital Bombardier",
+      "level": 8,
+      "school": "Evocation",
+      "casting_time": "1 action",
+      "range": "1 mile",
+      "components": "V, S, M (a small magnifying glass worth 100 gold pieces)",
+      "duration": "Instantaneous",
+      "classes": [
+        "Wizard"
+      ],
+      "description": "You call forth a powerful magical entity orbiting the planet above, which sends a massive beam of energy towards a target of your choice within range. The beam hits the target with a thunderous blast, dealing 10d10 force damage on a failed Dexterity saving throw, or half as much damage on a successful one. Additionally, any creatures within a 30-foot radius of the target must make a Dexterity saving throw, taking 6d6 force damage on a failed save, or half as much damage on a successful one.",
+      "at_higher_levels": "When you cast this spell using a spell slot of 9th level, the damage of the initial blast increases by 2d10, and the damage of the secondary explosion increases by 1d6."
+    },
+    {
+      "name": "Ashes Ashes",
+      "level": 9,
+      "school": "Necromancy",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a pinch of ash)",
+      "duration": "1 hour",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "description": "You call upon the dark powers of the underworld to grant the ultimate protection. For the duration of the spell, 1 willing creature you touch cannot be reduced to 0 hit points, and any effects that would instantly kill the target, such as power word kill, fails to affect them. However, when the spell ends or is dispelled, the target dies and their body transforms into a fine grey dust, as if they had been disintegrated. The creature cannot be resurrected by any means, magical or otherwise."
+    }
+  ]
+}

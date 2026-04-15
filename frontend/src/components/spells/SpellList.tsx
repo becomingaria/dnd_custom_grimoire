@@ -77,6 +77,25 @@ export default function SpellList({
         setClasses([])
     }
 
+    function levelLabel(level: number): string {
+        if (level === 0) return "Cantrips"
+        if (level === 1) return "1st Level"
+        if (level === 2) return "2nd Level"
+        if (level === 3) return "3rd Level"
+        return `${level}th Level`
+    }
+
+    function groupByLevel(list: Spell[]): { level: number; spells: Spell[] }[] {
+        const map = new Map<number, Spell[]>()
+        for (const spell of list) {
+            if (!map.has(spell.level)) map.set(spell.level, [])
+            map.get(spell.level)!.push(spell)
+        }
+        return Array.from(map.entries())
+            .sort(([a], [b]) => a - b)
+            .map(([level, spells]) => ({ level, spells }))
+    }
+
     const hasFilters =
         search ||
         selectedSchools.length > 0 ||
@@ -355,14 +374,26 @@ export default function SpellList({
                     )}
                 </motion.div>
             ) : (
-                <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-                    {filtered.map((spell, i) => (
-                        <SpellCard
-                            key={spell.spellId}
-                            spell={spell}
-                            index={i}
-                            onSelect={onSelectSpell}
-                        />
+                <div className='space-y-8'>
+                    {groupByLevel(filtered).map(({ level, spells }) => (
+                        <div key={level}>
+                            <h3 className='mb-4 font-cinzel text-xs font-semibold uppercase tracking-widest text-grimoire-text-faint border-b border-grimoire-border/40 pb-2'>
+                                {levelLabel(level)}
+                                <span className='ml-2 font-rajdhani normal-case tracking-normal text-grimoire-text-faint/60'>
+                                    ({spells.length})
+                                </span>
+                            </h3>
+                            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+                                {spells.map((spell, i) => (
+                                    <SpellCard
+                                        key={spell.spellId}
+                                        spell={spell}
+                                        index={i}
+                                        onSelect={onSelectSpell}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     ))}
                 </div>
             )}

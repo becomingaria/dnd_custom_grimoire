@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { BookOpen, Users, Home, LogOut, Sparkles, Check } from "lucide-react"
+import { BookOpen, Users, Home, LogOut, Check } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 import Drawer from "@/components/shared/Drawer"
 
@@ -46,25 +46,18 @@ export default function Navbar() {
         <header className='fixed inset-x-0 top-0 z-30 border-b border-grimoire-border bg-grimoire-surface/80 backdrop-blur-md'>
             <nav className='mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6'>
                 {/* Logo */}
-                <Link to='/' className='group flex items-center gap-2.5'>
-                    <motion.div
-                        className='flex h-9 w-9 items-center justify-center rounded-lg border border-grimoire-primary/40 bg-grimoire-primary/10'
-                        whileHover={{
-                            scale: 1.1,
-                            borderColor: "rgba(124,58,237,0.8)",
-                        }}
+                <Link to='/' className='group flex items-center gap-2'>
+                    <motion.img
+                        src='/grimoire.png'
+                        alt='Grimoire'
+                        className='h-9 w-9 rounded-lg object-contain'
+                        whileHover={{ scale: 1.1 }}
                         transition={{
                             type: "spring",
                             stiffness: 400,
                             damping: 20,
                         }}
-                        style={{ boxShadow: "0 0 12px rgba(124,58,237,0.25)" }}
-                    >
-                        <Sparkles
-                            size={18}
-                            className='text-grimoire-primary-light'
-                        />
-                    </motion.div>
+                    />
                     <span className='font-cinzel text-lg font-bold tracking-wider text-grimoire-text-base'>
                         Grimoire
                     </span>

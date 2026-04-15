@@ -20,6 +20,9 @@ const UPDATABLE_FIELDS = [
     "spellcastingAbility",
     "spellSaveDC",
     "spellAttackBonus",
+    "totalKnownSpells",
+    "totalSpellsPrepared",
+    "totalSanity",
     "notes",
 ]
 
