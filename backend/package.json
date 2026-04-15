@@ -21,12 +21,14 @@
         "seed:atow:dry": "ts-node --project tsconfig.json scripts/seed-custom-sourcebook.ts \"seed/Az Tome of Witchcraft.json\" AToW --dry-run",
         "create-users": "ts-node --project tsconfig.json scripts/create-users.ts",
         "assign-admins": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/assign-admin-groups.ts",
-        "seed:ee": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"ee\" \"EE\"",
-        "seed:ee:dry": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"ee\" \"EE\" --dry-run",
+        "seed:ee": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"ee\" \"EEPC\"",
+        "seed:ee:dry": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"ee\" \"EEPC\" --dry-run",
         "seed:scag": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"scag\" \"SCAG\"",
         "seed:scag:dry": "ts-node --project tsconfig.json scripts/seed-5etools-filtered.ts \"seed/spells-phb-ee-scag-xgte.json\" \"scag\" \"SCAG\" --dry-run",
         "seed:class": "ts-node --project tsconfig.json scripts/seed-class-spells.ts",
-        "seed:class:dry": "ts-node --project tsconfig.json scripts/seed-class-spells.ts --dry-run"
+        "seed:class:dry": "ts-node --project tsconfig.json scripts/seed-class-spells.ts --dry-run",
+        "migrate:sources": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-source-labels.ts",
+        "migrate:sources:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-source-labels.ts --dry-run"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.140",

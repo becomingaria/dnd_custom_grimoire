@@ -36,6 +36,20 @@ const docClient = DynamoDBDocumentClient.from(client, {
     marshallOptions: { removeUndefinedValues: true },
 })
 
+// ─── Source name → abbreviation ─────────────────────────────────────────────
+// Maps the full source name stored in the class JSON files to the canonical
+// abbreviation used in DynamoDB.
+
+const SOURCE_LABELS: Record<string, string> = {
+    "Acquisitions Inc.": "AI",
+    "Explorer's Guide to Wildemount": "EGtW",
+    "Fizban's Treasury of Dragons": "FToD",
+    "Guildmaster's Guide to Ravnica": "GGtR",
+    "Icewind Dale - Rime of the Frostmaiden": "ROtF",
+    "Lost Laboratory of Kwalish": "LLoK",
+    Strixhaven: "SCoC",
+}
+
 // ─── Sources to skip (already seeded) ─────────────────────────────────────────
 
 const SKIP_SOURCES = new Set([
@@ -190,7 +204,7 @@ async function main() {
             if (!merged.has(key)) {
                 merged.set(key, {
                     name: s.name,
-                    source: s.source,
+                    source: SOURCE_LABELS[s.source] ?? s.source,
                     level: s.level,
                     casting: s.casting,
                     range: s.range,
@@ -226,7 +240,7 @@ async function main() {
             spell.components ?? "",
         )
         const duration = (spell.duration ?? "Instantaneous").trim()
-        const sourceId = slugify(spell.source)
+        const sourceId = slugify(spell.source) // source is already abbreviated at this point
 
         const item: Record<string, unknown> = {
             spellId: `${sourceId}-${slugify(name)}`,
