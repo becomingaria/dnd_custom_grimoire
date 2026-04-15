@@ -54,7 +54,7 @@ export default function SpellInfoPanel({ spell }: SpellInfoPanelProps) {
                                 size={13}
                                 className='mx-auto mb-1 text-grimoire-text-faint'
                             />
-                            <p className='font-mono text-xs text-grimoire-text-base leading-snug'>
+                            <p className='font-mono text-xs text-grimoire-text-base leading-snug break-words'>
                                 {value}
                             </p>
                             <p className='font-rajdhani text-[9px] uppercase tracking-widest text-grimoire-text-faint mt-0.5'>
