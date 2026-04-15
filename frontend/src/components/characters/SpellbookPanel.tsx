@@ -370,7 +370,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
             ) : (
                 <div className='rounded-xl border border-grimoire-border overflow-hidden'>
                     {/* Column headers */}
-                    <div className='grid grid-cols-[1.5rem_2rem_1fr_5rem_7rem_6rem_minmax(8rem,1fr)_2rem] items-center gap-x-3 border-b border-grimoire-border bg-grimoire-surface/70 px-3 py-2'>
+                    <div className='grid grid-cols-[1.5rem_2rem_1fr_5rem_7rem_6rem_minmax(8rem,1fr)_2rem] items-start gap-x-3 border-b border-grimoire-border bg-grimoire-surface/70 px-3 py-2'>
                         <span />
                         <span className='font-cinzel text-[10px] uppercase tracking-widest text-grimoire-text-faint text-center'>
                             P
@@ -413,14 +413,14 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                         return (
                                             <motion.div
                                                 key={spell.spellId}
-                                                className={`group grid grid-cols-[1.5rem_2rem_1fr_5rem_7rem_6rem_minmax(8rem,1fr)_2rem] items-center gap-x-3 px-3 py-2.5 transition-colors ${isRemoveSelected ? "bg-red-500/8" : "hover:bg-grimoire-primary/5"} ${si < spells.length - 1 ? "border-b border-grimoire-border/30" : ""}`}
+                                                className={`group grid grid-cols-[1.5rem_2rem_1fr_5rem_7rem_6rem_minmax(8rem,1fr)_2rem] items-start gap-x-3 px-3 py-2.5 transition-colors ${isRemoveSelected ? "bg-red-500/8" : "hover:bg-grimoire-primary/5"} ${si < spells.length - 1 ? "border-b border-grimoire-border/30" : ""}`}
                                                 initial={{ opacity: 0, x: -6 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 exit={{ opacity: 0, x: 6 }}
                                                 layout
                                             >
                                                 {/* Remove-select checkbox */}
-                                                <div className='flex justify-center'>
+                                                <div className='flex justify-center pt-0.5'>
                                                     <motion.button
                                                         className='rounded-sm focus:outline-none'
                                                         whileHover={{
@@ -500,7 +500,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                 </div>
 
                                                 {/* Prepared bubble */}
-                                                <div className='flex justify-center'>
+                                                <div className='flex justify-center pt-0.5'>
                                                     <motion.button
                                                         className='rounded-full focus:outline-none'
                                                         whileHover={{
@@ -590,7 +590,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
 
                                                 {/* Name */}
                                                 <button
-                                                    className='truncate text-left font-rajdhani font-semibold text-grimoire-text-base hover:text-grimoire-primary-light hover:underline underline-offset-2 transition-colors'
+                                                    className='text-left font-rajdhani font-semibold text-grimoire-text-base hover:text-grimoire-primary-light hover:underline underline-offset-2 transition-colors'
                                                     onClick={() =>
                                                         setSelectedSpell(spell)
                                                     }
@@ -628,13 +628,13 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                 </div>
 
                                                 {/* Duration */}
-                                                <p className='truncate font-rajdhani text-xs text-grimoire-text-muted'>
+                                                <p className='font-rajdhani text-xs text-grimoire-text-muted'>
                                                     {spell.duration}
                                                 </p>
 
                                                 {/* Source */}
                                                 <p
-                                                    className='truncate font-rajdhani text-xs text-grimoire-text-faint'
+                                                    className='font-rajdhani text-xs text-grimoire-text-faint'
                                                     title={spell.sources?.join(
                                                         ", ",
                                                     )}
