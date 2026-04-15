@@ -28,7 +28,10 @@
         "seed:class": "ts-node --project tsconfig.json scripts/seed-class-spells.ts",
         "seed:class:dry": "ts-node --project tsconfig.json scripts/seed-class-spells.ts --dry-run",
         "migrate:sources": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-source-labels.ts",
-        "migrate:sources:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-source-labels.ts --dry-run"
+        "migrate:sources:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-source-labels.ts --dry-run",
+        "export:spells": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/export-spells.ts",
+        "seed:canonical": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/seed-canonical.ts",
+        "seed:canonical:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/seed-canonical.ts --dry-run"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.140",
