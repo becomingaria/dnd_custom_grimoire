@@ -122,6 +122,7 @@ function transformSpell(
         classes: normalizeClasses(spell.classes ?? []),
         isHomebrew: false,
         source: sourceLabel,
+        sources: [sourceLabel],
         tags: [],
         createdBy: "system",
         createdAt: now,

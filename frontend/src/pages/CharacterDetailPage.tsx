@@ -117,7 +117,7 @@ export default function CharacterDetailPage() {
 
                     {/* Stats */}
                     <div
-                        className={`mt-5 grid gap-3 ${!!character.totalSanity ? "grid-cols-4" : "grid-cols-3"}`}
+                        className={`mt-5 grid gap-3 ${!!character.totalConviction ? "grid-cols-4" : "grid-cols-3"}`}
                     >
                         {[
                             {
@@ -158,13 +158,13 @@ export default function CharacterDetailPage() {
                                 </span>
                             </div>
                         ))}
-                        {!!character.totalSanity && (
+                        {!!character.totalConviction && (
                             <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 p-3 text-center'>
                                 <span className='font-mono text-2xl font-bold text-purple-400'>
-                                    {character.totalSanity}
+                                    {character.totalConviction}
                                 </span>
                                 <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
-                                    Sanity
+                                    Conviction
                                 </span>
                             </div>
                         )}

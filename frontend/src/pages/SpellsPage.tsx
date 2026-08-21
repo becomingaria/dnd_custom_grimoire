@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { UserPlus, Check } from "lucide-react"
-import { useSpells, useCreateSpell } from "@/hooks/useSpells"
+import { useSpells, useCreateSpell, useUpdateSpell } from "@/hooks/useSpells"
 import { useCharacters, useAddKnownSpell } from "@/hooks/useCharacters"
 import { useAuth } from "@/context/AuthContext"
 import SpellList from "@/components/spells/SpellList"
@@ -15,6 +15,7 @@ import type { Character } from "@/types/character"
 export default function SpellsPage() {
     const [showCreate, setShowCreate] = useState(false)
     const [selectedSpell, setSelectedSpell] = useState<Spell | null>(null)
+    const [isEditingSpell, setIsEditingSpell] = useState(false)
     const [showCharacterPicker, setShowCharacterPicker] = useState(false)
     const [addingToCharacterId, setAddingToCharacterId] = useState<
         string | null
@@ -26,6 +27,7 @@ export default function SpellsPage() {
     const { data: spells = [], isLoading } = useSpells()
     const { data: characters = [] } = useCharacters()
     const createSpell = useCreateSpell()
+    const updateSpell = useUpdateSpell()
     const addKnownSpell = useAddKnownSpell()
 
     const existingSources = Array.from(
@@ -35,6 +37,15 @@ export default function SpellsPage() {
     async function handleCreate(data: CreateSpellInput) {
         await createSpell.mutateAsync(data)
         setShowCreate(false)
+    }
+
+    async function handleUpdateSpell(data: CreateSpellInput) {
+        if (!selectedSpell) return
+        await updateSpell.mutateAsync({
+            spellId: selectedSpell.spellId,
+            input: data,
+        })
+        setIsEditingSpell(false)
     }
 
     async function handleAddToCharacter(character: Character) {
@@ -68,6 +79,7 @@ export default function SpellsPage() {
                 isOpen={!!selectedSpell}
                 onClose={() => {
                     setSelectedSpell(null)
+                    setIsEditingSpell(false)
                     setShowCharacterPicker(false)
                     setAddConfirmation("")
                 }}
@@ -100,7 +112,26 @@ export default function SpellsPage() {
                     ) : null
                 }
             >
-                {selectedSpell && <SpellInfoPanel spell={selectedSpell} />}
+                {selectedSpell &&
+                    (isEditingSpell ? (
+                        <SpellForm
+                            initial={selectedSpell}
+                            onSubmit={handleUpdateSpell}
+                            onCancel={() => setIsEditingSpell(false)}
+                            isLoading={updateSpell.isPending}
+                            existingSources={existingSources}
+                            isAdmin={isAdmin}
+                        />
+                    ) : (
+                        <SpellInfoPanel
+                            spell={selectedSpell}
+                            onEdit={
+                                isAdmin && selectedSpell.isHomebrew
+                                    ? () => setIsEditingSpell(true)
+                                    : undefined
+                            }
+                        />
+                    ))}
             </Drawer>
 
             <Drawer

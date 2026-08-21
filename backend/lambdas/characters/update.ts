@@ -22,7 +22,7 @@ const UPDATABLE_FIELDS = [
     "spellAttackBonus",
     "totalKnownSpells",
     "totalSpellsPrepared",
-    "totalSanity",
+    "totalConviction",
     "notes",
 ]
 

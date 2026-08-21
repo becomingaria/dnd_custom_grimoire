@@ -1,13 +1,14 @@
-import { Clock, Crosshair, Timer, Zap, RefreshCw } from "lucide-react"
+import { Clock, Crosshair, Timer, Zap, RefreshCw, Settings } from "lucide-react"
 import SchoolBadge from "@/components/spells/SchoolBadge"
 import { spellLevelLabel, schoolGlowStyle } from "@/types/spell"
 import type { Spell } from "@/types/spell"
 
 interface SpellInfoPanelProps {
     spell: Spell
+    onEdit?: () => void
 }
 
-export default function SpellInfoPanel({ spell }: SpellInfoPanelProps) {
+export default function SpellInfoPanel({ spell, onEdit }: SpellInfoPanelProps) {
     return (
         <div
             className='rounded-xl border border-grimoire-border overflow-hidden'
@@ -15,9 +16,20 @@ export default function SpellInfoPanel({ spell }: SpellInfoPanelProps) {
         >
             {/* Header */}
             <div className='border-b border-grimoire-border p-4 pb-4'>
-                <h2 className='font-cinzel text-2xl font-bold text-grimoire-text-base'>
-                    {spell.name}
-                </h2>
+                <div className='flex items-start justify-between gap-2'>
+                    <h2 className='font-cinzel text-2xl font-bold text-grimoire-text-base'>
+                        {spell.name}
+                    </h2>
+                    {onEdit && (
+                        <button
+                            onClick={onEdit}
+                            className='mt-1 flex-shrink-0 rounded-lg border border-grimoire-border/60 bg-grimoire-surface/50 p-1.5 text-grimoire-text-faint transition-colors hover:border-grimoire-primary/50 hover:bg-grimoire-primary/10 hover:text-grimoire-primary-light'
+                            title='Edit spell'
+                        >
+                            <Settings size={14} />
+                        </button>
+                    )}
+                </div>
                 <p className='mt-1 font-rajdhani text-grimoire-text-muted flex items-center gap-1.5'>
                     {spellLevelLabel(spell.level)} ·{" "}
                     <SchoolBadge school={spell.school} size='sm' />

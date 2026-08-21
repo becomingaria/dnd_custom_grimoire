@@ -40,16 +40,34 @@ function generatePassword(): string {
     return password.join("")
 }
 
+/**
+ * API Gateway HTTP API flattens JWT claims to Record<string, string>, so an
+ * array-valued claim like `cognito:groups` arrives as a JSON-array string
+ * (e.g. `["Admin"]`), not a comma-separated list — parse both shapes.
+ */
+function parseGroupClaim(raw: unknown): string[] {
+    if (Array.isArray(raw)) return raw
+    if (typeof raw !== "string" || !raw) return []
+
+    const trimmed = raw.trim()
+    if (trimmed.startsWith("[")) {
+        try {
+            const parsed = JSON.parse(trimmed)
+            if (Array.isArray(parsed)) return parsed
+        } catch {
+            // Fall through to comma-split below.
+        }
+    }
+    return trimmed.split(",").map((g) => g.trim())
+}
+
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (
     event,
 ) => {
     try {
         // ─── Auth: caller must be in Admin group ──────────────────────────────────
         const claims = event.requestContext.authorizer.jwt.claims
-        const groups = (claims["cognito:groups"] ?? "") as string | string[]
-        const groupList = Array.isArray(groups)
-            ? groups
-            : groups.split(",").map((g) => g.trim())
+        const groupList = parseGroupClaim(claims["cognito:groups"])
 
         if (!groupList.includes("Admin")) return forbiddenResponse()
 

@@ -16,7 +16,7 @@ const schema = z.object({
     spellAttackBonus: z.coerce.number().int().min(-5).max(20).optional(),
     totalKnownSpells: z.coerce.number().int().min(0).max(999).optional(),
     totalSpellsPrepared: z.coerce.number().int().min(0).max(999).optional(),
-    totalSanity: z.coerce.number().int().min(0).max(999).optional(),
+    totalConviction: z.coerce.number().int().min(0).max(999).optional(),
     notes: z.string().max(2000).optional(),
 })
 
@@ -63,7 +63,7 @@ export default function CharacterForm({
                   spellAttackBonus: initial.spellAttackBonus ?? undefined,
                   totalKnownSpells: initial.totalKnownSpells ?? undefined,
                   totalSpellsPrepared: initial.totalSpellsPrepared ?? undefined,
-                  totalSanity: initial.totalSanity ?? undefined,
+                  totalConviction: initial.totalConviction ?? undefined,
                   notes: initial.notes ?? "",
               }
             : {
@@ -100,7 +100,7 @@ export default function CharacterForm({
             spellAttackBonus: data.spellAttackBonus,
             totalKnownSpells: data.totalKnownSpells,
             totalSpellsPrepared: data.totalSpellsPrepared,
-            totalSanity: data.totalSanity,
+            totalConviction: data.totalConviction,
             notes: data.notes || undefined,
             // Preserve existing spellbook state when editing.
             knownSpellIds: initial?.knownSpellIds ?? [],
@@ -257,20 +257,20 @@ export default function CharacterForm({
                 </div>
                 <div>
                     <label className={labelClass}>
-                        Total Sanity{" "}
+                        Total Conviction{" "}
                         <span className='normal-case tracking-normal font-normal text-grimoire-text-faint'>
                             (optional)
                         </span>
                     </label>
                     <input
-                        {...register("totalSanity")}
+                        {...register("totalConviction")}
                         type='number'
                         min={0}
                         max={999}
                         className={fieldClass}
                         placeholder='e.g. 50'
                     />
-                    {error("totalSanity")}
+                    {error("totalConviction")}
                 </div>
             </div>
 

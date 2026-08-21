@@ -36,7 +36,7 @@ export interface Character {
     spellAttackBonus?: number | null
     totalKnownSpells?: number | null
     totalSpellsPrepared?: number | null
-    totalSanity?: number | null
+    totalConviction?: number | null
     notes?: string
     createdAt: string
     updatedAt: string

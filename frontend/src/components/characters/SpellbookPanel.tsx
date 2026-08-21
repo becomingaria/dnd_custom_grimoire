@@ -794,29 +794,96 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                         <h4 className='font-cinzel text-[11px] uppercase tracking-widest text-grimoire-text-faint'>
                                             {spellLevelLabel(level)}
                                         </h4>
-                                        {spells.map((spell) => (
-                                            <motion.button
-                                                key={spell.spellId}
-                                                className='flex w-full items-center gap-3 rounded-lg border border-grimoire-border/60 bg-grimoire-card/60 px-3 py-2.5 text-left transition-colors hover:bg-grimoire-primary/10 hover:border-grimoire-primary/40'
-                                                whileHover={{ x: 2 }}
-                                                onClick={() => {
-                                                    setSelectedSpell(spell)
-                                                }}
-                                            >
-                                                <SchoolBadge
-                                                    school={spell.school}
-                                                    size='xs'
-                                                />
-                                                <span className='flex-1 font-rajdhani font-semibold text-grimoire-text-base'>
-                                                    {spell.name}
-                                                </span>
-                                                <span className='font-rajdhani text-xs text-grimoire-text-faint'>
-                                                    {spellLevelLabel(
-                                                        spell.level,
+                                        <AnimatePresence initial={false}>
+                                        {spells.map((spell) => {
+                                            const isCantrip =
+                                                spell.level === 0
+                                            return (
+                                                <motion.div
+                                                    key={spell.spellId}
+                                                    layout
+                                                    initial={{
+                                                        opacity: 0,
+                                                    }}
+                                                    animate={{
+                                                        opacity: 1,
+                                                    }}
+                                                    exit={{ opacity: 0 }}
+                                                    className='flex w-full items-center gap-2 rounded-lg border border-grimoire-border/60 bg-grimoire-card/60 pl-2 pr-3 py-2.5 transition-colors hover:bg-grimoire-primary/10 hover:border-grimoire-primary/40'
+                                                >
+                                                    {isCantrip ? (
+                                                        <span className='h-5 w-5 flex-shrink-0' />
+                                                    ) : (
+                                                        <motion.button
+                                                            className='flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border border-red-500/50 bg-red-500/15 text-red-400 hover:bg-red-500/25 hover:border-red-500/70 transition-colors'
+                                                            whileHover={{
+                                                                scale: 1.15,
+                                                            }}
+                                                            whileTap={{
+                                                                scale: 0.85,
+                                                            }}
+                                                            onClick={() =>
+                                                                handleToggle(
+                                                                    spell.spellId,
+                                                                )
+                                                            }
+                                                            title='Unprepare'
+                                                        >
+                                                            <X
+                                                                size={11}
+                                                                strokeWidth={3}
+                                                            />
+                                                        </motion.button>
                                                     )}
-                                                </span>
-                                            </motion.button>
-                                        ))}
+                                                    <motion.button
+                                                        className='flex flex-1 items-center gap-3 text-left'
+                                                        whileHover={{ x: 2 }}
+                                                        onClick={() =>
+                                                            setSelectedSpell(
+                                                                spell,
+                                                            )
+                                                        }
+                                                    >
+                                                        <SchoolBadge
+                                                            school={
+                                                                spell.school
+                                                            }
+                                                            size='xs'
+                                                        />
+                                                        <span className='flex-1 font-rajdhani font-semibold text-grimoire-text-base'>
+                                                            {spell.name}
+                                                        </span>
+                                                        {spell.concentration && (
+                                                            <span
+                                                                title='Concentration'
+                                                                className='relative flex h-4 w-4 flex-shrink-0 items-center justify-center'
+                                                                style={{
+                                                                    transform:
+                                                                        "rotate(45deg)",
+                                                                }}
+                                                            >
+                                                                <span className='absolute inset-0 rounded-sm border border-blue-500/60 bg-blue-500/15' />
+                                                                <span
+                                                                    className='relative font-mono text-[8px] font-bold text-blue-400'
+                                                                    style={{
+                                                                        transform:
+                                                                            "rotate(-45deg)",
+                                                                    }}
+                                                                >
+                                                                    C
+                                                                </span>
+                                                            </span>
+                                                        )}
+                                                        <span className='font-rajdhani text-xs text-grimoire-text-faint'>
+                                                            {spellLevelLabel(
+                                                                spell.level,
+                                                            )}
+                                                        </span>
+                                                    </motion.button>
+                                                </motion.div>
+                                            )
+                                        })}
+                                        </AnimatePresence>
                                     </div>
                                 )
                             })
