@@ -161,8 +161,8 @@ export default function SpellForm({
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className='space-y-5'>
             {/* Name + Level row */}
-            <div className='grid grid-cols-3 gap-4'>
-                <div className='col-span-2'>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
+                <div className='sm:col-span-2'>
                     <label className={labelClass}>Spell Name</label>
                     <input
                         className={fieldClass}

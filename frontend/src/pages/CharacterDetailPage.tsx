@@ -80,9 +80,9 @@ export default function CharacterDetailPage() {
                 transition={{ duration: 0.4 }}
             >
                 <div className='border-b border-grimoire-border p-6'>
-                    <div className='flex items-start justify-between gap-4'>
-                        <div>
-                            <h1 className='font-cinzel text-3xl font-bold text-grimoire-text-base'>
+                    <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
+                        <div className='min-w-0'>
+                            <h1 className='truncate font-cinzel text-3xl font-bold text-grimoire-text-base'>
                                 {character.name}
                             </h1>
                             <p className='mt-1 font-rajdhani text-grimoire-text-muted'>
@@ -94,7 +94,7 @@ export default function CharacterDetailPage() {
                             </p>
                         </div>
                         {isOwner && (
-                            <div className='flex items-center gap-2'>
+                            <div className='flex items-center gap-2 self-start'>
                                 <motion.button
                                     onClick={() => setShowEdit(true)}
                                     className='flex items-center gap-1.5 rounded-lg border border-grimoire-border px-3 py-1.5 font-rajdhani text-sm text-grimoire-text-muted hover:text-grimoire-text-base hover:border-grimoire-primary/40 transition-colors'
@@ -117,7 +117,7 @@ export default function CharacterDetailPage() {
 
                     {/* Stats */}
                     <div
-                        className={`mt-5 grid gap-3 ${!!character.totalConviction ? "grid-cols-4" : "grid-cols-3"}`}
+                        className={`mt-5 grid grid-cols-2 gap-3 ${!!character.totalConviction ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}
                     >
                         {[
                             {

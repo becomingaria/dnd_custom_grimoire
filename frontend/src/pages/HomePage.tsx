@@ -45,7 +45,7 @@ export default function HomePage() {
     return (
         <div className='space-y-16 py-8'>
             {/* Hero */}
-            <div className='relative overflow-hidden rounded-2xl border border-grimoire-border bg-grimoire-card px-8 py-16 text-center'>
+            <div className='relative overflow-hidden rounded-2xl border border-grimoire-border bg-grimoire-card px-4 py-16 text-center sm:px-8'>
                 <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_50%,rgba(124,58,237,0.12),transparent)]' />
 
                 <motion.div
@@ -62,7 +62,7 @@ export default function HomePage() {
                                 "Adventurer"}
                         </p>
                     )}
-                    <h1 className='font-cinzel text-5xl font-bold tracking-widest text-grimoire-text-base text-glow md:text-6xl'>
+                    <h1 className='font-cinzel text-3xl font-bold tracking-widest text-grimoire-text-base text-glow sm:text-5xl md:text-6xl'>
                         THE GRIMOIRE
                     </h1>
 

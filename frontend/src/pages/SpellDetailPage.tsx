@@ -83,9 +83,9 @@ export default function SpellDetailPage() {
             >
                 {/* Header */}
                 <div className='border-b border-grimoire-border p-6 pb-5'>
-                    <div className='flex items-start justify-between gap-4'>
-                        <div>
-                            <h1 className='font-cinzel text-3xl font-bold text-grimoire-text-base'>
+                    <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
+                        <div className='min-w-0'>
+                            <h1 className='truncate font-cinzel text-3xl font-bold text-grimoire-text-base'>
                                 {spell.name}
                             </h1>
                             <p className='mt-1 font-rajdhani text-grimoire-text-muted'>
@@ -99,7 +99,7 @@ export default function SpellDetailPage() {
                             )}
                         </div>
                         {isOwner && (
-                            <div className='flex items-center gap-2'>
+                            <div className='flex items-center gap-2 self-start'>
                                 <motion.button
                                     onClick={() => setShowEdit(true)}
                                     className='flex items-center gap-1.5 rounded-lg border border-grimoire-border px-3 py-1.5 font-rajdhani text-sm text-grimoire-text-muted hover:text-grimoire-text-base hover:border-grimoire-primary/40 transition-colors'
@@ -121,7 +121,7 @@ export default function SpellDetailPage() {
                     </div>
 
                     {/* Quick stats */}
-                    <div className='mt-4 grid grid-cols-3 gap-3'>
+                    <div className='mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3'>
                         {[
                             {
                                 icon: Clock,

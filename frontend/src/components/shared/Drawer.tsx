@@ -79,7 +79,7 @@ export default function Drawer({
                         }}
                     >
                         {/* Header */}
-                        <div className='flex shrink-0 items-center justify-between border-b border-grimoire-border px-6 py-4'>
+                        <div className='flex shrink-0 items-center justify-between border-b border-grimoire-border px-4 py-4 sm:px-6'>
                             {title && (
                                 <h2
                                     id='drawer-title'
@@ -98,7 +98,7 @@ export default function Drawer({
                         </div>
 
                         {/* Scrollable body */}
-                        <div className='flex-1 overflow-y-auto p-6'>
+                        <div className='flex-1 overflow-y-auto p-4 sm:p-6'>
                             {children}
                         </div>
 

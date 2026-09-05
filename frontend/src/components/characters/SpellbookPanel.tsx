@@ -258,6 +258,120 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
         })
     }
 
+    // ── Mobile card view (below `sm`) — simplified versions of the desktop
+    // table's controls, sharing the same handlers/state.
+    function renderMobileRemoveCheckbox(spell: Spell) {
+        const isRemoveSelected = removeSelectedIds.has(spell.spellId)
+        return (
+            <button
+                className='flex-shrink-0 rounded-sm focus:outline-none'
+                onClick={() => toggleRemoveSelected(spell.spellId)}
+                title={isRemoveSelected ? "Deselect" : "Select for removal"}
+            >
+                {isRemoveSelected ? (
+                    <span className='flex h-4 w-4 items-center justify-center rounded border border-red-500 bg-red-500/20'>
+                        <Check
+                            size={10}
+                            strokeWidth={3}
+                            className='text-red-400'
+                        />
+                    </span>
+                ) : (
+                    <span className='flex h-4 w-4 items-center justify-center rounded border border-grimoire-border/60' />
+                )}
+            </button>
+        )
+    }
+
+    function renderMobilePreparedBubble(spell: Spell) {
+        const prepared = isPrepared(spell.spellId)
+        return (
+            <button
+                className='flex-shrink-0 rounded-full focus:outline-none'
+                onClick={() => handleToggle(spell.spellId)}
+                disabled={spell.level === 0}
+                title={
+                    spell.level === 0
+                        ? "Cantrips are always prepared"
+                        : prepared
+                          ? "Unprepare"
+                          : "Prepare"
+                }
+            >
+                {prepared ? (
+                    <span className='flex h-5 w-5 items-center justify-center rounded-full bg-blue-500'>
+                        <Check
+                            size={11}
+                            strokeWidth={3}
+                            className='text-white'
+                        />
+                    </span>
+                ) : (
+                    <span className='flex h-5 w-5 items-center justify-center rounded-full border-2 border-grimoire-border/60' />
+                )}
+            </button>
+        )
+    }
+
+    function renderMobileConcentrationBadge(spell: Spell) {
+        if (!spell.concentration) return null
+        return (
+            <span
+                title='Concentration'
+                className='relative flex h-5 w-5 flex-shrink-0 items-center justify-center'
+                style={{ transform: "rotate(45deg)" }}
+            >
+                <span className='absolute inset-0 rounded-sm border border-blue-500/60 bg-blue-500/15' />
+                <span
+                    className='relative font-mono text-[10px] font-bold text-blue-400'
+                    style={{ transform: "rotate(-45deg)" }}
+                >
+                    C
+                </span>
+            </span>
+        )
+    }
+
+    function renderMobileNotesEditor(spell: Spell) {
+        return editingNoteId === spell.spellId ? (
+            <input
+                autoFocus
+                value={noteValue}
+                onChange={(e) => setNoteValue(e.target.value)}
+                onBlur={() => saveNote(spell.spellId)}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") saveNote(spell.spellId)
+                    if (e.key === "Escape") setEditingNoteId(null)
+                }}
+                placeholder='Add a note…'
+                className='w-full rounded border border-grimoire-primary/50 bg-grimoire-surface px-1.5 py-0.5 font-rajdhani text-xs text-grimoire-text-base outline-none'
+            />
+        ) : (
+            <button
+                className='group/note flex w-full items-center gap-1 truncate text-left'
+                onClick={() => startEditNote(spell.spellId)}
+                title={
+                    character.spellNotes?.[spell.spellId] ??
+                    "Click to add a note"
+                }
+            >
+                {character.spellNotes?.[spell.spellId] ? (
+                    <span className='truncate font-rajdhani text-xs text-grimoire-text-muted'>
+                        {character.spellNotes[spell.spellId]}
+                    </span>
+                ) : (
+                    <span className='font-rajdhani text-xs text-grimoire-text-faint/40 opacity-0 transition-opacity group-hover:opacity-100'>
+                        Add note…
+                    </span>
+                )}
+                <Pencil
+                    size={10}
+                    className='flex-shrink-0 text-grimoire-text-faint/40 opacity-0 transition-opacity group-hover/note:opacity-100'
+                />
+            </button>
+        )
+    }
+
     return (
         <div className='space-y-6'>
             {/* Header */}
@@ -268,7 +382,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                         {knownSpells.length} known · {preparedCount} prepared
                     </span>
                 </h3>
-                <div className='flex items-center gap-2'>
+                <div className='flex flex-wrap items-center gap-2'>
                     {preparedSpells.length > 0 && (
                         <motion.button
                             className='flex items-center gap-1.5 rounded-lg border border-blue-500/50 bg-blue-500/10 px-3 py-1.5 font-rajdhani text-sm text-blue-300 hover:bg-blue-500/20 transition-colors'
@@ -290,7 +404,9 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                             title='Clear all prepared spells'
                         >
                             <RotateCcw size={14} />
-                            Reset Prepared
+                            Reset<span className='hidden sm:inline'>
+                                {" "}Prepared
+                            </span>
                         </motion.button>
                     )}
                     <motion.button
@@ -368,7 +484,8 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                     <p className='font-rajdhani'>No spells in spellbook yet.</p>
                 </motion.div>
             ) : (
-                <div className='rounded-xl border border-grimoire-border overflow-hidden'>
+                <>
+                <div className='hidden overflow-hidden rounded-xl border border-grimoire-border sm:block'>
                     {/* Column headers */}
                     <div className='grid grid-cols-[1.5rem_2rem_1fr_5rem_7rem_6rem_minmax(8rem,1fr)_2rem] items-start gap-x-3 border-b border-grimoire-border bg-grimoire-surface/70 px-3 py-2'>
                         <span />
@@ -750,6 +867,95 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                         )
                     })}
                 </div>
+
+                {/* Mobile card view */}
+                <div className='space-y-4 sm:hidden'>
+                    {sortedLevels.map((level) => {
+                        const spells = grouped.get(level)!
+                        return (
+                            <div key={level} className='space-y-2'>
+                                <h4 className='font-cinzel text-xs font-bold uppercase tracking-widest text-grimoire-text-faint'>
+                                    {spellLevelLabel(level)}
+                                </h4>
+                                <AnimatePresence initial={false}>
+                                    {spells.map((spell) => {
+                                        const isRemoveSelected =
+                                            removeSelectedIds.has(
+                                                spell.spellId,
+                                            )
+                                        return (
+                                            <motion.div
+                                                key={spell.spellId}
+                                                layout
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                className={`rounded-lg border px-3 py-3 transition-colors ${isRemoveSelected ? "border-red-500/40 bg-red-500/8" : "border-grimoire-border/60 bg-grimoire-card/60"}`}
+                                            >
+                                                <div className='flex items-center gap-2'>
+                                                    {renderMobileRemoveCheckbox(
+                                                        spell,
+                                                    )}
+                                                    {renderMobilePreparedBubble(
+                                                        spell,
+                                                    )}
+                                                    <button
+                                                        className='min-w-0 flex-1 truncate text-left font-rajdhani font-semibold text-grimoire-text-base hover:text-grimoire-primary-light hover:underline underline-offset-2 transition-colors'
+                                                        onClick={() =>
+                                                            setSelectedSpell(
+                                                                spell,
+                                                            )
+                                                        }
+                                                    >
+                                                        {spell.name}
+                                                    </button>
+                                                    {renderMobileConcentrationBadge(
+                                                        spell,
+                                                    )}
+                                                    <button
+                                                        className='flex-shrink-0 rounded-md p-1 text-grimoire-text-faint hover:text-red-400 transition-colors'
+                                                        onClick={() =>
+                                                            handleRemoveSpell(
+                                                                spell.spellId,
+                                                            )
+                                                        }
+                                                        title='Remove from spellbook'
+                                                    >
+                                                        <X size={13} />
+                                                    </button>
+                                                </div>
+
+                                                <div className='mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 pl-[3.25rem] font-rajdhani text-xs text-grimoire-text-faint'>
+                                                    <span>
+                                                        {spell.duration}
+                                                    </span>
+                                                    {spell.sources?.length ? (
+                                                        <span
+                                                            title={spell.sources.join(
+                                                                ", ",
+                                                            )}
+                                                        >
+                                                            {spell.sources.join(
+                                                                ", ",
+                                                            )}
+                                                        </span>
+                                                    ) : null}
+                                                </div>
+
+                                                <div className='mt-1.5 pl-[3.25rem]'>
+                                                    {renderMobileNotesEditor(
+                                                        spell,
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        )
+                                    })}
+                                </AnimatePresence>
+                            </div>
+                        )
+                    })}
+                </div>
+                </>
             )}
 
             {/* Spell Detail Drawer */}
@@ -836,7 +1042,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                         </motion.button>
                                                     )}
                                                     <motion.button
-                                                        className='flex flex-1 items-center gap-3 text-left'
+                                                        className='flex min-w-0 flex-1 items-center gap-3 text-left'
                                                         whileHover={{ x: 2 }}
                                                         onClick={() =>
                                                             setSelectedSpell(
@@ -850,7 +1056,7 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                             }
                                                             size='xs'
                                                         />
-                                                        <span className='flex-1 font-rajdhani font-semibold text-grimoire-text-base'>
+                                                        <span className='min-w-0 flex-1 truncate font-rajdhani font-semibold text-grimoire-text-base'>
                                                             {spell.name}
                                                         </span>
                                                         {spell.concentration && (
@@ -874,11 +1080,6 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                                 </span>
                                                             </span>
                                                         )}
-                                                        <span className='font-rajdhani text-xs text-grimoire-text-faint'>
-                                                            {spellLevelLabel(
-                                                                spell.level,
-                                                            )}
-                                                        </span>
                                                     </motion.button>
                                                 </motion.div>
                                             )

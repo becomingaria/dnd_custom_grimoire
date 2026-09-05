@@ -9,6 +9,7 @@ import {
     Check,
     UserPlus,
     ArrowRight,
+    Menu,
 } from "lucide-react"
 import { updatePassword } from "aws-amplify/auth"
 import { useAuth } from "@/context/AuthContext"
@@ -34,6 +35,7 @@ export default function Navbar() {
         logout,
     } = useAuth()
     const [showProfile, setShowProfile] = useState(false)
+    const [showMobileNav, setShowMobileNav] = useState(false)
     const [usernameInput, setUsernameInput] = useState("")
     const [isSavingName, setIsSavingName] = useState(false)
     const [nameError, setNameError] = useState<string | null>(null)
@@ -159,7 +161,7 @@ export default function Navbar() {
                     </Link>
 
                     {/* Navigation links */}
-                    <ul className='flex items-center gap-1'>
+                    <ul className='hidden items-center gap-1 md:flex'>
                         {navLinks.map(({ to, label, icon: Icon }) => {
                             const isActive =
                                 to === "/"
@@ -196,28 +198,74 @@ export default function Navbar() {
                         })}
                     </ul>
 
-                    {/* Profile button */}
-                    <AnimatePresence mode='wait'>
-                        {user && (
-                            <motion.button
-                                key='profile-btn'
-                                onClick={() => openProfile()}
-                                className='flex h-9 w-9 items-center justify-center rounded-full border border-grimoire-primary/40 bg-grimoire-primary/10 font-cinzel text-sm font-bold text-grimoire-primary-light transition-colors hover:border-grimoire-primary/70 hover:bg-grimoire-primary/20'
-                                style={{
-                                    boxShadow: "0 0 10px rgba(124,58,237,0.2)",
-                                }}
-                                whileHover={{ scale: 1.08 }}
-                                whileTap={{ scale: 0.94 }}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8 }}
-                                title='Profile'
-                            >
-                                {initials}
-                            </motion.button>
-                        )}
-                    </AnimatePresence>
+                    {/* Right side: profile + mobile menu toggle */}
+                    <div className='flex items-center gap-2'>
+                        <AnimatePresence mode='wait'>
+                            {user && (
+                                <motion.button
+                                    key='profile-btn'
+                                    onClick={() => openProfile()}
+                                    className='flex h-9 w-9 items-center justify-center rounded-full border border-grimoire-primary/40 bg-grimoire-primary/10 font-cinzel text-sm font-bold text-grimoire-primary-light transition-colors hover:border-grimoire-primary/70 hover:bg-grimoire-primary/20'
+                                    style={{
+                                        boxShadow:
+                                            "0 0 10px rgba(124,58,237,0.2)",
+                                    }}
+                                    whileHover={{ scale: 1.08 }}
+                                    whileTap={{ scale: 0.94 }}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
+                                    title='Profile'
+                                >
+                                    {initials}
+                                </motion.button>
+                            )}
+                        </AnimatePresence>
+                        <button
+                            onClick={() => setShowMobileNav(true)}
+                            className='flex h-9 w-9 items-center justify-center rounded-lg text-grimoire-text-muted transition-colors hover:bg-grimoire-border/40 hover:text-grimoire-text-base md:hidden'
+                            aria-label='Open menu'
+                        >
+                            <Menu size={20} />
+                        </button>
+                    </div>
                 </nav>
+
+                {/* Mobile Nav Drawer */}
+                <Drawer
+                    side='left'
+                    isOpen={showMobileNav}
+                    onClose={() => setShowMobileNav(false)}
+                    title='Menu'
+                    width='w-full max-w-xs'
+                >
+                    <ul className='space-y-1'>
+                        {navLinks.map(({ to, label, icon: Icon }) => {
+                            const isActive =
+                                to === "/"
+                                    ? pathname === "/"
+                                    : pathname.startsWith(to)
+                            return (
+                                <li key={to}>
+                                    <Link
+                                        to={to}
+                                        onClick={() => setShowMobileNav(false)}
+                                        className={[
+                                            "flex items-center gap-3 rounded-lg px-3.5 py-2.5 font-rajdhani text-base font-medium",
+                                            "tracking-wide transition-colors duration-150",
+                                            isActive
+                                                ? "bg-grimoire-primary/10 text-grimoire-primary-light"
+                                                : "text-grimoire-text-muted hover:text-grimoire-text-base",
+                                        ].join(" ")}
+                                    >
+                                        <Icon size={18} />
+                                        <span>{label}</span>
+                                    </Link>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </Drawer>
 
                 {/* Profile Drawer */}
                 <Drawer
@@ -225,7 +273,7 @@ export default function Navbar() {
                     isOpen={showProfile}
                     onClose={() => setShowProfile(false)}
                     title='Profile'
-                    width='w-80'
+                    width='w-full max-w-xs'
                 >
                     <div className='flex flex-col items-center gap-6 pt-4'>
                         {/* Avatar */}

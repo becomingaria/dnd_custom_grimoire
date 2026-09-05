@@ -46,7 +46,7 @@ export default function Modal({
           >
             {/* Header */}
             {title && (
-              <div className="flex items-center justify-between border-b border-grimoire-border px-6 py-4">
+              <div className="flex items-center justify-between border-b border-grimoire-border px-4 py-4 sm:px-6">
                 <h2
                   id="modal-title"
                   className="font-cinzel text-lg font-semibold tracking-wide text-grimoire-text-base"
@@ -64,7 +64,7 @@ export default function Modal({
             )}
 
             {/* Body */}
-            <div className="max-h-[70vh] overflow-y-auto p-6">{children}</div>
+            <div className="max-h-[70vh] overflow-y-auto p-4 sm:p-6">{children}</div>
           </motion.div>
         </>
       )}

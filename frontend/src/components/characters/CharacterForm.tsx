@@ -180,7 +180,7 @@ export default function CharacterForm({
             </div>
 
             {/* Spellcasting ability + DC + attack bonus */}
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
                 <div>
                     <label className={labelClass}>Casting Ability</label>
                     <select
@@ -220,7 +220,7 @@ export default function CharacterForm({
             </div>
 
             {/* Totals */}
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
                 <div>
                     <label className={labelClass}>
                         Total Known Spells{" "}

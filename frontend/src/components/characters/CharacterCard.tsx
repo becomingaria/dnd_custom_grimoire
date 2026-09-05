@@ -47,7 +47,7 @@ export default function CharacterCard({ character, index = 0 }: CharacterCardPro
         className={`absolute inset-0 bg-gradient-to-br ${gradient} pointer-events-none opacity-60`}
       />
 
-      <div className="relative p-5">
+      <div className="relative p-4 sm:p-5">
         {/* Name + class */}
         <div className="mb-3">
           <h3 className="font-cinzel text-lg font-bold text-grimoire-text-base group-hover:text-grimoire-primary-light transition-colors">
