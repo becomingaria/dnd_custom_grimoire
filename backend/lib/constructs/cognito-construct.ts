@@ -11,7 +11,8 @@ export class CognitoConstruct extends Construct {
 
         this.userPool = new cognito.UserPool(this, "UserPool", {
             userPoolName: "grimoire-users",
-            selfSignUpEnabled: true,
+            // Invite-only: accounts are created by admins from the Admin page.
+            selfSignUpEnabled: false,
             signInAliases: {
                 email: true,
                 username: false,

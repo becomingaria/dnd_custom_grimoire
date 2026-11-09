@@ -2,6 +2,7 @@ import { Clock, Crosshair, Timer, Zap, RefreshCw, Settings } from "lucide-react"
 import SchoolBadge from "@/components/spells/SchoolBadge"
 import { spellLevelLabel, schoolGlowStyle } from "@/types/spell"
 import type { Spell } from "@/types/spell"
+import { SOURCES, HOMEBREW_SOURCE } from "@shared/spell-standard"
 
 interface SpellInfoPanelProps {
     spell: Spell
@@ -34,14 +35,7 @@ export default function SpellInfoPanel({ spell, onEdit }: SpellInfoPanelProps) {
                     {spellLevelLabel(spell.level)} ·{" "}
                     <SchoolBadge school={spell.school} size='sm' />
                 </p>
-                {spell.addedBy && (
-                    <p className='mt-1 font-rajdhani text-xs text-grimoire-text-faint'>
-                        Added by u/{spell.addedBy.split("@")[0]}
-                        {spell.sources?.length
-                            ? ` · ${spell.sources.join(", ")}`
-                            : ""}
-                    </p>
-                )}
+                <SpellAttribution spell={spell} />
 
                 {/* Quick stats */}
                 <div className='mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3'>
@@ -197,6 +191,54 @@ export default function SpellInfoPanel({ spell, onEdit }: SpellInfoPanelProps) {
                     </div>
                 )}
             </div>
+        </div>
+    )
+}
+
+/** "Xanathar's Guide to Everything · Wizards of the Coast" or "Homebrew by u/name". */
+function SpellAttribution({ spell }: { spell: Spell }) {
+    const author =
+        spell.addedBy && spell.addedBy !== "system"
+            ? `u/${spell.addedBy.split("@")[0]}`
+            : null
+    const sources = spell.sources ?? []
+
+    if (sources.length === 0 || sources.includes(HOMEBREW_SOURCE)) {
+        return (
+            <p className='mt-1 font-rajdhani text-xs text-grimoire-text-faint'>
+                Homebrew{author ? ` by ${author}` : " · author unknown"}
+                {" · "}
+                {spell.shared === true ? "Shared with members" : "Private"}
+            </p>
+        )
+    }
+
+    return (
+        <div className='mt-1 space-y-0.5 font-rajdhani text-xs text-grimoire-text-faint'>
+            {sources.map((abbr) => {
+                const info = SOURCES[abbr]
+                return (
+                    <p key={abbr}>
+                        {info?.url ? (
+                            <a
+                                href={info.url}
+                                target='_blank'
+                                rel='noreferrer'
+                                className='underline decoration-grimoire-border underline-offset-2 hover:text-grimoire-text-muted'
+                            >
+                                {info.title}
+                            </a>
+                        ) : (
+                            (info?.title ?? abbr)
+                        )}
+                        {info && info.publisher !== "Unknown"
+                            ? ` · ${info.publisher}`
+                            : ""}
+                        {info?.license ? ` · ${info.license}` : ""}
+                    </p>
+                )
+            })}
+            {author && <p>Added by {author}</p>}
         </div>
     )
 }

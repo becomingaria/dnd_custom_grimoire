@@ -18,6 +18,8 @@ dnd_custom_grimoire/
 │   │   └── characters/# Character CRUD handlers
 │   ├── seed/          # Seed data (spells, characters, users)
 │   └── scripts/       # Deployment scripts (seed, create-users)
+├── shared/            # Code used by both: spell standard + source registry
+├── docs/              # SPELL_STANDARD.md — rules for adding spells
 └── frontend/          # React + Vite + Tailwind + Framer Motion
     └── src/
         ├── api/       # API client layer
@@ -66,12 +68,30 @@ cp .env.example .env
 npm run seed
 ```
 
-### Create Users
+### Managing Users
+
+Sign-up is invite-only. Admins manage members from the **Admin** page
+(`/admin`): invite by email (as a player or admin), resend invites, reset
+passwords, promote/demote, disable/enable and delete. Invited members choose
+their own password the first time they sign in.
+
+Accounts listed under `ownerEmails` in `backend/cdk.json` can't be demoted,
+disabled or deleted through the app, and no admin can change their own access.
+
+To bootstrap the very first admin (or bulk-create accounts) from the CLI:
 
 ```bash
 # Fill in USER_POOL_ID in .env first
 npm run create-users
+npm run assign-admins
 ```
+
+### Adding Spells
+
+Every spell must meet the [Spell Standard](docs/SPELL_STANDARD.md): required
+fields, house style, and a source from the attribution registry. The app, API
+and seed scripts all enforce it; `npm run audit:spells:db` reports anything
+that has drifted.
 
 ### Frontend Setup
 
@@ -102,6 +122,11 @@ npm run dev
 | GET    | `/characters/{characterId}`| Get a character        |
 | PUT    | `/characters/{characterId}`| Update a character     |
 | DELETE | `/characters/{characterId}`| Delete a character     |
+| PUT    | `/users/username`          | Set your display name  |
+| GET    | `/admin/users`             | List members (admin)   |
+| POST   | `/admin/users`             | Invite / re-invite (admin) |
+| PUT    | `/admin/users/{username}`  | Change role or enable/disable (admin) |
+| DELETE | `/admin/users/{username}`  | Delete member + their characters (admin) |
 
 All endpoints require a valid Cognito JWT Bearer token.
 
@@ -128,6 +153,9 @@ All endpoints require a valid Cognito JWT Bearer token.
 ## 📝 Notes
 
 - Non-homebrew spells seeded from the SRD are visible to all users.
-- Homebrew spells are private to the creating user.
+- Homebrew spells are private to their author unless the author ticks
+  "Share with other members" (this includes homebrew created before sharing
+  existed). A spell already in one of your characters' spellbooks stays
+  visible to you even if its author later makes it private. Admins see all.
 - Characters and their spellbooks are private to the owning user.
 - [Live Site](https://dndcustomgrimoire.netlify.app)

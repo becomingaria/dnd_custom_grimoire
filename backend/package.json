@@ -37,7 +37,11 @@
         "merge:dupes": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/merge-duplicate-spells.ts",
         "merge:dupes:live": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/merge-duplicate-spells.ts --live",
         "migrate:conviction": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-sanity-to-conviction.ts",
-        "migrate:conviction:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-sanity-to-conviction.ts --dry-run"
+        "migrate:conviction:dry": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/migrate-sanity-to-conviction.ts --dry-run",
+        "audit:spells": "ts-node --project tsconfig.json scripts/audit-spells.ts",
+        "audit:spells:db": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/audit-spells.ts --db",
+        "fix:spells:file": "ts-node --project tsconfig.json scripts/fix-spell-data.ts",
+        "fix:spells:db": "AWS_PROFILE=personal ts-node --project tsconfig.json scripts/fix-spell-data.ts --db"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.140",

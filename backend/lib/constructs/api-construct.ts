@@ -17,6 +17,8 @@ interface ApiConstructProps {
     usernamesTable: dynamodb.Table
     userPool: cognito.UserPool
     userPoolClient: cognito.UserPoolClient
+    /** Comma-separated emails that can never be demoted/disabled/deleted. */
+    ownerEmails: string
 }
 
 export class ApiConstruct extends Construct {
@@ -31,6 +33,7 @@ export class ApiConstruct extends Construct {
             usernamesTable,
             userPool,
             userPoolClient,
+            ownerEmails,
         } = props
 
         // ─── Shared Lambda Config ─────────────────────────────────────────────────
@@ -170,16 +173,20 @@ export class ApiConstruct extends Construct {
             },
         )
 
-        const inviteUserFn = new lambdaNodejs.NodejsFunction(
+        // ─── Admin Lambda Function ────────────────────────────────────────────────
+        // One handler serves every /admin/users route (see lambdas/admin/users.ts)
+        const adminUsersFn = new lambdaNodejs.NodejsFunction(
             this,
-            "InviteUser",
+            "AdminUsers",
             {
                 ...commonProps,
-                functionName: "grimoire-invite-user",
-                entry: path.join(lambdaDir, "users/inviteUser.ts"),
+                functionName: "grimoire-admin-users",
+                entry: path.join(lambdaDir, "admin/users.ts"),
                 environment: {
                     ...commonEnv,
                     USER_POOL_ID: userPool.userPoolId,
+                    USERNAMES_TABLE: usernamesTable.tableName,
+                    OWNER_EMAILS: ownerEmails,
                 },
             },
         )
@@ -188,6 +195,9 @@ export class ApiConstruct extends Construct {
         spellsTable.grantReadWriteData(createSpellFn)
         spellsTable.grantReadData(listSpellsFn)
         spellsTable.grantReadData(getSpellFn)
+        // Visibility checks read the caller's spellbooks (shared/visibility.ts)
+        charactersTable.grantReadData(listSpellsFn)
+        charactersTable.grantReadData(getSpellFn)
         spellsTable.grantReadWriteData(updateSpellFn)
         spellsTable.grantReadWriteData(deleteSpellFn)
 
@@ -206,12 +216,25 @@ export class ApiConstruct extends Construct {
             }),
         )
 
-        inviteUserFn.addToRolePolicy(
+        charactersTable.grantReadWriteData(adminUsersFn)
+        spellsTable.grantReadData(adminUsersFn)
+        usernamesTable.grantReadWriteData(adminUsersFn)
+        adminUsersFn.addToRolePolicy(
             new iam.PolicyStatement({
                 effect: iam.Effect.ALLOW,
                 actions: [
+                    "cognito-idp:ListUsers",
+                    "cognito-idp:ListUsersInGroup",
+                    "cognito-idp:AdminGetUser",
+                    "cognito-idp:AdminListGroupsForUser",
                     "cognito-idp:AdminCreateUser",
                     "cognito-idp:AdminSetUserPassword",
+                    "cognito-idp:AdminAddUserToGroup",
+                    "cognito-idp:AdminRemoveUserFromGroup",
+                    "cognito-idp:AdminEnableUser",
+                    "cognito-idp:AdminDisableUser",
+                    "cognito-idp:AdminUserGlobalSignOut",
+                    "cognito-idp:AdminDeleteUser",
                 ],
                 resources: [userPool.userPoolArn],
             }),
@@ -359,13 +382,38 @@ export class ApiConstruct extends Construct {
             authorizer,
         })
 
+        // ─── Admin Routes (Admin group enforced inside the Lambda) ────────────────
+        const adminIntegration =
+            new apigatewayv2Integrations.HttpLambdaIntegration(
+                "AdminUsersInt",
+                adminUsersFn,
+            )
+
+        this.httpApi.addRoutes({
+            path: "/admin/users",
+            methods: [
+                apigatewayv2.HttpMethod.GET,
+                apigatewayv2.HttpMethod.POST,
+            ],
+            integration: adminIntegration,
+            authorizer,
+        })
+
+        this.httpApi.addRoutes({
+            path: "/admin/users/{username}",
+            methods: [
+                apigatewayv2.HttpMethod.PUT,
+                apigatewayv2.HttpMethod.DELETE,
+            ],
+            integration: adminIntegration,
+            authorizer,
+        })
+
+        // Legacy alias kept so an older frontend build keeps working.
         this.httpApi.addRoutes({
             path: "/users/invite",
             methods: [apigatewayv2.HttpMethod.POST],
-            integration: new apigatewayv2Integrations.HttpLambdaIntegration(
-                "InviteUserInt",
-                inviteUserFn,
-            ),
+            integration: adminIntegration,
             authorizer,
         })
     }

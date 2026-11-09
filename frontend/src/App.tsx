@@ -11,6 +11,7 @@ import HomePage from "@/pages/HomePage"
 import SpellsPage from "@/pages/SpellsPage"
 import CharactersPage from "@/pages/CharactersPage"
 import CharacterDetailPage from "@/pages/CharacterDetailPage"
+import AdminPage from "@/pages/AdminPage"
 
 // Configure Amplify
 Amplify.configure(awsConfig)
@@ -30,6 +31,15 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { isAuthenticated, isLoading } = useAuth()
     if (isLoading) return null
     if (!isAuthenticated) return <Navigate to='/login' replace />
+    return <>{children}</>
+}
+
+// Admin-only wrapper — the API enforces this too; this just hides the UI.
+function AdminRoute({ children }: { children: React.ReactNode }) {
+    const { isAuthenticated, isAdmin, isLoading } = useAuth()
+    if (isLoading) return null
+    if (!isAuthenticated) return <Navigate to='/login' replace />
+    if (!isAdmin) return <Navigate to='/' replace />
     return <>{children}</>
 }
 
@@ -112,6 +122,19 @@ function AppRoutes() {
                                 </PageTransition>
                             </Layout>
                         </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path='/admin'
+                    element={
+                        <AdminRoute>
+                            <Layout>
+                                <PageTransition>
+                                    <AdminPage />
+                                </PageTransition>
+                            </Layout>
+                        </AdminRoute>
                     }
                 />
 

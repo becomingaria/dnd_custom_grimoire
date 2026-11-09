@@ -8,6 +8,7 @@ import {
 } from "react"
 import {
     signIn,
+    confirmSignIn,
     signOut,
     getCurrentUser,
     fetchAuthSession,
@@ -16,6 +17,12 @@ import {
 import { setUsername } from "@/api/users"
 
 export type UserRole = "admin" | "user"
+
+/** What the login form should show after a sign-in attempt. */
+export type LoginResult =
+    | { status: "signed-in" }
+    /** Invited users must replace their temporary password on first sign-in. */
+    | { status: "new-password-required" }
 
 interface AuthContextValue {
     user: AuthUser | null
@@ -26,7 +33,8 @@ interface AuthContextValue {
     isAdmin: boolean
     isLoading: boolean
     isAuthenticated: boolean
-    login: (email: string, password: string) => Promise<void>
+    login: (email: string, password: string) => Promise<LoginResult>
+    completeNewPassword: (newPassword: string) => Promise<void>
     logout: () => Promise<void>
     updateDisplayName: (name: string) => Promise<void>
 }
@@ -78,8 +86,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         void loadUser()
     }, [loadUser])
 
-    const login = async (email: string, password: string) => {
-        await signIn({ username: email, password })
+    const login = async (
+        email: string,
+        password: string,
+    ): Promise<LoginResult> => {
+        const { isSignedIn, nextStep } = await signIn({
+            username: email,
+            password,
+        })
+        if (
+            !isSignedIn &&
+            nextStep.signInStep ===
+                "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+        ) {
+            return { status: "new-password-required" }
+        }
+        if (!isSignedIn) {
+            throw new Error(
+                `Sign-in needs an extra step this app doesn't support yet (${nextStep.signInStep}).`,
+            )
+        }
+        await loadUser()
+        return { status: "signed-in" }
+    }
+
+    const completeNewPassword = async (newPassword: string) => {
+        const { isSignedIn, nextStep } = await confirmSignIn({
+            challengeResponse: newPassword,
+        })
+        if (!isSignedIn) {
+            throw new Error(
+                `Sign-in needs an extra step this app doesn't support yet (${nextStep.signInStep}).`,
+            )
+        }
         await loadUser()
     }
 
@@ -109,6 +148,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 isLoading,
                 isAuthenticated: !!user,
                 login,
+                completeNewPassword,
                 logout,
                 updateDisplayName,
             }}

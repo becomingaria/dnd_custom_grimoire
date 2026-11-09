@@ -11,13 +11,18 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "outDir": "./dist",
-    "rootDir": "./",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "sourceMap": true
   },
-  "include": ["bin/**/*", "lib/**/*", "lambdas/**/*", "scripts/**/*"],
+  "include": [
+    "bin/**/*",
+    "lib/**/*",
+    "lambdas/**/*",
+    "scripts/**/*",
+    "../shared/**/*"
+  ],
   "exclude": ["node_modules", "dist", "cdk.out"]
 }

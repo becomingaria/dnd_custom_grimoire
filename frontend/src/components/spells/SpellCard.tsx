@@ -61,7 +61,7 @@ export default function SpellCard({
                         <p className='mt-0.5 font-rajdhani text-xs text-grimoire-text-muted'>
                             {spellLevelLabel(spell.level)}
                         </p>
-                        {spell.addedBy && (
+                        {spell.addedBy && spell.addedBy !== "system" && (
                             <p className='mt-0.5 font-rajdhani text-[11px] text-grimoire-text-faint'>
                                 u/{spell.addedBy.split("@")[0]}
                             </p>

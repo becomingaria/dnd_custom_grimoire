@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -5,6 +6,18 @@ import { motion } from "framer-motion"
 import { Save, X } from "lucide-react"
 import { SPELL_SCHOOLS, DND_CLASSES } from "@/types/spell"
 import type { Spell, CreateSpellInput } from "@/types/spell"
+import {
+    SOURCES,
+    HOMEBREW_SOURCE,
+    DAMAGE_TYPES,
+    normalizeSpell,
+    validateSpell,
+} from "@shared/spell-standard"
+
+/** Published sources an admin can attribute a spell to (registry order). */
+const PUBLISHED_SOURCES = Object.values(SOURCES).filter(
+    (s) => s.abbr !== HOMEBREW_SOURCE,
+)
 
 const spellSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -22,7 +35,8 @@ const spellSchema = z.object({
     description: z.string().min(1, "Description is required"),
     higherLevels: z.string().nullable().optional(),
     classes: z.array(z.string()).min(1, "At least one class"),
-    source: z.string().default("Homebrew"),
+    sources: z.array(z.string()),
+    shared: z.boolean(),
     damageType: z.string().nullable().optional(),
     tags: z.string().optional(), // comma-separated in form
 })
@@ -34,7 +48,7 @@ interface SpellFormProps {
     onSubmit: (data: CreateSpellInput) => Promise<void> | void
     onCancel?: () => void
     isLoading?: boolean
-    existingSources?: string[]
+    /** Admins may attribute spells to published sources; others get Homebrew. */
     isAdmin?: boolean
 }
 
@@ -49,9 +63,9 @@ export default function SpellForm({
     onSubmit,
     onCancel,
     isLoading,
-    existingSources = [],
     isAdmin = false,
 }: SpellFormProps) {
+    const [submitErrors, setSubmitErrors] = useState<string[]>([])
     const {
         register,
         handleSubmit,
@@ -77,7 +91,11 @@ export default function SpellForm({
             description: initial?.description ?? "",
             higherLevels: initial?.higherLevels ?? "",
             classes: initial?.classes ?? [],
-            source: initial?.sources?.join(", ") ?? "Homebrew",
+            sources: initial?.sources?.length
+                ? initial.sources
+                : [HOMEBREW_SOURCE],
+            // Homebrew is private unless its author has explicitly shared it.
+            shared: initial?.shared === true,
             damageType: initial?.damageType ?? "",
             tags: initial?.tags?.join(", ") ?? "",
         },
@@ -85,6 +103,9 @@ export default function SpellForm({
 
     const selectedComponents = watch("components") ?? []
     const selectedClasses = watch("classes") ?? []
+    const selectedSources = watch("sources") ?? []
+    const isHomebrewSelection =
+        !isAdmin || selectedSources.includes(HOMEBREW_SOURCE)
 
     function toggleComponent(comp: "V" | "S" | "M") {
         const current = selectedComponents
@@ -94,6 +115,18 @@ export default function SpellForm({
                 ? current.filter((c) => c !== comp)
                 : [...current, comp],
         )
+    }
+
+    function toggleSource(abbr: string) {
+        if (abbr === HOMEBREW_SOURCE) {
+            setValue("sources", [HOMEBREW_SOURCE])
+            return
+        }
+        const published = selectedSources.filter((s) => s !== HOMEBREW_SOURCE)
+        const next = published.includes(abbr)
+            ? published.filter((s) => s !== abbr)
+            : [...published, abbr]
+        setValue("sources", next.length ? next : [HOMEBREW_SOURCE])
     }
 
     function toggleClass(cls: string) {
@@ -106,28 +139,8 @@ export default function SpellForm({
         )
     }
 
-    const handleFormSubmit = (data: SpellFormData) => {
-        if (!isAdmin) {
-            data.source = "Homebrew"
-        } else {
-            const newSources = data.source
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean)
-            const isNewSource = newSources.some(
-                (src) => !existingSources.includes(src),
-            )
-            if (isNewSource) {
-                const newOnes = newSources.filter(
-                    (src) => !existingSources.includes(src),
-                )
-                const confirmed = window.confirm(
-                    `"${newOnes.join(", ")}" would be the first spell(s) from this source — is that correct?`,
-                )
-                if (!confirmed) return
-            }
-        }
-
+    const handleFormSubmit = async (data: SpellFormData) => {
+        setSubmitErrors([])
         const input: CreateSpellInput = {
             name: data.name,
             level: data.level,
@@ -142,10 +155,8 @@ export default function SpellForm({
             description: data.description,
             higherLevels: data.higherLevels ?? null,
             classes: data.classes,
-            sources: data.source
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean),
+            sources: isAdmin ? data.sources : [HOMEBREW_SOURCE],
+            ...(isHomebrewSelection ? { shared: data.shared } : {}),
             tags: data.tags
                 ? data.tags
                       .split(",")
@@ -153,9 +164,29 @@ export default function SpellForm({
                       .filter(Boolean)
                 : [],
             damageType:
-                (data.damageType as CreateSpellInput["damageType"]) ?? null,
+                (data.damageType as CreateSpellInput["damageType"]) || null,
         }
-        void onSubmit(input)
+
+        // Same standard the API enforces — catch problems before the round trip.
+        const blocking = validateSpell(
+            normalizeSpell({
+                ...input,
+                isHomebrew: input.sources.includes(HOMEBREW_SOURCE),
+                addedBy: initial?.addedBy ?? "you",
+            }),
+        ).filter((i) => i.severity === "error")
+        if (blocking.length) {
+            setSubmitErrors(blocking.map((i) => i.message))
+            return
+        }
+
+        try {
+            await onSubmit(input)
+        } catch (err) {
+            setSubmitErrors([
+                err instanceof Error ? err.message : "Could not save spell",
+            ])
+        }
     }
 
     return (
@@ -218,8 +249,8 @@ export default function SpellForm({
                 </div>
             </div>
 
-            {/* Duration + Source */}
-            <div className='grid grid-cols-2 gap-4'>
+            {/* Duration */}
+            <div>
                 <div>
                     <label className={labelClass}>Duration</label>
                     <input
@@ -228,36 +259,73 @@ export default function SpellForm({
                         {...register("duration")}
                     />
                 </div>
-                <div>
-                    <label className={labelClass}>Source</label>
-                    {isAdmin ? (
-                        <>
-                            <input
-                                className={fieldClass}
-                                placeholder="e.g. Player's Handbook"
-                                list='source-suggestions'
-                                {...register("source")}
-                            />
-                            {existingSources.length > 0 && (
-                                <datalist id='source-suggestions'>
-                                    {existingSources.map((s) => (
-                                        <option key={s} value={s} />
-                                    ))}
-                                </datalist>
-                            )}
-                        </>
-                    ) : (
-                        <div className='flex items-center gap-2 rounded-lg border border-grimoire-border/40 bg-grimoire-surface/50 px-3 py-2.5'>
-                            <span className='font-rajdhani text-sm text-grimoire-text-muted'>
-                                Homebrew
-                            </span>
-                            <span className='ml-auto font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
-                                locked
-                            </span>
-                        </div>
-                    )}
-                </div>
             </div>
+
+            {/* Source / attribution */}
+            <div>
+                <label className={labelClass}>Source</label>
+                {isAdmin ? (
+                    <>
+                        <div className='flex flex-wrap gap-1.5'>
+                            {[...PUBLISHED_SOURCES, SOURCES[HOMEBREW_SOURCE]].map(
+                                (src) => (
+                                    <button
+                                        key={src.abbr}
+                                        type='button'
+                                        title={`${src.title} — ${src.publisher}`}
+                                        onClick={() => toggleSource(src.abbr)}
+                                        className={[
+                                            "rounded border px-2.5 py-1 font-rajdhani text-xs font-medium transition-colors",
+                                            selectedSources.includes(src.abbr)
+                                                ? "border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                                : "border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                                        ].join(" ")}
+                                    >
+                                        {src.abbr}
+                                    </button>
+                                ),
+                            )}
+                        </div>
+                        <p className='mt-1.5 font-rajdhani text-xs text-grimoire-text-faint'>
+                            {selectedSources
+                                .map((a) => SOURCES[a]?.title ?? a)
+                                .join(" · ")}
+                            {" — "}missing a book? Add it to the source registry
+                            first (docs/SPELL_STANDARD.md).
+                        </p>
+                    </>
+                ) : (
+                    <div className='flex items-center gap-2 rounded-lg border border-grimoire-border/40 bg-grimoire-surface/50 px-3 py-2.5'>
+                        <span className='font-rajdhani text-sm text-grimoire-text-muted'>
+                            Homebrew — credited to you
+                        </span>
+                        <span className='ml-auto font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
+                            locked
+                        </span>
+                    </div>
+                )}
+            </div>
+
+            {/* Sharing (homebrew only) */}
+            {isHomebrewSelection && (
+                <label className='flex cursor-pointer items-start gap-2.5 rounded-lg border border-grimoire-border/60 bg-grimoire-surface/40 px-3 py-2.5'>
+                    <input
+                        type='checkbox'
+                        className='mt-0.5 h-4 w-4 rounded border-grimoire-border bg-grimoire-surface accent-grimoire-primary'
+                        {...register("shared")}
+                    />
+                    <span>
+                        <span className='block font-rajdhani text-sm font-medium text-grimoire-text-base'>
+                            Share with other members
+                        </span>
+                        <span className='block font-rajdhani text-xs text-grimoire-text-faint'>
+                            Off: only you (and admins) can see this spell.
+                            Members who already added it to a character keep
+                            it if you later make it private.
+                        </span>
+                    </span>
+                </label>
+            )}
 
             {/* Components */}
             <div>
@@ -369,11 +437,14 @@ export default function SpellForm({
             <div className='grid grid-cols-2 gap-4'>
                 <div>
                     <label className={labelClass}>Damage Type (optional)</label>
-                    <input
-                        className={fieldClass}
-                        placeholder='fire, cold, force…'
-                        {...register("damageType")}
-                    />
+                    <select className={fieldClass} {...register("damageType")}>
+                        <option value=''>None</option>
+                        {DAMAGE_TYPES.map((t) => (
+                            <option key={t} value={t} className='capitalize'>
+                                {t}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label className={labelClass}>Tags (comma-separated)</label>
@@ -384,6 +455,19 @@ export default function SpellForm({
                     />
                 </div>
             </div>
+
+            {submitErrors.length > 0 && (
+                <ul className='space-y-1 rounded-lg border border-grimoire-danger/30 bg-grimoire-danger/10 px-3 py-2'>
+                    {submitErrors.map((e) => (
+                        <li
+                            key={e}
+                            className='font-rajdhani text-sm text-grimoire-danger'
+                        >
+                            {e}
+                        </li>
+                    ))}
+                </ul>
+            )}
 
             {/* Actions */}
             <div className='flex items-center justify-end gap-3 border-t border-grimoire-border/40 pt-4'>

@@ -5,9 +5,13 @@ import ParticleBackground from '@/components/shared/ParticleBackground';
 import { Eye, EyeOff, Sparkles } from 'lucide-react';
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, completeNewPassword } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // Invited users sign in with a temporary password and must choose their own.
+  const [needsNewPassword, setNeedsNewPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +21,17 @@ export default function LoginPage() {
     setError(null);
     setIsLoading(true);
     try {
-      await login(email, password);
+      if (needsNewPassword) {
+        if (newPassword !== confirmPassword) {
+          throw new Error('Passwords do not match.');
+        }
+        await completeNewPassword(newPassword);
+        return;
+      }
+      const result = await login(email, password);
+      if (result.status === 'new-password-required') {
+        setNeedsNewPassword(true);
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
     } finally {
@@ -59,9 +73,52 @@ export default function LoginPage() {
 
         {/* Card */}
         <div className="rounded-2xl border border-grimoire-border/60 bg-grimoire-card/80 p-4 shadow-2xl backdrop-blur-md sm:p-8">
-          <h2 className="mb-6 font-cinzel text-lg font-semibold text-grimoire-text-base">Sign In</h2>
+          <h2 className="mb-6 font-cinzel text-lg font-semibold text-grimoire-text-base">
+            {needsNewPassword ? 'Choose Your Password' : 'Sign In'}
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {needsNewPassword ? (
+              <>
+                <p className="font-rajdhani text-sm text-grimoire-text-muted">
+                  Welcome! You signed in with a temporary password. Choose a new one to finish
+                  setting up <span className="text-grimoire-text-base">{email}</span>.
+                </p>
+                <div>
+                  <label className="mb-1 block font-rajdhani text-sm font-semibold uppercase tracking-wider text-grimoire-text-muted">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                    autoFocus
+                    className="grimoire-input"
+                    placeholder="At least 8 characters"
+                  />
+                  <p className="mt-1 font-rajdhani text-xs text-grimoire-text-faint">
+                    8+ characters with an uppercase letter, a lowercase letter and a number.
+                  </p>
+                </div>
+                <div>
+                  <label className="mb-1 block font-rajdhani text-sm font-semibold uppercase tracking-wider text-grimoire-text-muted">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    autoComplete="new-password"
+                    className="grimoire-input"
+                  />
+                </div>
+              </>
+            ) : (
+            <>
             <div>
               <label className="mb-1 block font-rajdhani text-sm font-semibold uppercase tracking-wider text-grimoire-text-muted">
                 Email
@@ -100,6 +157,8 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
+            </>
+            )}
 
             {error && (
               <motion.p
@@ -125,8 +184,10 @@ export default function LoginPage() {
                     animate={{ rotate: 360 }}
                     transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                   />
-                  Entering…
+                  {needsNewPassword ? 'Saving…' : 'Entering…'}
                 </span>
+              ) : needsNewPassword ? (
+                'Set Password & Enter'
               ) : (
                 'Enter the Grimoire'
               )}

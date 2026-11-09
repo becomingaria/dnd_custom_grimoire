@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandlerV2WithJWTAuthorizer } from 'aws-lambda';
 import { GetCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient, SPELLS_TABLE } from '../shared/dynamodb-client';
+import { getCaller } from '../shared/auth';
 import {
   successResponse,
   errorResponse,
@@ -10,7 +11,7 @@ import {
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
   try {
-    const userId = event.requestContext.authorizer.jwt.claims['sub'] as string;
+    const caller = getCaller(event);
     const spellId = event.pathParameters?.spellId;
 
     if (!spellId) return errorResponse('Spell ID is required', 400);
@@ -20,7 +21,7 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
     );
 
     if (!existing.Item) return notFoundResponse('Spell');
-    if (existing.Item.createdBy !== userId) return forbiddenResponse();
+    if (existing.Item.createdBy !== caller.userId && !caller.isAdmin) return forbiddenResponse();
 
     await docClient.send(
       new DeleteCommand({ TableName: SPELLS_TABLE, Key: { spellId } })

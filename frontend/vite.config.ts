@@ -8,11 +8,16 @@ export default defineConfig({
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
+            // Code shared with the backend (spell standard, source registry)
+            "@shared": path.resolve(__dirname, "../shared"),
         },
     },
     server: {
         port: 4777,
         open: true,
+        fs: {
+            allow: [__dirname, path.resolve(__dirname, "../shared")],
+        },
     },
     build: {
         outDir: "dist",

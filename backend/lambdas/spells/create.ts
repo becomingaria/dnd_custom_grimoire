@@ -2,92 +2,92 @@ import { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda"
 import { PutCommand } from "@aws-sdk/lib-dynamodb"
 import { v4 as uuidv4 } from "uuid"
 import { docClient, SPELLS_TABLE } from "../shared/dynamodb-client"
+import { getCaller } from "../shared/auth"
 import {
     successResponse,
     errorResponse,
     validationErrorResponse,
 } from "../shared/response"
+import {
+    normalizeSpell,
+    validateSpell,
+    HOMEBREW_SOURCE,
+} from "../../../shared/spell-standard"
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (
     event,
 ) => {
     try {
-        const userId = event.requestContext.authorizer.jwt.claims[
-            "sub"
-        ] as string
-        const addedBy =
-            (event.requestContext.authorizer.jwt.claims["email"] as
-                | string
-                | undefined) ?? userId
+        const caller = getCaller(event)
+        const addedBy = caller.email ?? caller.userId
 
         if (!event.body) {
             return validationErrorResponse("Request body is required")
         }
 
         const body = JSON.parse(event.body)
-        const {
-            name,
-            level,
-            school,
-            castingTime,
-            range,
-            components,
-            duration,
-            description,
-        } = body
 
-        if (
-            !name ||
-            level === undefined ||
-            !school ||
-            !castingTime ||
-            !range ||
-            !components ||
-            !duration ||
-            !description
-        ) {
-            return validationErrorResponse(
-                "Missing required fields: name, level, school, castingTime, range, components, duration, description",
-            )
-        }
+        // Only admins may attribute a spell to a published source; everyone
+        // else's spells are Homebrew, credited to them via addedBy.
+        const requestedSources: string[] = Array.isArray(body.sources)
+            ? body.sources.map(String)
+            : []
+        const sources =
+            caller.isAdmin && requestedSources.length
+                ? requestedSources
+                : [HOMEBREW_SOURCE]
 
         const now = new Date().toISOString()
 
-        const spell = {
+        const spell = normalizeSpell({
             spellId: uuidv4(),
-            name: String(name).trim(),
-            level: Number(level),
-            school: String(school),
-            castingTime: String(castingTime),
-            range: String(range),
-            components: Array.isArray(components) ? components : [components],
+            name: String(body.name ?? ""),
+            level: Number(body.level),
+            school: String(body.school ?? ""),
+            castingTime: String(body.castingTime ?? ""),
+            range: String(body.range ?? ""),
+            components: Array.isArray(body.components)
+                ? body.components.map(String)
+                : [],
             materialComponents: body.materialComponents ?? null,
-            duration: String(duration),
+            duration: String(body.duration ?? ""),
             concentration: Boolean(body.concentration),
             ritual: Boolean(body.ritual),
-            description: String(description),
+            description: String(body.description ?? ""),
             higherLevels: body.higherLevels ?? null,
-            classes: Array.isArray(body.classes) ? body.classes : [],
-            isHomebrew: true,
-            source: body.source ?? "Homebrew",
-            tags: Array.isArray(body.tags) ? body.tags : [],
+            classes: Array.isArray(body.classes) ? body.classes.map(String) : [],
+            sources,
+            isHomebrew: false as boolean,
+            tags: Array.isArray(body.tags) ? body.tags.map(String) : [],
             damageType: body.damageType ?? null,
             addedBy,
-            createdBy: userId,
+            createdBy: caller.userId,
             createdAt: now,
             updatedAt: now,
             changelog: [],
+        })
+        spell.isHomebrew = spell.sources.includes(HOMEBREW_SOURCE)
+        // Homebrew is private unless its author chooses to share it.
+        const item = spell.isHomebrew
+            ? { ...spell, shared: body.shared === true }
+            : spell
+
+        const errors = validateSpell(spell).filter((i) => i.severity === "error")
+        if (errors.length) {
+            return validationErrorResponse(
+                errors.map((e) => e.message).join("; "),
+            )
         }
 
         await docClient.send(
             new PutCommand({
                 TableName: SPELLS_TABLE,
-                Item: spell,
+                Item: item,
                 ConditionExpression: "attribute_not_exists(spellId)",
             }),
         )
 
-        return successResponse(spell, 201)
+        return successResponse(item, 201)
     } catch (error) {
         console.error("Error creating spell:", error)
         return errorResponse("Failed to create spell")

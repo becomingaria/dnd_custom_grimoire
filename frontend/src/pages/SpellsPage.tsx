@@ -22,17 +22,13 @@ export default function SpellsPage() {
     >(null)
     const [addConfirmation, setAddConfirmation] = useState("")
 
-    const { isAdmin } = useAuth()
+    const { isAdmin, userId } = useAuth()
 
     const { data: spells = [], isLoading } = useSpells()
     const { data: characters = [] } = useCharacters()
     const createSpell = useCreateSpell()
     const updateSpell = useUpdateSpell()
     const addKnownSpell = useAddKnownSpell()
-
-    const existingSources = Array.from(
-        new Set(spells.flatMap((s) => s.sources).filter(Boolean)),
-    ).sort()
 
     async function handleCreate(data: CreateSpellInput) {
         await createSpell.mutateAsync(data)
@@ -41,10 +37,11 @@ export default function SpellsPage() {
 
     async function handleUpdateSpell(data: CreateSpellInput) {
         if (!selectedSpell) return
-        await updateSpell.mutateAsync({
+        const updated = await updateSpell.mutateAsync({
             spellId: selectedSpell.spellId,
             input: data,
         })
+        setSelectedSpell(updated)
         setIsEditingSpell(false)
     }
 
@@ -119,14 +116,13 @@ export default function SpellsPage() {
                             onSubmit={handleUpdateSpell}
                             onCancel={() => setIsEditingSpell(false)}
                             isLoading={updateSpell.isPending}
-                            existingSources={existingSources}
                             isAdmin={isAdmin}
                         />
                     ) : (
                         <SpellInfoPanel
                             spell={selectedSpell}
                             onEdit={
-                                isAdmin && selectedSpell.isHomebrew
+                                isAdmin || selectedSpell.createdBy === userId
                                     ? () => setIsEditingSpell(true)
                                     : undefined
                             }
@@ -200,7 +196,6 @@ export default function SpellsPage() {
                     onSubmit={handleCreate}
                     onCancel={() => setShowCreate(false)}
                     isLoading={createSpell.isPending}
-                    existingSources={existingSources}
                     isAdmin={isAdmin}
                 />
             </Drawer>

@@ -7,21 +7,21 @@ import {
     Home,
     LogOut,
     Check,
-    UserPlus,
     ArrowRight,
     Menu,
+    Shield,
 } from "lucide-react"
 import { updatePassword } from "aws-amplify/auth"
 import { useAuth } from "@/context/AuthContext"
 import Drawer from "@/components/shared/Drawer"
 import Modal from "@/components/shared/Modal"
-import { inviteUser } from "@/api/users"
 
-const navLinks = [
+const baseNavLinks = [
     { to: "/", label: "Home", icon: Home },
     { to: "/spells", label: "Spells", icon: BookOpen },
     { to: "/characters", label: "Characters", icon: Users },
 ]
+const adminNavLink = { to: "/admin", label: "Admin", icon: Shield }
 
 export default function Navbar() {
     const { pathname } = useLocation()
@@ -39,12 +39,7 @@ export default function Navbar() {
     const [usernameInput, setUsernameInput] = useState("")
     const [isSavingName, setIsSavingName] = useState(false)
     const [nameError, setNameError] = useState<string | null>(null)
-    const [inviteEmail, setInviteEmail] = useState("")
-    const [isInviting, setIsInviting] = useState(false)
-    const [inviteResult, setInviteResult] = useState<{
-        ok: boolean
-        msg: string
-    } | null>(null)
+    const navLinks = isAdmin ? [...baseNavLinks, adminNavLink] : baseNavLinks
 
     // ── Change password ────────────────────────────────────────────────────────
     const [newPasswordInput, setNewPasswordInput] = useState("")
@@ -57,8 +52,6 @@ export default function Navbar() {
 
     function openProfile() {
         setUsernameInput(displayName ?? "")
-        setInviteEmail("")
-        setInviteResult(null)
         setNewPasswordInput("")
         setChangePwSuccess(false)
         setShowProfile(true)
@@ -76,27 +69,6 @@ export default function Navbar() {
             setNameError(msg)
         } finally {
             setIsSavingName(false)
-        }
-    }
-
-    async function handleInvite() {
-        const trimmed = inviteEmail.trim()
-        if (!trimmed) return
-        setIsInviting(true)
-        setInviteResult(null)
-        try {
-            const res = await inviteUser(trimmed)
-            const msg = res.created
-                ? `Invitation sent to ${res.email}`
-                : `Password reset and re-invite sent to ${res.email}`
-            setInviteResult({ ok: true, msg })
-            setInviteEmail("")
-        } catch (err: unknown) {
-            const msg =
-                err instanceof Error ? err.message : "Failed to send invite"
-            setInviteResult({ ok: false, msg })
-        } finally {
-            setIsInviting(false)
         }
     }
 
@@ -401,61 +373,16 @@ export default function Navbar() {
                         {/* Divider */}
                         <div className='w-full border-t border-grimoire-border' />
 
-                        {/* Admin: Invite User */}
+                        {/* Admin shortcut */}
                         {isAdmin && (
-                            <div className='w-full space-y-2'>
-                                <p className='font-cinzel text-xs uppercase tracking-widest text-grimoire-text-faint'>
-                                    Invite User
-                                </p>
-                                <div className='flex gap-2'>
-                                    <input
-                                        type='email'
-                                        value={inviteEmail}
-                                        onChange={(e) => {
-                                            setInviteEmail(e.target.value)
-                                            setInviteResult(null)
-                                        }}
-                                        onKeyDown={(e) => {
-                                            if (e.key === "Enter")
-                                                void handleInvite()
-                                        }}
-                                        placeholder='email@example.com'
-                                        className='flex-1 rounded-lg border border-grimoire-border bg-grimoire-surface px-3 py-2 font-rajdhani text-sm text-grimoire-text-base placeholder-grimoire-text-faint outline-none transition-colors focus:border-grimoire-primary/60'
-                                    />
-                                    <motion.button
-                                        onClick={() => void handleInvite()}
-                                        disabled={
-                                            isInviting || !inviteEmail.trim()
-                                        }
-                                        className='flex items-center justify-center rounded-lg border border-grimoire-primary/40 bg-grimoire-primary/10 px-3 text-grimoire-primary-light transition-colors hover:bg-grimoire-primary/20 disabled:opacity-40'
-                                        whileTap={{ scale: 0.95 }}
-                                        title='Send invite'
-                                    >
-                                        <UserPlus size={15} />
-                                    </motion.button>
-                                </div>
-                                <AnimatePresence>
-                                    {inviteResult && (
-                                        <motion.p
-                                            key='invite-result'
-                                            className={`font-rajdhani text-xs ${
-                                                inviteResult.ok
-                                                    ? "text-emerald-400"
-                                                    : "text-grimoire-danger"
-                                            }`}
-                                            initial={{ opacity: 0, y: -4 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0 }}
-                                        >
-                                            {inviteResult.msg}
-                                        </motion.p>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        )}
-
-                        {isAdmin && (
-                            <div className='w-full border-t border-grimoire-border' />
+                            <Link
+                                to='/admin'
+                                onClick={() => setShowProfile(false)}
+                                className='flex w-full items-center justify-center gap-2 rounded-lg border border-grimoire-primary/40 bg-grimoire-primary/10 px-4 py-2.5 font-rajdhani text-sm font-medium text-grimoire-primary-light transition-colors hover:bg-grimoire-primary/20'
+                            >
+                                <Shield size={15} />
+                                Manage users &amp; spells
+                            </Link>
                         )}
 
                         {/* Sign out */}

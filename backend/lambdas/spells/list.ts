@@ -2,24 +2,42 @@ import { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda"
 import { ScanCommand } from "@aws-sdk/lib-dynamodb"
 import { docClient, SPELLS_TABLE } from "../shared/dynamodb-client"
 import { successResponse, errorResponse } from "../shared/response"
+import { getCaller } from "../shared/auth"
+import { canView, isShared, spellbookSpellIds } from "../shared/visibility"
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (
     event,
 ) => {
     try {
-        const userId = event.requestContext.authorizer.jwt.claims[
-            "sub"
-        ] as string
+        const caller = getCaller(event)
         const q = event.queryStringParameters ?? {}
 
-        let spells: Record<string, unknown>[]
+        // A single Scan returns at most 1 MB — page through the whole table.
+        let spells: Record<string, unknown>[] = []
+        let lastKey: Record<string, unknown> | undefined
+        do {
+            const result = await docClient.send(
+                new ScanCommand({
+                    TableName: SPELLS_TABLE,
+                    ExclusiveStartKey: lastKey,
+                }),
+            )
+            spells.push(...((result.Items ?? []) as Record<string, unknown>[]))
+            lastKey = result.LastEvaluatedKey
+        } while (lastKey)
 
-        const result = await docClient.send(
-            new ScanCommand({ TableName: SPELLS_TABLE }),
+        // Hide other members' private homebrew (see shared/visibility.ts).
+        // Only look up the caller's spellbooks if something is actually hidden.
+        const hasForeignPrivate = spells.some(
+            (s) =>
+                s.isHomebrew &&
+                !isShared(s) &&
+                s.createdBy !== caller.userId,
         )
-        spells = (result.Items ?? []) as Record<string, unknown>[]
-
-        // All spells are visible to all authenticated users
+        if (hasForeignPrivate && !caller.isAdmin) {
+            const spellbook = await spellbookSpellIds(caller.userId)
+            spells = spells.filter((s) => canView(s, caller, spellbook))
+        }
 
         // Optional query-param filters
         if (q.source) {

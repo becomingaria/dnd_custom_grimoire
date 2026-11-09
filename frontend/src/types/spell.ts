@@ -1,57 +1,16 @@
-// ─── Spell School ─────────────────────────────────────────────────────────────
-export type SpellSchool =
-    | "Abjuration"
-    | "Conjuration"
-    | "Divination"
-    | "Enchantment"
-    | "Evocation"
-    | "Illusion"
-    | "Necromancy"
-    | "Transmutation"
+// Enumerations come from the shared spell standard so the form, the API and
+// the audit script can never disagree. See docs/SPELL_STANDARD.md.
+import {
+    SPELL_SCHOOLS as STANDARD_SCHOOLS,
+    SPELL_CLASSES,
+    type SpellSchool,
+    type SpellComponent,
+    type DamageType,
+} from "@shared/spell-standard"
 
-export const SPELL_SCHOOLS: SpellSchool[] = [
-    "Abjuration",
-    "Conjuration",
-    "Divination",
-    "Enchantment",
-    "Evocation",
-    "Illusion",
-    "Necromancy",
-    "Transmutation",
-]
-
-// ─── Spell Components ────────────────────────────────────────────────────────
-export type SpellComponent = "V" | "S" | "M"
-
-// ─── Damage Types ─────────────────────────────────────────────────────────────
-export type DamageType =
-    | "acid"
-    | "bludgeoning"
-    | "cold"
-    | "fire"
-    | "force"
-    | "lightning"
-    | "necrotic"
-    | "piercing"
-    | "poison"
-    | "psychic"
-    | "radiant"
-    | "slashing"
-    | "thunder"
-
-// ─── D&D Classes ─────────────────────────────────────────────────────────────
-export const DND_CLASSES = [
-    "Artificer",
-    "Bard",
-    "Cleric",
-    "Druid",
-    "Paladin",
-    "Ranger",
-    "Sorcerer",
-    "Warlock",
-    "Wizard",
-] as const
-
+export type { SpellSchool, SpellComponent, DamageType }
+export const SPELL_SCHOOLS: SpellSchool[] = [...STANDARD_SCHOOLS]
+export const DND_CLASSES = SPELL_CLASSES
 export type DndClass = (typeof DND_CLASSES)[number]
 
 // ─── Changelog Entry ─────────────────────────────────────────────────────────
@@ -77,6 +36,8 @@ export interface Spell {
     higherLevels?: string | null
     classes: string[]
     isHomebrew: boolean
+    /** Homebrew only: visible to other members when true; private otherwise. */
+    shared?: boolean
     sources: string[]
     tags?: string[]
     damageType?: DamageType | null

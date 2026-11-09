@@ -11,6 +11,10 @@
  * Examples:
  *   npm run seed:atow
  *   ts-node ... scripts/seed-custom-sourcebook.ts seed/my-book.json "MyBook" --dry-run
+ *
+ * <sourceLabel> must already be a key in the source registry
+ * (shared/spell-standard.ts). Every spell is normalized to house style and
+ * validated; if any spell fails, nothing is written. See docs/SPELL_STANDARD.md.
  */
 
 import * as dotenv from "dotenv"
@@ -18,6 +22,12 @@ import * as path from "path"
 import * as fs from "fs"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb"
+import {
+    SOURCES,
+    describeSource,
+    normalizeSpell,
+    validateSpell,
+} from "../../shared/spell-standard"
 
 dotenv.config({ path: path.join(__dirname, "../.env") })
 
@@ -27,6 +37,13 @@ const DRY_RUN = process.argv.includes("--dry-run")
 if (!inputFileArg || !sourceLabelArg) {
     console.error(
         "Usage: ts-node seed-custom-sourcebook.ts <inputFile> <sourceLabel> [--dry-run]",
+    )
+    process.exit(1)
+}
+
+if (!SOURCES[sourceLabelArg]) {
+    console.error(
+        `"${sourceLabelArg}" is not in the source registry. Add it to SOURCES in shared/spell-standard.ts (title, publisher, kind) before seeding.`,
     )
     process.exit(1)
 }
@@ -96,14 +113,14 @@ function transformSpell(
     spell: CustomSpell,
     sourceLabel: string,
     now: string,
-): Record<string, unknown> {
+) {
     const sourceSlug = slugify(sourceLabel)
     const spellId = `${sourceSlug}-${slugify(spell.name)}`
     const { components, materialComponents } = parseComponents(
         spell.components ?? "",
     )
 
-    return {
+    return normalizeSpell({
         spellId,
         name: spell.name.trim(),
         level: spell.level ?? 0,
@@ -121,13 +138,12 @@ function transformSpell(
         higherLevels: spell.at_higher_levels?.trim() ?? null,
         classes: normalizeClasses(spell.classes ?? []),
         isHomebrew: false,
-        source: sourceLabel,
         sources: [sourceLabel],
         tags: [],
         createdBy: "system",
         createdAt: now,
         updatedAt: now,
-    }
+    })
 }
 
 async function main() {
@@ -153,14 +169,32 @@ async function main() {
     console.log(`   Table:   ${SPELLS_TABLE}`)
     console.log(`   Spells:  ${spells.length}\n`)
 
+    console.log(`   Source:  ${describeSource(sourceLabelArg)}\n`)
+
+    // ── Validate everything before writing anything ─────────────────────────
+    const items = spells
+        .filter((spell) => spell.name)
+        .map((spell) => transformSpell(spell, sourceLabelArg, now))
+    let invalid = 0
+    for (const item of items) {
+        const errors = validateSpell(item).filter((i) => i.severity === "error")
+        if (errors.length) {
+            invalid++
+            console.error(`  ❌ ${item.name}: ${errors.map((e) => e.message).join("; ")}`)
+        }
+    }
+    if (invalid) {
+        console.error(
+            `\n${invalid} spell(s) don't meet the spell standard — fix the source JSON and re-run. Nothing was written.`,
+        )
+        process.exit(1)
+    }
+
     let seeded = 0
     let skipped = 0
     let failed = 0
 
-    for (const spell of spells) {
-        if (!spell.name) continue
-        const item = transformSpell(spell, sourceLabelArg, now)
-
+    for (const item of items) {
         if (DRY_RUN) {
             console.log(
                 `  [dry-run] ${item.name} (${item.spellId}) — Level ${item.level} ${item.school}`,

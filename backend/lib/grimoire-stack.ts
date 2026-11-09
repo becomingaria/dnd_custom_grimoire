@@ -21,6 +21,7 @@ export class GrimoireStack extends cdk.Stack {
             usernamesTable: database.usernamesTable,
             userPool: auth.userPool,
             userPoolClient: auth.userPoolClient,
+            ownerEmails: String(this.node.tryGetContext("ownerEmails") ?? ""),
         })
 
         // ─── Stack Outputs ────────────────────────────────────────────────────────

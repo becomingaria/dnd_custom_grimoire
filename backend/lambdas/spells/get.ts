@@ -7,10 +7,12 @@ import {
   notFoundResponse,
   forbiddenResponse,
 } from '../shared/response';
+import { getCaller } from '../shared/auth';
+import { canView, spellbookSpellIds } from '../shared/visibility';
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
   try {
-    const userId = event.requestContext.authorizer.jwt.claims['sub'] as string;
+    const caller = getCaller(event);
     const spellId = event.pathParameters?.spellId;
 
     if (!spellId) {
@@ -25,9 +27,10 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
       return notFoundResponse('Spell');
     }
 
-    // Homebrew spells are private to their creator
-    if (result.Item.isHomebrew && result.Item.createdBy !== userId) {
-      return forbiddenResponse();
+    // Same visibility rules as the list endpoint (shared/visibility.ts)
+    if (!canView(result.Item, caller)) {
+      const spellbook = await spellbookSpellIds(caller.userId);
+      if (!canView(result.Item, caller, spellbook)) return forbiddenResponse();
     }
 
     return successResponse(result.Item);
