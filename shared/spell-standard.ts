@@ -274,7 +274,28 @@ export interface StandardSpell {
     isHomebrew?: boolean
     addedBy?: string | null
     tags?: string[]
+    /**
+     * One or more damage types as a comma-separated list, primary first:
+     * "fire" or "piercing, bludgeoning". Read it with parseDamageTypes().
+     */
     damageType?: string | null
+}
+
+/** "Piercing, bludgeoning" / "fire and cold" → ["piercing", "bludgeoning"] */
+export function parseDamageTypes(value: string | null | undefined): string[] {
+    if (!value) return []
+    return [
+        ...new Set(
+            value
+                .split(/,|\/|\band\b/i)
+                .map((t) => t.trim().toLowerCase())
+                .filter(Boolean),
+        ),
+    ]
+}
+
+export function formatDamageTypes(types: string[]): string | null {
+    return types.length ? types.join(", ") : null
 }
 
 // ─── Normalization ────────────────────────────────────────────────────────────
@@ -431,7 +452,7 @@ export function normalizeSpell<T extends StandardSpell>(spell: T): T {
                     .filter(Boolean),
             ),
         ],
-        damageType: spell.damageType ? spell.damageType : null,
+        damageType: formatDamageTypes(parseDamageTypes(spell.damageType)),
     }
 }
 
@@ -447,6 +468,7 @@ export interface SpellIssue {
 
 const NORMALIZED_FIELDS: (keyof StandardSpell)[] = [
     "name",
+    "damageType",
     "castingTime",
     "range",
     "duration",
@@ -516,11 +538,11 @@ export function validateSpell(spell: StandardSpell): SpellIssue[] {
         err("classes", `Not a spellcasting class: ${badClasses.join(", ")}`)
 
     // ── Damage type ──────────────────────────────────────────────────────────
-    if (
-        spell.damageType &&
-        !DAMAGE_TYPES.includes(spell.damageType as DamageType)
+    const badDamage = parseDamageTypes(spell.damageType).filter(
+        (t) => !DAMAGE_TYPES.includes(t as DamageType),
     )
-        err("damageType", `Unknown damage type: ${spell.damageType}`)
+    if (badDamage.length)
+        err("damageType", `Unknown damage type(s): ${badDamage.join(", ")}`)
 
     // ── Attribution ──────────────────────────────────────────────────────────
     const sources = spell.sources ?? []

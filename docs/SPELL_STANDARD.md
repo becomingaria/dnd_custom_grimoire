@@ -85,7 +85,7 @@ footer. Don't remove it while SRD text is on the site.
 | `higherLevels` | — | Plain text or `null` (never `""`) |
 | `classes` | ✅ | At least one of: Artificer, Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard. Sorted. Not subclasses, feats, or "X and Y". |
 | `sources` | ✅ | See §1 |
-| `damageType` | — | One of the 13 damage types, lowercase, or `null` |
+| `damageType` | — | One or more of the 13 damage types, lowercase, comma-separated with the primary type first (`fire` or `piercing, bludgeoning`), or `null`. Read it with `parseDamageTypes()`. |
 | `tags` | — | Lowercase strings |
 
 Fields marked *house style* (casing, `ft.`, ordering, whitespace, stray

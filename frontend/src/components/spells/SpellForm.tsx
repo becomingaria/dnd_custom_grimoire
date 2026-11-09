@@ -10,6 +10,8 @@ import {
     SOURCES,
     HOMEBREW_SOURCE,
     DAMAGE_TYPES,
+    parseDamageTypes,
+    formatDamageTypes,
     normalizeSpell,
     validateSpell,
 } from "@shared/spell-standard"
@@ -104,6 +106,18 @@ export default function SpellForm({
     const selectedComponents = watch("components") ?? []
     const selectedClasses = watch("classes") ?? []
     const selectedSources = watch("sources") ?? []
+    const selectedDamage = parseDamageTypes(watch("damageType"))
+
+    function toggleDamage(type: string) {
+        setValue(
+            "damageType",
+            formatDamageTypes(
+                selectedDamage.includes(type)
+                    ? selectedDamage.filter((t) => t !== type)
+                    : [...selectedDamage, type],
+            ) ?? "",
+        )
+    }
     const isHomebrewSelection =
         !isAdmin || selectedSources.includes(HOMEBREW_SOURCE)
 
@@ -163,8 +177,7 @@ export default function SpellForm({
                       .map((t) => t.trim())
                       .filter(Boolean)
                 : [],
-            damageType:
-                (data.damageType as CreateSpellInput["damageType"]) || null,
+            damageType: data.damageType || null,
         }
 
         // Same standard the API enforces — catch problems before the round trip.
@@ -433,19 +446,32 @@ export default function SpellForm({
                 )}
             </div>
 
-            {/* Damage type + Tags */}
-            <div className='grid grid-cols-2 gap-4'>
-                <div>
-                    <label className={labelClass}>Damage Type (optional)</label>
-                    <select className={fieldClass} {...register("damageType")}>
-                        <option value=''>None</option>
-                        {DAMAGE_TYPES.map((t) => (
-                            <option key={t} value={t} className='capitalize'>
-                                {t}
-                            </option>
-                        ))}
-                    </select>
+            {/* Damage types */}
+            <div>
+                <label className={labelClass}>
+                    Damage Types (optional — pick all that apply)
+                </label>
+                <div className='flex flex-wrap gap-1.5'>
+                    {DAMAGE_TYPES.map((t) => (
+                        <button
+                            key={t}
+                            type='button'
+                            onClick={() => toggleDamage(t)}
+                            className={[
+                                "rounded border px-2.5 py-1 font-rajdhani text-xs font-medium capitalize transition-colors",
+                                selectedDamage.includes(t)
+                                    ? "border-grimoire-primary/50 bg-grimoire-primary/15 text-grimoire-primary-light"
+                                    : "border-grimoire-border/60 bg-grimoire-surface text-grimoire-text-muted hover:text-grimoire-text-base",
+                            ].join(" ")}
+                        >
+                            {t}
+                        </button>
+                    ))}
                 </div>
+            </div>
+
+            {/* Tags */}
+            <div>
                 <div>
                     <label className={labelClass}>Tags (comma-separated)</label>
                     <input

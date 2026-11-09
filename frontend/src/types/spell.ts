@@ -40,7 +40,8 @@ export interface Spell {
     shared?: boolean
     sources: string[]
     tags?: string[]
-    damageType?: DamageType | null
+    /** One or more damage types, comma-separated ("piercing, bludgeoning"). */
+    damageType?: string | null
     addedBy?: string
     createdBy?: string
     createdAt: string
