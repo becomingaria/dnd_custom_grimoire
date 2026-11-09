@@ -41,9 +41,17 @@ export default function SpellList({
         "grimoire:spells:showFilters",
         false,
     )
+    const [includeUserSpells, setIncludeUserSpells] =
+        useLocalStorage<boolean>("grimoire:spells:includeUserSpells", false)
+
+    // User-created spells are the homebrew ones; all seeded spells are not.
+    const visibleSpells = includeUserSpells
+        ? spells
+        : spells.filter((s) => !s.isHomebrew)
+    const userSpellCount = spells.filter((s) => s.isHomebrew).length
 
     const uniqueSources = Array.from(
-        new Set(spells.flatMap((s) => s.sources).filter(Boolean)),
+        new Set(visibleSpells.flatMap((s) => s.sources).filter(Boolean)),
     ).sort()
 
     function toggleInList<T>(list: T[], value: T): T[] {
@@ -52,7 +60,7 @@ export default function SpellList({
             : [...list, value]
     }
 
-    const filtered = spells.filter((s) => {
+    const filtered = visibleSpells.filter((s) => {
         if (search && !s.name.toLowerCase().includes(search.toLowerCase()))
             return false
         if (selectedSchools.length > 0 && !selectedSchools.includes(s.school))
@@ -343,13 +351,46 @@ export default function SpellList({
                 )}
             </AnimatePresence>
 
-            {/* Count */}
-            <div className='flex items-center gap-3'>
+            {/* Count + user spells toggle */}
+            <div className='flex flex-wrap items-center justify-between gap-3'>
                 <p className='font-rajdhani text-sm text-grimoire-text-muted'>
                     {isLoading
                         ? "Loading spells…"
                         : `${filtered.length} spell${filtered.length !== 1 ? "s" : ""} found`}
                 </p>
+                <button
+                    type='button'
+                    role='switch'
+                    aria-checked={includeUserSpells}
+                    onClick={() => setIncludeUserSpells((p) => !p)}
+                    className='flex select-none items-center gap-2 font-rajdhani text-sm text-grimoire-text-muted transition-colors hover:text-grimoire-text-base'
+                >
+                    <span
+                        className={[
+                            "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border transition-colors",
+                            includeUserSpells
+                                ? "border-grimoire-primary/60 bg-grimoire-primary/40"
+                                : "border-grimoire-border bg-grimoire-surface",
+                        ].join(" ")}
+                    >
+                        <span
+                            className={[
+                                "inline-block h-3.5 w-3.5 rounded-full transition-transform",
+                                includeUserSpells
+                                    ? "translate-x-[18px] bg-grimoire-primary-light"
+                                    : "translate-x-[2px] bg-grimoire-text-faint",
+                            ].join(" ")}
+                        />
+                    </span>
+                    <span>
+                        Include user spells
+                        {userSpellCount > 0 && (
+                            <span className='ml-1 text-grimoire-text-faint'>
+                                ({userSpellCount})
+                            </span>
+                        )}
+                    </span>
+                </button>
             </div>
 
             {/* Content */}
