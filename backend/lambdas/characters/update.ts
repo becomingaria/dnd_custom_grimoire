@@ -23,6 +23,9 @@ const UPDATABLE_FIELDS = [
     "totalKnownSpells",
     "totalSpellsPrepared",
     "totalConviction",
+    // Conviction casting variant (see docs/CONVICTION_RULES.md)
+    "currentConviction",
+    "convictionLockedOut",
     "notes",
 ]
 

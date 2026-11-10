@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Navbar from './Navbar';
 import ParticleBackground from './ParticleBackground';
+import DiceTray from '@/components/dice/DiceTray';
 import { SRD_ATTRIBUTION_NOTICE } from '@shared/spell-standard';
 
 interface LayoutProps {
@@ -32,12 +33,15 @@ export default function Layout({ children }: LayoutProps) {
       </main>
 
       {/* Licence attribution — required by CC-BY-4.0 for SRD 5.1 content */}
-      <footer className="relative z-10 mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+      {/* pb-16 keeps the footer clear of the minimized dice tray strip */}
+      <footer className="relative z-10 mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <p className="border-t border-grimoire-border/50 pt-4 font-rajdhani text-[11px] leading-relaxed text-grimoire-text-faint">
           {SRD_ATTRIBUTION_NOTICE} Other spells are credited to their source books and, for
           homebrew, to the member who added them.
         </p>
       </footer>
+
+      <DiceTray />
     </div>
   );
 }

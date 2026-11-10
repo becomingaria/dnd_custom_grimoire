@@ -161,7 +161,9 @@ export default function CharacterDetailPage() {
                         {!!character.totalConviction && (
                             <div className='flex flex-col items-center justify-center rounded-xl border border-grimoire-border/60 bg-grimoire-surface/50 p-3 text-center'>
                                 <span className='font-mono text-2xl font-bold text-purple-400'>
-                                    {character.totalConviction}
+                                    {character.currentConviction != null
+                                        ? `${character.currentConviction}/${character.totalConviction}`
+                                        : character.totalConviction}
                                 </span>
                                 <span className='font-rajdhani text-[10px] uppercase tracking-widest text-grimoire-text-faint'>
                                     Conviction

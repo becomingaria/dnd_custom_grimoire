@@ -24,6 +24,7 @@ import {
 import SchoolBadge from "@/components/spells/SchoolBadge"
 import Drawer from "@/components/shared/Drawer"
 import SpellInfoPanel from "@/components/spells/SpellInfoPanel"
+import CastWithConvictionButton from "@/components/dice/CastWithConvictionButton"
 import { spellLevelLabel, SPELL_SCHOOLS, DND_CLASSES } from "@/types/spell"
 import type { Character } from "@/types/character"
 import type { Spell, SpellSchool, DndClass } from "@/types/spell"
@@ -966,6 +967,14 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                 title={selectedSpell?.name}
                 width='w-full max-w-md'
                 layer='overlay'
+                footer={
+                    selectedSpell ? (
+                        <CastWithConvictionButton
+                            spell={selectedSpell}
+                            characterId={character.characterId}
+                        />
+                    ) : null
+                }
             >
                 {selectedSpell && <SpellInfoPanel spell={selectedSpell} />}
             </Drawer>
@@ -1081,6 +1090,13 @@ export default function SpellbookPanel({ character }: SpellbookPanelProps) {
                                                             </span>
                                                         )}
                                                     </motion.button>
+                                                    <CastWithConvictionButton
+                                                        spell={spell}
+                                                        characterId={
+                                                            character.characterId
+                                                        }
+                                                        variant='icon'
+                                                    />
                                                 </motion.div>
                                             )
                                         })}

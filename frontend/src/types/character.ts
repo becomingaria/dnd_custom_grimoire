@@ -36,7 +36,12 @@ export interface Character {
     spellAttackBonus?: number | null
     totalKnownSpells?: number | null
     totalSpellsPrepared?: number | null
+    /** Conviction Score Maximum (defaults to 10 × level when unset). */
     totalConviction?: number | null
+    /** Current Conviction Score; may be negative. Unset = full. */
+    currentConviction?: number | null
+    /** Failed the negative-Conviction d100: no Conviction casting until > 0. */
+    convictionLockedOut?: boolean
     notes?: string
     createdAt: string
     updatedAt: string

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AnimatePresence } from "framer-motion"
 import { AuthProvider, useAuth } from "@/context/AuthContext"
+import { DiceTrayProvider } from "@/context/DiceTrayContext"
 import awsConfig from "@/aws-exports"
 import Layout from "@/components/shared/Layout"
 import PageTransition from "@/components/shared/PageTransition"
@@ -150,7 +151,9 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <AuthProvider>
-                    <AppRoutes />
+                    <DiceTrayProvider>
+                        <AppRoutes />
+                    </DiceTrayProvider>
                 </AuthProvider>
             </BrowserRouter>
         </QueryClientProvider>

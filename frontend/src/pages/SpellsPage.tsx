@@ -8,6 +8,7 @@ import SpellList from "@/components/spells/SpellList"
 import Drawer from "@/components/shared/Drawer"
 import SpellForm from "@/components/spells/SpellForm"
 import SpellInfoPanel from "@/components/spells/SpellInfoPanel"
+import CastWithConvictionButton from "@/components/dice/CastWithConvictionButton"
 import type { CreateSpellInput } from "@/types/spell"
 import type { Spell } from "@/types/spell"
 import type { Character } from "@/types/character"
@@ -85,6 +86,7 @@ export default function SpellsPage() {
                 footer={
                     selectedSpell ? (
                         <div className='space-y-2'>
+                            <CastWithConvictionButton spell={selectedSpell} />
                             <motion.button
                                 onClick={() => setShowCharacterPicker(true)}
                                 className='flex w-full items-center justify-center gap-2 rounded-lg border border-grimoire-primary/50 bg-grimoire-primary/15 py-2.5 font-rajdhani text-sm font-semibold text-grimoire-primary-light transition-colors hover:bg-grimoire-primary/25'
