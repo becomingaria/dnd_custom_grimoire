@@ -6,6 +6,7 @@ export class DynamoDBConstruct extends Construct {
     public readonly spellsTable: dynamodb.Table
     public readonly charactersTable: dynamodb.Table
     public readonly usernamesTable: dynamodb.Table
+    public readonly settingsTable: dynamodb.Table
 
     constructor(scope: Construct, id: string) {
         super(scope, id)
@@ -91,6 +92,20 @@ export class DynamoDBConstruct extends Construct {
             },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
             removalPolicy: cdk.RemovalPolicy.RETAIN,
+        })
+
+        // ─── Settings Table ───────────────────────────────────────────────────────
+        // Small key/value store for site-wide admin settings (e.g. settingId
+        // "patreon" holds the Patreon access policy and last sync report).
+        this.settingsTable = new dynamodb.Table(this, "SettingsTable", {
+            tableName: "grimoire-settings",
+            partitionKey: {
+                name: "settingId",
+                type: dynamodb.AttributeType.STRING,
+            },
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            removalPolicy: cdk.RemovalPolicy.RETAIN,
+            pointInTimeRecovery: true,
         })
     }
 }

@@ -1,12 +1,14 @@
 import { motion } from "framer-motion"
-import { BookMarked, Shield, Users } from "lucide-react"
+import { BookMarked, HandHeart, Shield, Users } from "lucide-react"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import UserManagement from "@/components/admin/UserManagement"
 import SpellAttributionAudit from "@/components/admin/SpellAttributionAudit"
+import PatreonAccess from "@/components/admin/PatreonAccess"
 
 const TABS = [
     { id: "users", label: "Members", icon: Users },
     { id: "spells", label: "Spell Attribution", icon: BookMarked },
+    { id: "patreon", label: "Patreon", icon: HandHeart },
 ] as const
 type TabId = (typeof TABS)[number]["id"]
 
@@ -24,7 +26,7 @@ export default function AdminPage() {
 
             <div
                 role='tablist'
-                className='flex gap-1 border-b border-grimoire-border'
+                className='flex gap-1 overflow-x-auto border-b border-grimoire-border'
             >
                 {TABS.map(({ id, label, icon: Icon }) => {
                     const active = tab === id
@@ -54,7 +56,13 @@ export default function AdminPage() {
                 })}
             </div>
 
-            {tab === "users" ? <UserManagement /> : <SpellAttributionAudit />}
+            {tab === "users" ? (
+                <UserManagement />
+            ) : tab === "spells" ? (
+                <SpellAttributionAudit />
+            ) : (
+                <PatreonAccess />
+            )}
         </div>
     )
 }

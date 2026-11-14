@@ -458,7 +458,12 @@ function UserRow({
                             <Badge tone='primary'>Admin</Badge>
                         )}
                         {isPending && <Badge tone='amber'>Invite pending</Badge>}
-                        {!user.enabled && <Badge tone='danger'>Disabled</Badge>}
+                        {!user.enabled &&
+                            (user.patreonDisabled ? (
+                                <Badge tone='danger'>Disabled · not a patron</Badge>
+                            ) : (
+                                <Badge tone='danger'>Disabled</Badge>
+                            ))}
                     </div>
                     <p className='break-all font-rajdhani text-sm text-grimoire-text-muted'>
                         {user.email}

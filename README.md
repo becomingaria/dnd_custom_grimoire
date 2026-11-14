@@ -86,6 +86,26 @@ npm run create-users
 npm run assign-admins
 ```
 
+### Patron-only Access (optional)
+
+Admin → **Patreon** can limit the Grimoire to your Patreon patrons. It's off
+until you connect it:
+
+1. In the [Patreon developer portal](https://www.patreon.com/portal/registration/register-clients),
+   create a client (API v2) as the campaign owner.
+2. Paste its Client ID, Client Secret, Creator's Access Token and Creator's
+   Refresh Token into the Patreon tab. They're stored encrypted in SSM
+   (`/grimoire/patreon/credentials`) and never returned to the browser.
+3. Start in **Report only** to see who would lose access, link members whose
+   Patreon email differs, and add exemptions. Then switch to **Enforce**.
+
+Members are matched to patrons by email (or a manual link). Admins, owner
+accounts and exempt emails always keep access. A sync runs every 6 hours and on
+demand. In Enforce mode, non-entitled members are disabled and signed out, and
+they're re-enabled when they pledge again. Enforcement is skipped if a sync fails
+or Patreon returns no patrons. Switching away from Enforce, or disconnecting,
+re-enables everyone the sync disabled.
+
 ### Adding Spells
 
 Every spell must meet the [Spell Standard](docs/SPELL_STANDARD.md): required

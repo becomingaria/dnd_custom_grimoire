@@ -27,12 +27,9 @@ import {
     AdminRemoveUserFromGroupCommand,
     AdminSetUserPasswordCommand,
     AdminUserGlobalSignOutCommand,
-    ListUsersCommand,
-    ListUsersInGroupCommand,
     UserNotFoundException,
     UsernameExistsException,
     type AttributeType,
-    type UserType,
 } from "@aws-sdk/client-cognito-identity-provider"
 import {
     DeleteCommand,
@@ -40,6 +37,8 @@ import {
     type QueryCommandInput,
 } from "@aws-sdk/lib-dynamodb"
 import { docClient, SPELLS_TABLE, CHARACTERS_TABLE } from "../shared/dynamodb-client"
+import { listAdminUsernames, listAllUsers } from "../shared/cognito-users"
+import { loadSettings } from "../shared/patreon-sync"
 import {
     getCaller,
     ownerEmails,
@@ -75,6 +74,8 @@ export interface AdminUser {
     lastModifiedAt: string | null
     characterCount: number
     homebrewCount: number
+    /** Disabled by the Patreon access sync (not by an admin). */
+    patreonDisabled?: boolean
 }
 
 // ─── Router ───────────────────────────────────────────────────────────────────
@@ -273,38 +274,21 @@ function generatePassword(): string {
 // ─── Handlers ─────────────────────────────────────────────────────────────────
 
 async function listUsers(): Promise<ApiResponse> {
-    const users: UserType[] = []
-    let token: string | undefined
-    do {
-        const r = await cognito.send(
-            new ListUsersCommand({
-                UserPoolId: USER_POOL_ID,
-                Limit: 60,
-                PaginationToken: token,
-            }),
-        )
-        users.push(...(r.Users ?? []))
-        token = r.PaginationToken
-    } while (token)
-
-    const adminNames = new Set<string>()
-    let next: string | undefined
-    do {
-        const r = await cognito.send(
-            new ListUsersInGroupCommand({
-                UserPoolId: USER_POOL_ID,
-                GroupName: ADMIN_GROUP,
-                NextToken: next,
-            }),
-        )
-        for (const u of r.Users ?? []) if (u.Username) adminNames.add(u.Username)
-        next = r.NextToken
-    } while (next)
+    const [users, adminNames, patreon] = await Promise.all([
+        listAllUsers(USER_POOL_ID),
+        listAdminUsernames(USER_POOL_ID),
+        loadSettings(),
+    ])
+    const patreonDisabled = new Set(patreon.disabledByPatreon)
 
     const result = await Promise.all(
         users.map(async (u) => {
             const base = toAdminUser(u, adminNames.has(u.Username ?? ""))
-            return { ...base, ...(await getUsage(base.userId)) }
+            return {
+                ...base,
+                ...(await getUsage(base.userId)),
+                patreonDisabled: patreonDisabled.has(base.username),
+            }
         }),
     )
     result.sort((a, b) => a.email.localeCompare(b.email))

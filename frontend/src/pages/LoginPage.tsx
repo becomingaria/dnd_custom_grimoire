@@ -33,7 +33,12 @@ export default function LoginPage() {
         setNeedsNewPassword(true);
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
+      const message = err instanceof Error ? err.message : 'Login failed. Please try again.';
+      setError(
+        /disabled/i.test(message)
+          ? "This account is disabled. If your access comes from Patreon, check that your pledge is active and that your Patreon email matches this one — or contact the Grimoire's admin."
+          : message,
+      );
     } finally {
       setIsLoading(false);
     }

@@ -8,6 +8,8 @@ import * as lambdaNodejs from "aws-cdk-lib/aws-lambda-nodejs"
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb"
 import * as cognito from "aws-cdk-lib/aws-cognito"
 import * as logs from "aws-cdk-lib/aws-logs"
+import * as events from "aws-cdk-lib/aws-events"
+import * as eventsTargets from "aws-cdk-lib/aws-events-targets"
 import { Construct } from "constructs"
 import * as path from "path"
 
@@ -15,6 +17,7 @@ interface ApiConstructProps {
     spellsTable: dynamodb.Table
     charactersTable: dynamodb.Table
     usernamesTable: dynamodb.Table
+    settingsTable: dynamodb.Table
     userPool: cognito.UserPool
     userPoolClient: cognito.UserPoolClient
     /** Comma-separated emails that can never be demoted/disabled/deleted. */
@@ -31,6 +34,7 @@ export class ApiConstruct extends Construct {
             spellsTable,
             charactersTable,
             usernamesTable,
+            settingsTable,
             userPool,
             userPoolClient,
             ownerEmails,
@@ -186,10 +190,79 @@ export class ApiConstruct extends Construct {
                     ...commonEnv,
                     USER_POOL_ID: userPool.userPoolId,
                     USERNAMES_TABLE: usernamesTable.tableName,
+                    SETTINGS_TABLE: settingsTable.tableName,
                     OWNER_EMAILS: ownerEmails,
                 },
             },
         )
+
+        // ─── Patreon access (admin API + scheduled sync) ──────────────────────────
+        const patreonParam = "/grimoire/patreon/credentials"
+        const patreonEnv = {
+            ...commonEnv,
+            USER_POOL_ID: userPool.userPoolId,
+            SETTINGS_TABLE: settingsTable.tableName,
+            OWNER_EMAILS: ownerEmails,
+            PATREON_PARAM: patreonParam,
+        }
+        const adminPatreonFn = new lambdaNodejs.NodejsFunction(
+            this,
+            "AdminPatreon",
+            {
+                ...commonProps,
+                functionName: "grimoire-admin-patreon",
+                entry: path.join(lambdaDir, "admin/patreon.ts"),
+                timeout: cdk.Duration.seconds(60),
+                environment: patreonEnv,
+            },
+        )
+        const patreonSyncFn = new lambdaNodejs.NodejsFunction(
+            this,
+            "PatreonScheduledSync",
+            {
+                ...commonProps,
+                functionName: "grimoire-patreon-sync",
+                entry: path.join(lambdaDir, "patreon/scheduledSync.ts"),
+                timeout: cdk.Duration.seconds(120),
+                environment: patreonEnv,
+            },
+        )
+        new events.Rule(this, "PatreonSyncSchedule", {
+            description:
+                "Patreon access sync (no-op unless an admin turned it on)",
+            schedule: events.Schedule.rate(cdk.Duration.hours(6)),
+            targets: [new eventsTargets.LambdaFunction(patreonSyncFn)],
+        })
+
+        const stack = cdk.Stack.of(this)
+        for (const fn of [adminPatreonFn, patreonSyncFn]) {
+            settingsTable.grantReadWriteData(fn)
+            fn.addToRolePolicy(
+                new iam.PolicyStatement({
+                    actions: [
+                        "cognito-idp:ListUsers",
+                        "cognito-idp:ListUsersInGroup",
+                        "cognito-idp:AdminEnableUser",
+                        "cognito-idp:AdminDisableUser",
+                        "cognito-idp:AdminUserGlobalSignOut",
+                    ],
+                    resources: [userPool.userPoolArn],
+                }),
+            )
+            // SecureString with the AWS-managed aws/ssm key (usable via SSM).
+            fn.addToRolePolicy(
+                new iam.PolicyStatement({
+                    actions: [
+                        "ssm:GetParameter",
+                        "ssm:PutParameter",
+                        "ssm:DeleteParameter",
+                    ],
+                    resources: [
+                        `arn:${stack.partition}:ssm:${stack.region}:${stack.account}:parameter${patreonParam}`,
+                    ],
+                }),
+            )
+        }
 
         // ─── DynamoDB Permissions ─────────────────────────────────────────────────
         spellsTable.grantReadWriteData(createSpellFn)
@@ -219,6 +292,7 @@ export class ApiConstruct extends Construct {
         charactersTable.grantReadWriteData(adminUsersFn)
         spellsTable.grantReadData(adminUsersFn)
         usernamesTable.grantReadWriteData(adminUsersFn)
+        settingsTable.grantReadData(adminUsersFn)
         adminUsersFn.addToRolePolicy(
             new iam.PolicyStatement({
                 effect: iam.Effect.ALLOW,
@@ -406,6 +480,28 @@ export class ApiConstruct extends Construct {
                 apigatewayv2.HttpMethod.DELETE,
             ],
             integration: adminIntegration,
+            authorizer,
+        })
+
+        const patreonIntegration =
+            new apigatewayv2Integrations.HttpLambdaIntegration(
+                "AdminPatreonInt",
+                adminPatreonFn,
+            )
+        this.httpApi.addRoutes({
+            path: "/admin/patreon",
+            methods: [
+                apigatewayv2.HttpMethod.GET,
+                apigatewayv2.HttpMethod.PUT,
+                apigatewayv2.HttpMethod.DELETE,
+            ],
+            integration: patreonIntegration,
+            authorizer,
+        })
+        this.httpApi.addRoutes({
+            path: "/admin/patreon/sync",
+            methods: [apigatewayv2.HttpMethod.POST],
+            integration: patreonIntegration,
             authorizer,
         })
 
